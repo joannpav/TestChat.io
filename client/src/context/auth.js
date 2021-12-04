@@ -21,8 +21,7 @@ const AuthContext = createContext({
   logout: () => {}
 });
 
-function authReducer(state, action) {
-  console.log(`In Auth.js, performing action: ${action}`);
+function authReducer(state, action) {  
   switch (action.type) {
     case 'LOGIN':
       return {

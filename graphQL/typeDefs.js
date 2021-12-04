@@ -36,8 +36,9 @@ input RegisterInput {
     email: String!
 }
 type Query {
+    getUsers: [User]
     getPosts: [Post]
-    getPost(postId: ID!): Post
+    getPost(postId: ID!): Post    
 }
 type Mutation {
     register(registerInput: RegisterInput): User!

@@ -1,19 +1,22 @@
 import React,  { useContext } from 'react';
 import { Button, Card, Icon, Label, Image } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 import LikeButton from './LikeButton';
+import DeleteButton from './DeleteButton';
 import { AuthContext } from '../context/auth';
 
 function PostCard({ post: { body, createdAt, id, username, likeCount, commentCount, likes }}) {
     const { user } = useContext(AuthContext);
-
+    // let { postId } = useParams();
     
+    // let navigate = useNavigate();
 
-    function commentOnPost() {
-        console.log('comment on post!');
-    }
+    // function deletePostCallback() {
+    //     console.log("I am in the delete post callback");
+    //     navigate("/");
+    // }
 
     return (
         <Card fluid>
@@ -43,12 +46,7 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
                         {commentCount}
                     </Label>
                 </Button>
-                {user && user.username === username && (
-                    <Button as="div" color="red" floated="right" onClick={() => console.log('Delete post')}>
-                        <Icon name="trash" style={{ margin: 0 }} />
-                    </Button>
-                )}                
-            
+                {user && user.username === username && <DeleteButton postId={id} />}                      
             </Card.Content>
         </Card>
     )

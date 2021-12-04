@@ -19,8 +19,6 @@ function Login(props) {
 
     let navigate = useNavigate();
 
-    console.log(context);
-    console.log(props);
     const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         update(
             _, 
