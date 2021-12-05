@@ -1,6 +1,6 @@
 import React,  { useContext } from 'react';
 import { Button, Card, Icon, Label, Image } from 'semantic-ui-react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import LikeButton from './LikeButton';
@@ -9,17 +9,9 @@ import { AuthContext } from '../context/auth';
 
 function PostCard({ post: { body, createdAt, id, username, likeCount, commentCount, likes }}) {
     const { user } = useContext(AuthContext);
-    // let { postId } = useParams();
     
-    // let navigate = useNavigate();
-
-    // function deletePostCallback() {
-    //     console.log("I am in the delete post callback");
-    //     navigate("/");
-    // }
-
     return (
-        <Card fluid>
+        <Card fluid  as={Link} to={`/posts/${id}`}>
             <Card.Content>                
                 <Image 
                     floated="right"

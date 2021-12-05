@@ -4,6 +4,13 @@ const postSchema = new Schema({
    body: String,
    username: String,
    createdAt: String,
+   testScenarios: [
+       {
+           scenario: String,
+           username: String,
+           createdAt: String
+       }
+   ],
    comments: [
        {
            body: String,

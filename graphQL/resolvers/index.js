@@ -1,7 +1,7 @@
 const postsResolvers = require('./posts');
 const usersResolvers = require('./users');
 const commentsResolvers = require('./comments');
-
+const testScenariosResolvers = require('./testScenarios');
 
 // each query, mutation or sub, it has a resolver to process the logic
 
@@ -9,7 +9,8 @@ const commentsResolvers = require('./comments');
 module.exports = {
     Post: {
         likeCount: (parent) => parent.likes.length,
-        commentCount: (parent) => parent.comments.length
+        commentCount: (parent) => parent.comments.length,
+        testScenarioCount: (parent) => parent.testScenarios.length
     },
     Query: {
         ...postsResolvers.Query,
@@ -18,7 +19,8 @@ module.exports = {
     Mutation: {
         ...usersResolvers.Mutation,
         ...postsResolvers.Mutation,
-        ...commentsResolvers.Mutation
+        ...commentsResolvers.Mutation,
+        ...testScenariosResolvers.Mutation
     },
     
     // Subscription: {

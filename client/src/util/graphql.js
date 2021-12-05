@@ -18,5 +18,12 @@ export const FETCH_POSTS_QUERY = gql`
             createdAt
             body
         }
+        testScenarioCount
+        testScenarios {
+            id
+            scenario
+            createdAt
+            username
+        }
     }
 }`;

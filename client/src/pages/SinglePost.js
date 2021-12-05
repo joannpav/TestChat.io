@@ -4,20 +4,22 @@ import { useParams } from "react-router-dom";
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import moment from 'moment';
-import { Form, Button, Card, Grid, Image, Icon, Label, CommentActions } from 'semantic-ui-react';
+import { Form, Button, Card, Grid, Image, Icon, Label, CommentGroup } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
 import LikeButton from '../components/LikeButton';
 import DeleteButton from '../components/DeleteButton';
 import TestCaseButton from '../components/TestCaseButton';
-
+import TestCaseList from '../components/TestCaseList';
+import TestScenarioForm from '../components/TestScenarioForm';
+import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
 function SinglePost(props) {
-    const[comment, setComment] = useState('');
+    // const[comment, setComment] = useState('');
     const { postId } = useParams();
     const { user } = useContext(AuthContext);    
 
     const {   
-        loading,              
+                      
         data: {getPost: post} = {} 
     } = useQuery(FETCH_POST_QUERY, {
         variables: {
@@ -25,15 +27,15 @@ function SinglePost(props) {
         }
     });
 
-    const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
-        update() {
-            setComment('');
-        },
-        variables: {
-            postId,
-            body: comment
-        }
-    });
+    // const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
+    //     update() {
+    //         setComment('');
+    //     },
+    //     variables: {
+    //         postId,
+    //         body: comment
+    //     }
+    // });
     
     let navigate = useNavigate();
 
@@ -45,7 +47,7 @@ function SinglePost(props) {
     if(!post) {
         postMarkup =  <p>Loading post...</p>
     } else {
-        const { id, body, createdAt, username, comments, likes, likeCount, commentCount} =
+        const { id, body, createdAt, username, testScenarios, comments, likes, likeCount, commentCount, testScenarioCount} =
         post;
         
         postMarkup = (
@@ -59,16 +61,26 @@ function SinglePost(props) {
                         />
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <Card fluid>
+                        <Card fluid color='red'>
                             <Card.Content>
-                                <Card.Header>{username}</Card.Header>
+                                <Label as='a' color='red' ribbon style={{marginBottom:'10px'}}>
+                                    Story
+                                </Label>                                
+                                <Card.Header>{body}</Card.Header>
+                                <Card.Meta>{username}</Card.Meta>
                                 <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
-                                <Card.Description>{body}</Card.Description>                                
+                                <Card.Description>
+                                <hr />
+                                <TestCaseList 
+                                    testScenarios={testScenarios} 
+                                    user={user} 
+                                    postId={id}/>                                
+                                </Card.Description>                                
                             </Card.Content>
                             
                             <hr/>
                             <Card.Content extra>
-                                <TestCaseButton />
+                                <TestCaseButton count={testScenarioCount}/>
                                 
                                 <LikeButton user={user} post={{ id, likeCount, likes }} />
                                 <Button
@@ -89,7 +101,10 @@ function SinglePost(props) {
                                 )}
                             </Card.Content>
                         </Card>
-                        {user && (
+                        {user && (<TestScenarioForm 
+                            postId={id}
+                        />)}
+                        {/* {user && (
                             <Card fluid>
                                 <Card.Content>
                                     <p>Post a comment</p>
@@ -112,7 +127,13 @@ function SinglePost(props) {
                                 </Card.Content>
                             </Card>
                         )}
-                        {comments.map(comment => (
+                        */}
+                        <TestCaseCommentGroup
+                            comments={comments}
+                            user={user}
+                            postId={id}
+                        /> 
+                        {/* {comments.map(comment => (
                             <Card fluid key={comment.id}>
                                 <Card.Content>
                                     {user && user.username === comment.username && (
@@ -122,7 +143,7 @@ function SinglePost(props) {
                                     <Card.Description>{comment.body}</Card.Description>
                                 </Card.Content>
                             </Card>
-                        ))}
+                        ))} */}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -132,20 +153,19 @@ function SinglePost(props) {
     return postMarkup;
 }
 
-const SUBMIT_COMMENT_MUTATION = gql`
-    mutation($postId: ID!, $body: String!){
-        createComment(postId: $postId, body: $body){
-            id
-            comments {
-                id
-                body
-                username
-                createdAt
-            }
-
-        }
-    }
-`;
+// const SUBMIT_COMMENT_MUTATION = gql`
+//     mutation($postId: ID!, $body: String!){
+//         createComment(postId: $postId, body: $body){
+//             id
+//             comments {
+//                 id
+//                 body
+//                 username
+//                 createdAt
+//             }
+//         }
+//     }
+// `;
     
 const FETCH_POST_QUERY = gql`
     query($postId: ID!) {
@@ -164,7 +184,14 @@ const FETCH_POST_QUERY = gql`
                 username
                 createdAt
                 body
-            }            
+            }   
+            testScenarioCount
+            testScenarios {
+                id
+                scenario
+                createdAt
+                username
+            }         
         }
     }
 `;

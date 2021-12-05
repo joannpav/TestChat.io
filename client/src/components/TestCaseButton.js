@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Icon, Label } from 'semantic-ui-react';
 
-function TestCaseButton(props) {
+function TestCaseButton(testScenarioCount) {
     return (
         <>
         <Button as="div" labelPosition="right" onClick={console.log("build tc")}>
@@ -9,7 +9,7 @@ function TestCaseButton(props) {
                 <Icon name='list' />                
             </Button>
             <Label basic color="purple" pointing="left">
-                5
+                {testScenarioCount.count}
             </Label>
         </Button>
         </>

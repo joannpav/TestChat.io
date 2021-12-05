@@ -34,10 +34,10 @@ function PostForm() {
     return (
         <>
         <Form onSubmit={onSubmit}>
-            <h2>Create a post:</h2>
+            <h2>Create a story:</h2>
             <Form.Field>
                 <Form.Input
-                    placeholder="Hi World!"
+                    placeholder="As a user..."
                     name="body"
                     onChange={onChange}
                     value={values.body}
