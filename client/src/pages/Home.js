@@ -3,8 +3,8 @@ import { useQuery } from '@apollo/react-hooks';
 import { Grid, Transition, List } from 'semantic-ui-react';
 
 import { AuthContext } from "../context/auth";
-import PostCard from '../components/PostCard';
-import PostForm from "../components/PostForm";
+import StoryCard from '../components/StoryCard';
+import StoryForm from "../components/StoryForm";
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 
 
@@ -12,22 +12,22 @@ function Home() {
   const { user } = useContext(AuthContext);    
   const { 
       loading, 
-      data: {getPosts: posts} = {} 
+      data: {getStories: stories} = {} 
   } = useQuery(FETCH_POSTS_QUERY);
     
   return (
     <Grid columns={3}>
         <Grid.Row className="page-title">
-            <h1>Recent Posts</h1>
+            <h1>Recent Stories</h1>
         </Grid.Row>        
         <Grid.Row>
             {user && (
               <Grid.Column>
-                <PostForm />
+                <StoryForm />
               </Grid.Column>
             )}
             {loading ? (
-                <h1>Loading posts...</h1>                
+                <h1>Loading stories...</h1>                
             ) : (
               <Transition.Group
               as={List}
@@ -36,10 +36,10 @@ function Home() {
               size='huge'
               verticalAlign='middle'
               >
-                {posts &&
-                posts.map((post) => (                    
-                    <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-                        <PostCard post={post} />
+                {stories &&
+                stories.map((story) => (                    
+                    <Grid.Column key={story.id} style={{ marginBottom: 20 }}>
+                        <StoryCard story={story} />
                     </Grid.Column>
                 ))}
                 </Transition.Group>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table} from 'semantic-ui-react';
 
-function TestCaseList(testScenarios, user, postId) {    
+function TestCaseList(testScenarios, user, storyId) {    
     let testMarkup = <p>Loading test scenarios...</p>
     let ts = testScenarios["testScenarios"];
     console.log("in here");

@@ -1,25 +1,25 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-errors');
-const Post = require('../../models/Post');
+const Story = require('../../models/Story');
 const checkAuth = require('../../util/check-auth');
 
 module.exports = {
     Query: {
-        async getPosts(){
+        async getStories(){
             try{
-                const posts = await Post.find().sort({ createdAt: -1 });                
-                return posts;
+                const stories = await Story.find().sort({ createdAt: -1 });                
+                return stories;
             } catch(err) {
                 throw new Error(err);
             }
         },
-        async getPost(_, { postId }){
+        async getStory(_, { storyId }){
             try{
                 // debugger;
-                const post = await Post.findById(postId);                
-                if(post){
-                    return post;
+                const story = await Story.findById(storyId);                
+                if(story){
+                    return story;
                 } else {
-                    throw new Error("Post not found");
+                    throw new Error("Story not found");
                 }
                 
             } catch(err) {
@@ -28,33 +28,33 @@ module.exports = {
         }        
     },
     Mutation: {
-        async createPost(_, { body }, context) {            
+        async createStory(_, { body }, context) {            
             const user = checkAuth(context);
             
             if (body.trim() === '') {
-                throw new Error('Post body must not be empty');
+                throw new Error('Story body must not be empty');
             }
 
-            const newPost = new Post({
+            const newStory = new Story({
                 body,
                 user: user.id,
                 username: user.username,                
                 createdAt: new Date().toISOString()
             });
 
-            const post = await newPost.save();
+            const story = await newStory.save();
             
-            return post;
+            return story;
         },
 
-        async deletePost(_, { postId }, context) {
+        async deleteStory(_, { storyId }, context) {
             const user = checkAuth(context);            
                            
             try {
-                const post = await Post.findById(postId);
-                if (user.username === post.username){
-                    await post.delete();
-                    return 'Post deleted successfully';
+                const story = await Story.findById(storyId);
+                if (user.username === story.username){
+                    await story.delete();
+                    return 'Story deleted successfully';
                 } else {
                     throw new AuthenticationError("Operation not allowed");
                 }
@@ -62,25 +62,25 @@ module.exports = {
                 throw new Error(err);
             }           
         },
-        async likePost(_, { postId }, context) {
+        async likeStory(_, { storyId }, context) {
             const { username } = checkAuth(context);                      
-            const post = await Post.findById(postId);
+            const story = await Story.findById(storyId);
             
-            if(post){
-                if (post.likes.find(like => like.username === username )){
-                    // post already liked, unlike ti
-                    post.likes = post.likes.filter(like => like.username !== username)                        
+            if(story){
+                if (story.likes.find(like => like.username === username )){
+                    // story already liked, unlike ti
+                    story.likes = story.likes.filter(like => like.username !== username)                        
                 } else {
                     // not liked, so like it
-                    await post.likes.push({
+                    await story.likes.push({
                         username,
                         createdAt: new Date().toISOString()
                     })
                 }
-                await post.save();
-                return post;
+                await story.save();
+                return story;
             } else {
-                throw new UserInputError("Post not found");
+                throw new UserInputError("Story not found");
             }                            
         }
     },

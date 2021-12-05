@@ -7,32 +7,32 @@ import { FETCH_POSTS_QUERY } from '../util/graphql';
 import CustomPopup from '../util/CustomPopup';
 
 
-function DeleteButton({ postId, commentId, callback }) {
+function DeleteButton({ storyId, commentId, callback }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
 
     const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
 
-    const [deletePostOrComment] = useMutation(mutation, {
+    const [deleteStoryOrComment] = useMutation(mutation, {
        update(proxy) {
             setConfirmOpen(false);
             if(!commentId){
                 const data = proxy.readQuery({
                 query: FETCH_POSTS_QUERY
                 });
-                data.getPosts = data.getPosts.filter((p) => p.id !== postId);
+                data.getStories = data.getStories.filter((p) => p.id !== storyId);
                 proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
             } 
             if (callback) callback();
        },
        variables: {
-           postId,
+           storyId,
            commentId
        }
     });
 
     return(
         <>
-            <CustomPopup content={commentId ? 'Delete comment' : 'Delete post'}>
+            <CustomPopup content={commentId ? 'Delete comment' : 'Delete story'}>
                 <Button 
                     as="div"
                     color="red"
@@ -46,7 +46,7 @@ function DeleteButton({ postId, commentId, callback }) {
             <Confirm
                 open={confirmOpen}
                 onCancel={() => setConfirmOpen(false)}
-                onConfirm={deletePostOrComment}
+                onConfirm={deleteStoryOrComment}
             />
         </>
     );
@@ -54,14 +54,14 @@ function DeleteButton({ postId, commentId, callback }) {
     
 
 const DELETE_POST_MUTATION = gql`
-    mutation deletePost($postId: ID!) {
-        deletePost(postId: $postId)
+    mutation deleteStory($storyId: ID!) {
+        deleteStory(storyId: $storyId)
     }
 `;
 
 const DELETE_COMMENT_MUTATION = gql`
-    mutation deleteComment($postId: ID!, $commentId: ID!) {
-        deleteComment(postId: $postId, commentId: $commentId) {
+    mutation deleteComment($storyId: ID!, $commentId: ID!) {
+        deleteComment(storyId: $storyId, commentId: $commentId) {
             id
             comments {
                 id

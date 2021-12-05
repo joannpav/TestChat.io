@@ -3,14 +3,14 @@ import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Form, Card } from 'semantic-ui-react';
 
-const TestScenarioForm = (postId) => {
+const TestScenarioForm = (storyId) => {
     const[scenario, setScenario] = useState('');
     const [submitScenario] = useMutation(SUBMIT_TEST_SCENARIO_MUTATION, {
         update() {
             setScenario('');
         },
         variables: {
-            postId: postId.postId,
+            storyId: storyId.storyId,
             scenario
         }
     })
@@ -43,8 +43,8 @@ const TestScenarioForm = (postId) => {
 };
 
 const SUBMIT_TEST_SCENARIO_MUTATION = gql`
-    mutation($postId: ID!, $scenario: String!) {
-        createTestScenario(postId: $postId, scenario: $scenario) {
+    mutation($storyId: ID!, $scenario: String!) {
+        createTestScenario(storyId: $storyId, scenario: $scenario) {
             testScenarios {
                 scenario
                 username

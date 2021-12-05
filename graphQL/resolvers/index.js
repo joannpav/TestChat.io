@@ -1,4 +1,4 @@
-const postsResolvers = require('./posts');
+const storiesResolvers = require('./stories');
 const usersResolvers = require('./users');
 const commentsResolvers = require('./comments');
 const testScenariosResolvers = require('./testScenarios');
@@ -7,23 +7,23 @@ const testScenariosResolvers = require('./testScenarios');
 
 
 module.exports = {
-    Post: {
+    Story: {
         likeCount: (parent) => parent.likes.length,
         commentCount: (parent) => parent.comments.length,
         testScenarioCount: (parent) => parent.testScenarios.length
     },
     Query: {
-        ...postsResolvers.Query,
+        ...storiesResolvers.Query,
         ...usersResolvers.Query
     },
     Mutation: {
         ...usersResolvers.Mutation,
-        ...postsResolvers.Mutation,
+        ...storiesResolvers.Mutation,
         ...commentsResolvers.Mutation,
         ...testScenariosResolvers.Mutation
     },
     
     // Subscription: {
-    //     ...postsResolvers.Subscription
+    //     ...storiesResolvers.Subscription
     // }
 };

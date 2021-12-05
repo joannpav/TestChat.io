@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 
-function LikeButton({user, post: {id, likeCount, likes}}) {
+function LikeButton({user, story: {id, likeCount, likes}}) {
     const [liked, setLiked] = useState(false);
 
     useEffect(() => {
@@ -15,8 +15,8 @@ function LikeButton({user, post: {id, likeCount, likes}}) {
         } else setLiked(false)
     }, [user, likes]);
 
-    const [likePost] = useMutation(LIKE_POST_MUTATION, {
-        variables: { postId: id}
+    const [likeStory] = useMutation(LIKE_POST_MUTATION, {
+        variables: { storyId: id}
     })
     
 
@@ -39,7 +39,7 @@ function LikeButton({user, post: {id, likeCount, likes}}) {
         </Button>
     )
     return (
-        <Button as="div" labelPosition="right" onClick={likePost}>
+        <Button as="div" labelPosition="right" onClick={likeStory}>
             {likeButton}
             <Label basic color="teal" pointing="left">
                 {likeCount}
@@ -49,8 +49,8 @@ function LikeButton({user, post: {id, likeCount, likes}}) {
 }
 
 const LIKE_POST_MUTATION = gql`
-    mutation likePost($postId: ID!){
-        likePost(postId: $postId){
+    mutation likeStory($storyId: ID!){
+        likeStory(storyId: $storyId){
             id
             likes{
                 id

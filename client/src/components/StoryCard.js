@@ -7,11 +7,11 @@ import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
 import { AuthContext } from '../context/auth';
 
-function PostCard({ post: { body, createdAt, id, username, likeCount, commentCount, likes }}) {
+function StoryCard({ story: { body, createdAt, id, username, likeCount, commentCount, likes }}) {
     const { user } = useContext(AuthContext);
     
     return (
-        <Card fluid  as={Link} to={`/posts/${id}`}>
+        <Card fluid  as={Link} to={`/stories/${id}`}>
             <Card.Content>                
                 <Image 
                     floated="right"
@@ -19,16 +19,16 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
                     src="https://react.semantic-ui.com/images/avatar/large/molly.png"
                 />
                 <Card.Header>{username}</Card.Header>
-                <Card.Meta as={Link} to={`/posts/${id}`}>
+                <Card.Meta as={Link} to={`/stories/${id}`}>
                     {moment(createdAt).fromNow(true)}
                 </Card.Meta>
                 <Card.Description>{body}</Card.Description>                
             </Card.Content>
             <Card.Content extra>
             
-                <LikeButton user={user} post={{ id, likeCount, likes }} />
+                <LikeButton user={user} story={{ id, likeCount, likes }} />
                 <Button as='div' labelPosition='right'>
-                    <Button labelPosition='right' as={Link} to={`/posts/${id}`}>
+                    <Button labelPosition='right' as={Link} to={`/stories/${id}`}>
                         <Button basic color='blue'>
                             <Icon name='comments' />
                             Comments
@@ -38,10 +38,10 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
                         {commentCount}
                     </Label>
                 </Button>
-                {user && user.username === username && <DeleteButton postId={id} />}                      
+                {user && user.username === username && <DeleteButton storyId={id} />}                      
             </Card.Content>
         </Card>
     )
 }
 
-export default PostCard;
+export default StoryCard;

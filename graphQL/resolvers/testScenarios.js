@@ -1,11 +1,11 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-errors');
 
-const Post = require('../../models/Post');
+const Story = require('../../models/Story');
 const checkAuth = require('../../util/check-auth');
 
 module.exports = {    
     Mutation: {
-        async createTestScenario(_, { postId, scenario }, context) {
+        async createTestScenario(_, { storyId, scenario }, context) {
             const { username } = checkAuth(context);
             console.log(`in createTestScenario`);
             if (scenario.trim() === '') {
@@ -15,19 +15,19 @@ module.exports = {
                     }
                 })
             }
-            const post = await Post.findById(postId);
-            console.log(`found post: ${post.id}`);
+            const story = await Story.findById(storyId);
+            console.log(`found story: ${story.id}`);
 
-            if(post) {
-                post.testScenarios.unshift({
+            if(story) {
+                story.testScenarios.unshift({
                     scenario,
                     username,
                     createdAt: new Date().toISOString()
                 });
-                await post.save()
-                return post;
+                await story.save()
+                return story;
             } else {
-                throw new UserInputError('Post not found');
+                throw new UserInputError('Story not found');
             }
             // const newTestScenario = new TestScenario({
             //     scenario, 

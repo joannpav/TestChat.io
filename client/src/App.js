@@ -12,7 +12,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
-import SinglePost from './pages/SinglePost';
+import SingleStory from './pages/SingleStory';
 
 function App() {
   
@@ -38,7 +38,7 @@ function App() {
                     {/* <Route path="/register" element={user.username ? <NotFound/> : <Register/>  } />                             */}
                     <Route path="/register" element={<Register/>} />
                     <Route path="*" element={<NotFound />} /> 
-                    <Route exact path="/posts/:postId" element={<SinglePost />} />
+                    <Route exact path="/stories/:storyId" element={<SingleStory />} />
                     {/* <Route index element={<Home/>} />
                     <AuthRoute exact path="/login" element={Login} />
                     <AuthRoute exact path="/register" element={Register} /> */}

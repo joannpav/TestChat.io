@@ -2,7 +2,7 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
 
-type Post {
+type Story {
     id: ID!
     body: String!
     createdAt: String!
@@ -50,21 +50,19 @@ input RegisterInput {
 }
 type Query {
     getUsers: [User]
-    getPosts: [Post]
-    getPost(postId: ID!): Post    
+    getStories: [Story]
+    getStory(storyId: ID!): Story    
     getTestScenarios: [TestScenario]
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createPost(body: String!): Post!
-    deletePost(postId: ID!): String!
-    createComment(postId: ID!, body: String!): Post!
-    deleteComment(postId: ID!, commentId: ID!): Post!
-    likePost(postId: ID!): Post! 
-    createTestScenario(postId: ID!, scenario: String!): Post!
+    createStory(body: String!): Story!
+    deleteStory(storyId: ID!): String!
+    createComment(storyId: ID!, body: String!): Story!
+    deleteComment(storyId: ID!, commentId: ID!): Story!
+    likeStory(storyId: ID!): Story! 
+    createTestScenario(storyId: ID!, scenario: String!): Story!
 }
-# type Subscription {
-#     newPost: Post!
-# }
+
 `;

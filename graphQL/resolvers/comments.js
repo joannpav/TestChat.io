@@ -1,11 +1,11 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-errors');
 
-const Post = require('../../models/Post');
+const Story = require('../../models/Story');
 const checkAuth = require('../../util/check-auth');
 
 module.exports = {
     Mutation: {        
-        async createComment(_, { postId, body }, context) {            
+        async createComment(_, { storyId, body }, context) {            
             const { username } = checkAuth(context);
             if(body.trim() === ''){
                 throw new UserInputError('Empty comments not allowed', {
@@ -14,30 +14,30 @@ module.exports = {
                     }
                 })
             }
-            const post = await Post.findById(postId);
+            const story = await Story.findById(storyId);
 
-            if(post) {
-                post.comments.unshift({
+            if(story) {
+                story.comments.unshift({
                     body,
                     username,
                     createdAt: new Date().toISOString()
                 });
-                await post.save();
-                return post;
+                await story.save();
+                return story;
             
             } else {
-                throw new UserInputError('Post not found');
+                throw new UserInputError('Story not found');
             }                            
         },
-        async deleteComment(_, { postId, commentId }, context) {
+        async deleteComment(_, { storyId, commentId }, context) {
             const { username } = checkAuth(context);
-            const post = await Post.findById(postId);
-            if (post) {
-                const commentIndex = post.comments.findIndex(c => c.id === commentId);                                        
-                if(post.comments[commentIndex].username === username) {
-                    post.comments.splice(commentIndex, 1);
-                    await post.save()
-                    return post;
+            const story = await Story.findById(storyId);
+            if (story) {
+                const commentIndex = story.comments.findIndex(c => c.id === commentId);                                        
+                if(story.comments[commentIndex].username === username) {
+                    story.comments.splice(commentIndex, 1);
+                    await story.save()
+                    return story;
                 } else {
                     throw new AuthenticationError('Action not allowed');
                 }

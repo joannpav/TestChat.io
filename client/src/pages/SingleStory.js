@@ -13,17 +13,17 @@ import TestCaseButton from '../components/TestCaseButton';
 import TestCaseList from '../components/TestCaseList';
 import TestScenarioForm from '../components/TestScenarioForm';
 import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
-function SinglePost(props) {
+function SingleStory(props) {
     // const[comment, setComment] = useState('');
-    const { postId } = useParams();
+    const { storyId } = useParams();
     const { user } = useContext(AuthContext);    
 
     const {   
                       
-        data: {getPost: post} = {} 
+        data: {getStory: story} = {} 
     } = useQuery(FETCH_POST_QUERY, {
         variables: {
-            postId
+            storyId
         }
     });
 
@@ -32,25 +32,25 @@ function SinglePost(props) {
     //         setComment('');
     //     },
     //     variables: {
-    //         postId,
+    //         storyId,
     //         body: comment
     //     }
     // });
     
     let navigate = useNavigate();
 
-    function deletePostCallback() {
+    function deleteStoryCallback() {
         navigate("/");
     }
 
-    let postMarkup;
-    if(!post) {
-        postMarkup =  <p>Loading post...</p>
+    let storyMarkup;
+    if(!story) {
+        storyMarkup =  <p>Loading story...</p>
     } else {
         const { id, body, createdAt, username, testScenarios, comments, likes, likeCount, commentCount, testScenarioCount} =
-        post;
+        story;
         
-        postMarkup = (
+        storyMarkup = (
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={2}>
@@ -74,7 +74,7 @@ function SinglePost(props) {
                                 <TestCaseList 
                                     testScenarios={testScenarios} 
                                     user={user} 
-                                    postId={id}/>                                
+                                    storyId={id}/>                                
                                 </Card.Description>                                
                             </Card.Content>
                             
@@ -82,11 +82,11 @@ function SinglePost(props) {
                             <Card.Content extra>
                                 <TestCaseButton count={testScenarioCount}/>
                                 
-                                <LikeButton user={user} post={{ id, likeCount, likes }} />
+                                <LikeButton user={user} story={{ id, likeCount, likes }} />
                                 <Button
                                     as="div"
                                     labelPosition="right"
-                                    onClick={() => console.log('comment on post')}
+                                    onClick={() => console.log('comment on story')}
                                 >
                                     <Button basic color="blue">
                                         <Icon name="comments" />
@@ -97,17 +97,17 @@ function SinglePost(props) {
                                     </Label>    
                                 </Button>
                                 {user && user.username === username && (
-                                    <DeleteButton postId={id} callback={deletePostCallback} />
+                                    <DeleteButton storyId={id} callback={deleteStoryCallback} />
                                 )}
                             </Card.Content>
                         </Card>
                         {user && (<TestScenarioForm 
-                            postId={id}
+                            storyId={id}
                         />)}
                         {/* {user && (
                             <Card fluid>
                                 <Card.Content>
-                                    <p>Post a comment</p>
+                                    <p>Story a comment</p>
                                     <Form>
                                     <div className="ui action input fluid">
                                         <input
@@ -131,13 +131,13 @@ function SinglePost(props) {
                         <TestCaseCommentGroup
                             comments={comments}
                             user={user}
-                            postId={id}
+                            storyId={id}
                         /> 
                         {/* {comments.map(comment => (
                             <Card fluid key={comment.id}>
                                 <Card.Content>
                                     {user && user.username === comment.username && (
-                                        <DeleteButton postId={id} commentId={comment.id} />
+                                        <DeleteButton storyId={id} commentId={comment.id} />
                                     )}
                                     <Card.Header>{comment.username}</Card.Header>
                                     <Card.Description>{comment.body}</Card.Description>
@@ -150,12 +150,12 @@ function SinglePost(props) {
         );
     }
 
-    return postMarkup;
+    return storyMarkup;
 }
 
 // const SUBMIT_COMMENT_MUTATION = gql`
-//     mutation($postId: ID!, $body: String!){
-//         createComment(postId: $postId, body: $body){
+//     mutation($storyId: ID!, $body: String!){
+//         createComment(storyId: $storyId, body: $body){
 //             id
 //             comments {
 //                 id
@@ -168,8 +168,8 @@ function SinglePost(props) {
 // `;
     
 const FETCH_POST_QUERY = gql`
-    query($postId: ID!) {
-        getPost(postId: $postId){
+    query($storyId: ID!) {
+        getStory(storyId: $storyId){
             id 
             body
             createdAt
@@ -196,4 +196,4 @@ const FETCH_POST_QUERY = gql`
     }
 `;
 
-export default SinglePost;
+export default SingleStory;

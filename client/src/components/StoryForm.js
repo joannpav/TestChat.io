@@ -6,12 +6,12 @@ import { useMutation } from '@apollo/react-hooks';
 import { useForm } from '../util/hooks';
 import { FETCH_POSTS_QUERY } from '../util/graphql';
 
-function PostForm() {
-    const { values, onChange, onSubmit } = useForm(createPostCallback, {
+function StoryForm() {
+    const { values, onChange, onSubmit } = useForm(createStoryCallback, {
         body: ''
     });
 
-    const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
+    const [createStory, { error }] = useMutation(CREATE_POST_MUTATION, {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({
@@ -20,15 +20,15 @@ function PostForm() {
             proxy.writeQuery({ 
                 query: FETCH_POSTS_QUERY, 
                 data: {
-                    getPosts: [result.data.createPost, ...data.getPosts],
+                    getStories: [result.data.createStory, ...data.getStories],
                 }
             });
             values.body = '';
         }
     });
 
-    function createPostCallback() {
-        createPost();
+    function createStoryCallback() {
+        createStory();
     }
 
     return (
@@ -59,8 +59,8 @@ function PostForm() {
 }
 
 const CREATE_POST_MUTATION = gql`
-    mutation createPost($body: String!) {
-        createPost(body: $body) {
+    mutation createStory($body: String!) {
+        createStory(body: $body) {
             id
             body
             createdAt
@@ -82,4 +82,4 @@ const CREATE_POST_MUTATION = gql`
     }
 `;
 
-export default PostForm;
+export default StoryForm;
