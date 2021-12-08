@@ -5,7 +5,7 @@ import { Grid, Transition, List } from 'semantic-ui-react';
 import { AuthContext } from "../context/auth";
 import StoryCard from '../components/StoryCard';
 import StoryForm from "../components/StoryForm";
-import { FETCH_POSTS_QUERY } from "../util/graphql";
+import { FETCH_STORIES_QUERY } from "../util/graphql";
 
 
 function Home() {
@@ -13,7 +13,7 @@ function Home() {
   const { 
       loading, 
       data: {getStories: stories} = {} 
-  } = useQuery(FETCH_POSTS_QUERY);
+  } = useQuery(FETCH_STORIES_QUERY);
     
   return (
     <Grid columns={3}>

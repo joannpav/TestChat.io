@@ -3,24 +3,24 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { Button, Confirm, Icon } from 'semantic-ui-react';
 
-import { FETCH_POSTS_QUERY } from '../util/graphql';
+import { FETCH_STORIES_QUERY } from '../util/graphql';
 import CustomPopup from '../util/CustomPopup';
 
 
 function DeleteButton({ storyId, commentId, callback }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
 
-    const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
+    const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_STORY_MUTATION;
 
     const [deleteStoryOrComment] = useMutation(mutation, {
        update(proxy) {
             setConfirmOpen(false);
             if(!commentId){
                 const data = proxy.readQuery({
-                query: FETCH_POSTS_QUERY
+                query: FETCH_STORIES_QUERY
                 });
                 data.getStories = data.getStories.filter((p) => p.id !== storyId);
-                proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+                proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });
             } 
             if (callback) callback();
        },
@@ -53,7 +53,7 @@ function DeleteButton({ storyId, commentId, callback }) {
 }
     
 
-const DELETE_POST_MUTATION = gql`
+const DELETE_STORY_MUTATION = gql`
     mutation deleteStory($storyId: ID!) {
         deleteStory(storyId: $storyId)
     }

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useParams } from "react-router-dom";
 
 import gql from 'graphql-tag';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import { Form, Button, Card, Grid, Image, Icon, Label, CommentGroup } from 'semantic-ui-react';
+import { Button, Card, Grid, Image, Icon, Label } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
 import LikeButton from '../components/LikeButton';
@@ -13,30 +13,21 @@ import TestCaseButton from '../components/TestCaseButton';
 import TestCaseList from '../components/TestCaseList';
 import TestScenarioForm from '../components/TestScenarioForm';
 import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
-function SingleStory(props) {
-    // const[comment, setComment] = useState('');
+function SingleStory(props) {    
     const { storyId } = useParams();
     const { user } = useContext(AuthContext);    
 
-    const {   
-                      
+    const {                         
         data: {getStory: story} = {} 
-    } = useQuery(FETCH_POST_QUERY, {
+    } = useQuery(FETCH_STORY_QUERY, {
         variables: {
             storyId
         }
     });
-
-    // const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
-    //     update() {
-    //         setComment('');
-    //     },
-    //     variables: {
-    //         storyId,
-    //         body: comment
-    //     }
-    // });
     
+    
+    
+
     let navigate = useNavigate();
 
     function deleteStoryCallback() {
@@ -47,9 +38,9 @@ function SingleStory(props) {
     if(!story) {
         storyMarkup =  <p>Loading story...</p>
     } else {
-        const { id, body, createdAt, username, testScenarios, comments, likes, likeCount, commentCount, testScenarioCount} =
+        const { id, body, acceptanceCriteria, createdAt, username, comments, likes, likeCount, commentCount, testScenarioCount} =
         story;
-        
+        console.log(`in SingleStory: ${JSON.stringify(story)}`);
         storyMarkup = (
             <Grid>
                 <Grid.Row>
@@ -70,17 +61,18 @@ function SingleStory(props) {
                                 <Card.Meta>{username}</Card.Meta>
                                 <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
                                 <Card.Description>
-                                <hr />
-                                <TestCaseList 
-                                    testScenarios={testScenarios} 
-                                    user={user} 
-                                    storyId={id}/>                                
+                                    {acceptanceCriteria}
+                                    <hr />
+                                    <TestCaseList                                         
+                                        user={user} 
+                                        storyId={id}
+                                    />                                
                                 </Card.Description>                                
                             </Card.Content>
                             
                             <hr/>
                             <Card.Content extra>
-                                <TestCaseButton count={testScenarioCount}/>
+                                <TestCaseButton count={testScenarioCount} user={user}/>
                                 
                                 <LikeButton user={user} story={{ id, likeCount, likes }} />
                                 <Button
@@ -104,46 +96,13 @@ function SingleStory(props) {
                         {user && (<TestScenarioForm 
                             storyId={id}
                         />)}
-                        {/* {user && (
-                            <Card fluid>
-                                <Card.Content>
-                                    <p>Story a comment</p>
-                                    <Form>
-                                    <div className="ui action input fluid">
-                                        <input
-                                        type="text"
-                                        placeholder="Comment.."
-                                        name="comment"
-                                        value={comment}
-                                        onChange={event => setComment(event.target.value)}
-                                        />
-                                        <button type="submit"
-                                        className="ui button teal"
-                                        disabled={comment.trim() === ''}
-                                        onClick={submitComment}
-                                        >Submit</button>
-                                        </div> 
-                                    </Form>
-                                </Card.Content>
-                            </Card>
-                        )}
-                        */}
+                        
                         <TestCaseCommentGroup
                             comments={comments}
                             user={user}
                             storyId={id}
                         /> 
-                        {/* {comments.map(comment => (
-                            <Card fluid key={comment.id}>
-                                <Card.Content>
-                                    {user && user.username === comment.username && (
-                                        <DeleteButton storyId={id} commentId={comment.id} />
-                                    )}
-                                    <Card.Header>{comment.username}</Card.Header>
-                                    <Card.Description>{comment.body}</Card.Description>
-                                </Card.Content>
-                            </Card>
-                        ))} */}
+                       
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -153,25 +112,13 @@ function SingleStory(props) {
     return storyMarkup;
 }
 
-// const SUBMIT_COMMENT_MUTATION = gql`
-//     mutation($storyId: ID!, $body: String!){
-//         createComment(storyId: $storyId, body: $body){
-//             id
-//             comments {
-//                 id
-//                 body
-//                 username
-//                 createdAt
-//             }
-//         }
-//     }
-// `;
     
-const FETCH_POST_QUERY = gql`
+const FETCH_STORY_QUERY = gql`
     query($storyId: ID!) {
         getStory(storyId: $storyId){
             id 
             body
+            acceptanceCriteria
             createdAt
             username
             likeCount
@@ -185,13 +132,25 @@ const FETCH_POST_QUERY = gql`
                 createdAt
                 body
             }   
-            testScenarioCount
-            testScenarios {
-                id
-                scenario
-                createdAt
-                username
-            }         
+            # testScenarioCount
+            # testScenarios {
+            #     id
+            #     scenario
+            #     createdAt
+            #     username
+            #     approvalCount
+            #     questionCount
+            #     viewerCount
+            #     approvals {
+            #         username
+            #     }
+            #     questions {
+            #         username
+            #     }
+            #     viewers {
+            #         username
+            #     }
+            # }         
         }
     }
 `;

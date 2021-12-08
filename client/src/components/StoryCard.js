@@ -5,11 +5,12 @@ import moment from 'moment';
 
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
+import TestCaseButton from './TestCaseButton';
 import { AuthContext } from '../context/auth';
 
-function StoryCard({ story: { body, createdAt, id, username, likeCount, commentCount, likes }}) {
+function StoryCard({ story: { body, acceptanceCriteria, createdAt, id, username, likeCount, commentCount, testScenarioCount, likes }}) {
     const { user } = useContext(AuthContext);
-    
+    console.log(`is there a count in here? ${testScenarioCount}`);
     return (
         <Card fluid  as={Link} to={`/stories/${id}`}>
             <Card.Content>                
@@ -25,7 +26,7 @@ function StoryCard({ story: { body, createdAt, id, username, likeCount, commentC
                 <Card.Description>{body}</Card.Description>                
             </Card.Content>
             <Card.Content extra>
-            
+                <TestCaseButton count={testScenarioCount} user={user}/>                
                 <LikeButton user={user} story={{ id, likeCount, likes }} />
                 <Button as='div' labelPosition='right'>
                     <Button labelPosition='right' as={Link} to={`/stories/${id}`}>

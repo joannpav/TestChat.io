@@ -1,14 +1,24 @@
 import React from 'react';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
 import { Table} from 'semantic-ui-react';
+import ApprovalButton from './ApprovalButton';
 
-function TestCaseList(testScenarios, user, storyId) {    
-    let testMarkup = <p>Loading test scenarios...</p>
-    let ts = testScenarios["testScenarios"];
-    console.log("in here");
-    console.log(JSON.stringify(testScenarios));
+function TestCaseList({user, storyId}) {  
     
-    testMarkup = (
-            
+    const {                         
+        data: {getTestScenarios: testScenarios} = {} 
+    } = useQuery(FETCH_TEST_SCENARIOS_QUERY, {
+        variables: {
+            storyId
+        }
+    });
+
+    let testMarkup = <p>Loading test scenarios...</p>        
+    console.log(`TestCaseList: what is story id here: ${storyId}`);
+    console.log(`scenarios: ${JSON.stringify(testScenarios)}`);
+    
+    testMarkup = (            
         <Table celled>
           <Table.Header>
             <Table.Row>
@@ -20,11 +30,11 @@ function TestCaseList(testScenarios, user, storyId) {
       
           <Table.Body>
           
-          {ts.map(scenario => (
+          {testScenarios && testScenarios.map(scenario => (
             <Table.Row key={scenario.id}>
               <Table.Cell>{scenario.scenario}</Table.Cell>
               <Table.Cell>{scenario.username}</Table.Cell>
-              <Table.Cell negative>Stuff</Table.Cell>
+              <Table.Cell negative><ApprovalButton story={storyId} user={user} testScenario={scenario}></ApprovalButton></Table.Cell>
             </Table.Row>       
           ))}     
           
@@ -34,5 +44,35 @@ function TestCaseList(testScenarios, user, storyId) {
     )
     return testMarkup;
 }
+
+const FETCH_TEST_SCENARIOS_QUERY = gql`
+    query($storyId: ID!) {
+        getTestScenarios(storyId: $storyId){
+            id 
+            scenario
+            createdAt
+            username               
+            # testScenarioCount
+            # testScenarios {
+            #     id
+            #     scenario
+            #     createdAt
+            #     username
+            #     approvalCount
+            #     questionCount
+            #     viewerCount
+            #     approvals {
+            #         username
+            #     }
+            #     questions {
+            #         username
+            #     }
+            #     viewers {
+            #         username
+            #     }
+            # }         
+        }
+    }
+`;
 
 export default TestCaseList;

@@ -4,14 +4,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { Card, Comment, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
 
-const TestCaseCommentGroup = ({comments, user, storyId}) => {
-    console.log(JSON.stringify(comments));
-    console.log(JSON.stringify(user));
-    console.log(JSON.stringify(storyId));
-    // let comments = commentsObj.comments;
-    // let user = userObj.user;
-    // let storyId = storyIdObj.storyId;
-
+const TestCaseCommentGroup = ({comments, user, storyId}) => {   
     const[comment, setComment] = useState('');
     const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
         update() {

@@ -1,10 +1,11 @@
 import gql from 'graphql-tag';
 
-export const FETCH_POSTS_QUERY = gql`
+export const FETCH_STORIES_QUERY = gql`
 {
     getStories {
         id
         body
+        acceptanceCriteria
         createdAt
         username
         likeCount
@@ -18,12 +19,26 @@ export const FETCH_POSTS_QUERY = gql`
             createdAt
             body
         }
-        testScenarioCount
-        testScenarios {
-            id
-            scenario
-            createdAt
-            username
-        }
+        
     }
 }`;
+
+// testScenarioCount
+//         testScenarios {
+//             id
+//             scenario
+//             createdAt
+//             username
+//             approvals{
+//                 username
+//                 createdAt
+//             }
+//             questions{
+//                 username
+//                 createdAt
+//             }
+//             viewers{
+//                 username
+//                 createdAt
+//             }
+//         }

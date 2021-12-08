@@ -15,7 +15,7 @@ function LikeButton({user, story: {id, likeCount, likes}}) {
         } else setLiked(false)
     }, [user, likes]);
 
-    const [likeStory] = useMutation(LIKE_POST_MUTATION, {
+    const [likeStory] = useMutation(LIKE_STORY_MUTATION, {
         variables: { storyId: id}
     })
     
@@ -48,7 +48,7 @@ function LikeButton({user, story: {id, likeCount, likes}}) {
     )
 }
 
-const LIKE_POST_MUTATION = gql`
+const LIKE_STORY_MUTATION = gql`
     mutation likeStory($storyId: ID!){
         likeStory(storyId: $storyId){
             id

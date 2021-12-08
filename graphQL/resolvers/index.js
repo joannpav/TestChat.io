@@ -10,11 +10,20 @@ module.exports = {
     Story: {
         likeCount: (parent) => parent.likes.length,
         commentCount: (parent) => parent.comments.length,
-        testScenarioCount: (parent) => parent.testScenarios.length
+        // testScenarioCount: (parent) => parent.testScenarios.length,
+        // approvalCount: (parent) => parent.testScenarios.approvals.length
+        // questionCount: (parent) => parent.testScenarios.questions.length,
+        // viewerCount: (parent) => parent.testScenarios.viewers.length
+    },
+    TestScenario: {        
+        approvalCount: (parent) => parent.approvals.length,
+        questionCount: (parent) => parent.questions.length,
+        viewerCount: (parent) => parent.viewers.length
     },
     Query: {
         ...storiesResolvers.Query,
-        ...usersResolvers.Query
+        ...usersResolvers.Query,
+        ...testScenariosResolvers.Query
     },
     Mutation: {
         ...usersResolvers.Mutation,

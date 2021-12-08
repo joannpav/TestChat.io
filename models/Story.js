@@ -1,16 +1,11 @@
 const { model, Schema } = require('mongoose');
+// const { TestScenario } = require('../graphQL/resolvers');
 
 const storySchema = new Schema({
    body: String,
+   acceptanceCriteria: String,
    username: String,
-   createdAt: String,
-   testScenarios: [
-       {
-           scenario: String,
-           username: String,
-           createdAt: String
-       }
-   ],
+   createdAt: String,   
    comments: [
        {
            body: String,

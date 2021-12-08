@@ -28,7 +28,7 @@ module.exports = {
         }        
     },
     Mutation: {
-        async createStory(_, { body }, context) {            
+        async createStory(_, { body, acceptanceCriteria }, context) {            
             const user = checkAuth(context);
             
             if (body.trim() === '') {
@@ -37,6 +37,7 @@ module.exports = {
 
             const newStory = new Story({
                 body,
+                acceptanceCriteria,
                 user: user.id,
                 username: user.username,                
                 createdAt: new Date().toISOString()

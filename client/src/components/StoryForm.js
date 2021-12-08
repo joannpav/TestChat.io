@@ -4,26 +4,28 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
 import { useForm } from '../util/hooks';
-import { FETCH_POSTS_QUERY } from '../util/graphql';
+import { FETCH_STORIES_QUERY } from '../util/graphql';
 
 function StoryForm() {
     const { values, onChange, onSubmit } = useForm(createStoryCallback, {
-        body: ''
+        body: '',
+        acceptanceCriteria: ''
     });
 
-    const [createStory, { error }] = useMutation(CREATE_POST_MUTATION, {
+    const [createStory, { error }] = useMutation(CREATE_STORY_MUTATION, {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({
-                query: FETCH_POSTS_QUERY
+                query: FETCH_STORIES_QUERY
             });
             proxy.writeQuery({ 
-                query: FETCH_POSTS_QUERY, 
+                query: FETCH_STORIES_QUERY, 
                 data: {
                     getStories: [result.data.createStory, ...data.getStories],
                 }
             });
             values.body = '';
+            values.acceptanceCriteria = '';
         }
     });
 
@@ -43,6 +45,13 @@ function StoryForm() {
                     value={values.body}
                     error={error ? true : false}
                 />
+                <Form.Input
+                    placeholder="Acceptance..."
+                    name="acceptanceCriteria"
+                    onChange={onChange}
+                    value={values.acceptanceCriteria}
+                    error={error ? true : false}
+                />
                 <Button type="submit" color="teal">
                     Submit
                 </Button>
@@ -58,11 +67,12 @@ function StoryForm() {
     )
 }
 
-const CREATE_POST_MUTATION = gql`
-    mutation createStory($body: String!) {
-        createStory(body: $body) {
+const CREATE_STORY_MUTATION = gql`
+    mutation createStory($body: String!, $acceptanceCriteria: String) {
+        createStory(body: $body, acceptanceCriteria: $acceptanceCriteria) {
             id
             body
+            acceptanceCriteria
             createdAt
             username
             likes {
