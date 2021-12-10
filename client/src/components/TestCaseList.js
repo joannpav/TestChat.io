@@ -4,15 +4,15 @@ import { useQuery } from '@apollo/react-hooks';
 import { Table} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 
-function TestCaseList({user, storyId}) {  
+function TestCaseList({testScenarios, storyId, user}) {  
     
-    const {                         
-        data: {getTestScenarios: testScenarios} = {} 
-    } = useQuery(FETCH_TEST_SCENARIOS_QUERY, {
-        variables: {
-            storyId
-        }
-    });
+    // const {                         
+    //     data: {getTestScenarios: testScenarios} = {} 
+    // } = useQuery(FETCH_TEST_SCENARIOS_QUERY, {
+    //     variables: {
+    //         storyId
+    //     }
+    // });
 
     let testMarkup = <p>Loading test scenarios...</p>        
     console.log(`TestCaseList: what is story id here: ${storyId}`);
@@ -45,34 +45,34 @@ function TestCaseList({user, storyId}) {
     return testMarkup;
 }
 
-const FETCH_TEST_SCENARIOS_QUERY = gql`
-    query($storyId: ID!) {
-        getTestScenarios(storyId: $storyId){
-            id 
-            scenario
-            createdAt
-            username               
-            # testScenarioCount
-            # testScenarios {
-            #     id
-            #     scenario
-            #     createdAt
-            #     username
-            #     approvalCount
-            #     questionCount
-            #     viewerCount
-            #     approvals {
-            #         username
-            #     }
-            #     questions {
-            #         username
-            #     }
-            #     viewers {
-            #         username
-            #     }
-            # }         
-        }
-    }
-`;
+// const FETCH_TEST_SCENARIOS_QUERY = gql`
+//     query($storyId: ID!) {
+//         getTestScenarios(storyId: $storyId){
+//             id 
+//             scenario
+//             createdAt
+//             username               
+//             # testScenarioCount
+//             # testScenarios {
+//             #     id
+//             #     scenario
+//             #     createdAt
+//             #     username
+//             #     approvalCount
+//             #     questionCount
+//             #     viewerCount
+//             #     approvals {
+//             #         username
+//             #     }
+//             #     questions {
+//             #         username
+//             #     }
+//             #     viewers {
+//             #         username
+//             #     }
+//             # }         
+//         }
+//     }
+// `;
 
 export default TestCaseList;

@@ -8,7 +8,7 @@ type Story {
     acceptanceCriteria: String
     createdAt: String!
     username: String! 
-    testScenarios: [TestScenario]  
+    testScenarios: [TestScenario]!  
     testScenarioCount: Int!
     comments: [Comment]!
     likes: [Like]!
@@ -75,7 +75,7 @@ type Query {
     getUsers: [User]
     getStories: [Story]
     getStory(storyId: ID!): Story    
-    getTestScenarios(storyId: ID!): [TestScenario]
+    # getTestScenarios(storyId: ID!): [TestScenario]
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
@@ -85,8 +85,8 @@ type Mutation {
     createComment(storyId: ID!, body: String!): Story!
     deleteComment(storyId: ID!, commentId: ID!): Story!
     likeStory(storyId: ID!): Story! 
-    createTestScenario(storyId: ID!, scenario: String!): TestScenario!
-    approveScenario(storyId: ID!, scenarioId: ID!): TestScenario!
+    createTestScenario(storyId: ID!, scenario: String!): Story!
+    approveScenario(storyId: ID!, scenarioId: ID!): Story!
 }
 
 `;

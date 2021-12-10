@@ -2,7 +2,7 @@ const { AuthenticationError, UserInputError } = require('apollo-server-errors');
 const Story = require('../../models/Story');
 const checkAuth = require('../../util/check-auth');
 
-module.exports = {
+module.exports = {    
     Query: {
         async getStories(){
             try{

@@ -44,9 +44,13 @@ const TestScenarioForm = ({storyId}) => {
 
 const SUBMIT_TEST_SCENARIO_MUTATION = gql`
     mutation($storyId: ID!, $scenario: String!) {
-        createTestScenario(storyId: $storyId, scenario: $scenario) {            
-            scenario
-            username            
+        createTestScenario(storyId: $storyId, scenario: $scenario) {    
+            testScenarios {
+                scenario
+                username            
+                # approvals
+            }        
+            
         }
     }
 `;

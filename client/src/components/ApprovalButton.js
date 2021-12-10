@@ -11,10 +11,11 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
     console.log(`story ${JSON.stringify(story)}`);
 
     useEffect(() => {
-        if(user && approvals.find(approve => approve.username === user.username)){
-            setApproved(true)
+        // if(user && approvals.find(approve => approve.username === user.username)){
+        //     setApproved(true)
 
-        } else setApproved(false)
+        // } else setApproved(false)
+        console.log("in useeffect approving")
     }, [user, approvals]);
 
     const [approveScenario] = useMutation(APPROVE_SCENARIO_MUTATION, {
@@ -55,8 +56,6 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
 const APPROVE_SCENARIO_MUTATION = gql`
     mutation approveScenario($storyId: ID!, $scenarioId: ID!){
         approveScenario(storyId: $storyId, scenarioId: $scenarioId){
-          id          
-          scenario
           username
           createdAt
         }

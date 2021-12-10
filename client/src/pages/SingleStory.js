@@ -38,7 +38,7 @@ function SingleStory(props) {
     if(!story) {
         storyMarkup =  <p>Loading story...</p>
     } else {
-        const { id, body, acceptanceCriteria, createdAt, username, comments, likes, likeCount, commentCount, testScenarioCount} =
+        const { id, body, acceptanceCriteria, createdAt, username, testScenarios, comments, likes, likeCount, commentCount, testScenarioCount} =
         story;
         console.log(`in SingleStory: ${JSON.stringify(story)}`);
         storyMarkup = (
@@ -64,8 +64,9 @@ function SingleStory(props) {
                                     {acceptanceCriteria}
                                     <hr />
                                     <TestCaseList                                         
-                                        user={user} 
+                                        testScenarios={testScenarios}
                                         storyId={id}
+                                        user={user}
                                     />                                
                                 </Card.Description>                                
                             </Card.Content>
@@ -133,24 +134,23 @@ const FETCH_STORY_QUERY = gql`
                 body
             }   
             # testScenarioCount
-            # testScenarios {
-            #     id
-            #     scenario
-            #     createdAt
-            #     username
-            #     approvalCount
-            #     questionCount
-            #     viewerCount
-            #     approvals {
-            #         username
-            #     }
+            testScenarios {
+                id
+                scenario                
+                username
+                # approvalCount
+                # questionCount
+                # viewerCount
+                # approvals {
+                #     username
+                # }
             #     questions {
             #         username
             #     }
             #     viewers {
             #         username
             #     }
-            # }         
+            }         
         }
     }
 `;
