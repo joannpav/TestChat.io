@@ -26,7 +26,7 @@ function StoryCard({ story: { body, acceptanceCriteria, createdAt, id, username,
                 <Card.Description>{body}</Card.Description>                
             </Card.Content>
             <Card.Content extra>
-                <TestCaseButton count={testScenarioCount} user={user}/>                
+                <TestCaseButton count={testScenarioCount} user={user} />                
                 <LikeButton user={user} story={{ id, likeCount, likes }} />
                 <Button as='div' labelPosition='right'>
                     <Button labelPosition='right' as={Link} to={`/stories/${id}`}>

@@ -30,11 +30,11 @@ function Home() {
                 <h1>Loading stories...</h1>                
             ) : (
               <Transition.Group
-              as={List}
-              duration={600}
-              divided
-              size='huge'
-              verticalAlign='middle'
+                as={List}
+                duration={600}
+                divided
+                // size='huge'
+                verticalAlign='middle'
               >
                 {stories &&
                 stories.map((story) => (                    

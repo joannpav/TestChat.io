@@ -40,7 +40,7 @@ module.exports = {
                 acceptanceCriteria,
                 user: user.id,
                 username: user.username,                
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
             });
 
             const story = await newStory.save();
@@ -54,6 +54,10 @@ module.exports = {
             try {
                 const story = await Story.findById(storyId);
                 if (user.username === story.username){
+                    const testScenarios = story.testScenarios;
+                    testScenarios.forEach(function(scenario) {
+                        scenario.delete();
+                    })
                     await story.delete();
                     return 'Story deleted successfully';
                 } else {

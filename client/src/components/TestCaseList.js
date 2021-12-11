@@ -34,7 +34,7 @@ function TestCaseList({testScenarios, storyId, user}) {
             <Table.Row key={scenario.id}>
               <Table.Cell>{scenario.scenario}</Table.Cell>
               <Table.Cell>{scenario.username}</Table.Cell>
-              <Table.Cell negative><ApprovalButton story={storyId} user={user} testScenario={scenario}></ApprovalButton></Table.Cell>
+              <Table.Cell negative><ApprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></ApprovalButton></Table.Cell>
             </Table.Row>       
           ))}     
           

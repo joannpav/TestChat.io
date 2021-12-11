@@ -55,7 +55,7 @@ function DeleteButton({ storyId, commentId, callback }) {
 
 const DELETE_STORY_MUTATION = gql`
     mutation deleteStory($storyId: ID!) {
-        deleteStory(storyId: $storyId)
+        deleteStory(storyId: $storyId)                     
     }
 `;
 

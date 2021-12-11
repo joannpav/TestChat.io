@@ -7,18 +7,26 @@ import gql from 'graphql-tag';
 
 function LikeButton({user, story: {id, likeCount, likes}}) {
     const [liked, setLiked] = useState(false);
+    const [errors, setErrors] = useState({});
+    
 
-    useEffect(() => {
+    useEffect(() => {        
         if(user && likes.find(like => like.username === user.username)){
             setLiked(true)
 
         } else setLiked(false)
+        return () => setLiked(false);
     }, [user, likes]);
 
     const [likeStory] = useMutation(LIKE_STORY_MUTATION, {
-        variables: { storyId: id}
+        variables: { storyId: id},
+        onError(err) {
+            setErrors(err.graphQLErrors[0].extensions.errors);         
+        }
     })
     
+    
+    console.log(`do we have a user? ${JSON.stringify(user)}`);
 
     const likeButton = user ? (
         liked ? (

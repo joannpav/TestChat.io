@@ -18,11 +18,10 @@ function StoryForm() {
             const data = proxy.readQuery({
                 query: FETCH_STORIES_QUERY
             });
+            data.getStories = [result.data.createStory, ...data.getStories];
             proxy.writeQuery({ 
                 query: FETCH_STORIES_QUERY, 
-                data: {
-                    getStories: [result.data.createStory, ...data.getStories],
-                }
+                data 
             });
             values.body = '';
             values.acceptanceCriteria = '';
@@ -88,6 +87,13 @@ const CREATE_STORY_MUTATION = gql`
                 createdAt
             }
             commentCount
+            testScenarioCount 
+            testScenarios {
+                id
+                scenario
+                username
+                createdAt
+            }
         }
     }
 `;

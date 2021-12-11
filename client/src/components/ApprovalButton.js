@@ -7,21 +7,22 @@ import gql from 'graphql-tag';
 
 function ApprovalButton({user, story, testScenario: {id, approvalCount, approvals}}) {
     const [approved, setApproved] = useState(false);
-    console.log(`approvals ${JSON.stringify(approvals)}`);
-    console.log(`story ${JSON.stringify(story)}`);
-
+    const [errors, setErrors] = useState({});
+    
     useEffect(() => {
-        // if(user && approvals.find(approve => approve.username === user.username)){
-        //     setApproved(true)
-
-        // } else setApproved(false)
-        console.log("in useeffect approving")
-    }, [user, approvals]);
+        if(user && approvals.find(approve => approve.username === user.username)){
+            setApproved(true)
+        } else setApproved(false)
+        return () => setApproved(false);
+    }, [user, approvalCount, approvals]);
 
     const [approveScenario] = useMutation(APPROVE_SCENARIO_MUTATION, {
         variables: { 
             storyId: story,
-            scenarioId: id}
+            scenarioId: id},
+        onError(err) {
+            setErrors(err.graphQLErrors[0].extensions.errors);
+        }
     })
     
 
@@ -56,10 +57,20 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
 const APPROVE_SCENARIO_MUTATION = gql`
     mutation approveScenario($storyId: ID!, $scenarioId: ID!){
         approveScenario(storyId: $storyId, scenarioId: $scenarioId){
-          username
-          createdAt
+            id
+            testScenarios{
+                id
+                approvals {
+                    id
+                    username
+                    createdAt
+                }
+                approvalCount
+            }
+          
         }
     }
+  
 `;
 
 export default ApprovalButton;

@@ -25,12 +25,9 @@ function SingleStory(props) {
         }
     });
     
-    
-    
-
     let navigate = useNavigate();
 
-    function deleteStoryCallback() {
+    function deleteStoryCallback() {        
         navigate("/");
     }
 
@@ -94,6 +91,7 @@ function SingleStory(props) {
                                 )}
                             </Card.Content>
                         </Card>
+                        
                         {user && (<TestScenarioForm 
                             storyId={id}
                         />)}
@@ -133,17 +131,18 @@ const FETCH_STORY_QUERY = gql`
                 createdAt
                 body
             }   
-            # testScenarioCount
+            testScenarioCount
             testScenarios {
                 id
                 scenario                
                 username
-                # approvalCount
+                approvalCount
                 # questionCount
                 # viewerCount
-                # approvals {
-                #     username
-                # }
+                approvals {
+                    username
+                    createdAt
+                }
             #     questions {
             #         username
             #     }

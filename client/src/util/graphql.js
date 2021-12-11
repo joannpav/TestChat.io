@@ -12,12 +12,15 @@ export const FETCH_STORIES_QUERY = gql`
         likes {
             username
         }
+        testScenarioCount
         testScenarios {
             id
             scenario
             username  
-            createdAt                      
+            createdAt                                  
+            approvalCount
         }
+        
         commentCount
         comments {
             id
