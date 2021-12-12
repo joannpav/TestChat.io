@@ -2,8 +2,16 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
 
+# Todo: make Epic type
+# type Epic {
+#     id: ID!
+#     title: String!
+#     createdAt: String!
+# }
+
 type Story {
     id: ID!
+    epic: String
     body: String!
     acceptanceCriteria: String
     createdAt: String!
@@ -80,7 +88,7 @@ type Query {
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createStory(body: String!, acceptanceCriteria: String): Story!
+    createStory(epic: String, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
     deleteComment(storyId: ID!, commentId: ID!): Story!

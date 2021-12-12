@@ -1,28 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Feed, Button, Icon, Label, Grid } from 'semantic-ui-react';
 
 
-function TestCaseButton({count, user}) {    
-    console.log(`what about is here? ${JSON.stringify(count)}`);
-    const testCaseButton = user ? (        
-        <Button color='teal' basic>
-            <Icon name='write square' />
-            Scenarios
-        </Button>        
-    ) : (
-        <Button as={Link} to="/login" color='teal' basic>
-            <Icon name='write square' />
-            Scenarios
-        </Button>
+function TestCaseButton({count, user}) {        
+    const testCaseButton = user ? (                
+            <Icon color='teal' name='write square' />                    
+    ) : (        
+            <Icon to="/login/" name='write square' />        
     )
     return (
-        <Button as="div" labelPosition="right">
-            {testCaseButton}
-            <Label basic color="teal" pointing="left">
-                {count}
-            </Label>
-        </Button>
+        <Feed.Like>
+            {testCaseButton} {count} {count === 1 ? "Scenario" : "Scenarios"}
+        
+        </Feed.Like>
+        
     )
 };
 

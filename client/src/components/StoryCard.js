@@ -10,9 +10,9 @@ import { AuthContext } from '../context/auth';
 
 function StoryCard({ story: { body, acceptanceCriteria, createdAt, id, username, likeCount, commentCount, testScenarioCount, likes }}) {
     const { user } = useContext(AuthContext);
-    console.log(`is there a count in here? ${testScenarioCount}`);
+    
     return (
-        <Card fluid  as={Link} to={`/stories/${id}`}>
+        <Card fluid>
             <Card.Content>                
                 <Image 
                     floated="right"
@@ -20,14 +20,14 @@ function StoryCard({ story: { body, acceptanceCriteria, createdAt, id, username,
                     src="https://react.semantic-ui.com/images/avatar/large/molly.png"
                 />
                 <Card.Header>{username}</Card.Header>
-                <Card.Meta as={Link} to={`/stories/${id}`}>
+                <Card.Meta>
                     {moment(createdAt).fromNow(true)}
                 </Card.Meta>
-                <Card.Description>{body}</Card.Description>                
+                <Card.Description as={Link} to={`/stories/${id}`}>{body}</Card.Description>                
             </Card.Content>
             <Card.Content extra>
                 <TestCaseButton count={testScenarioCount} user={user} />                
-                <LikeButton user={user} story={{ id, likeCount, likes }} />
+                <LikeButton user={user} storyId={id} likeCount={likeCount} likes={likes} />
                 <Button as='div' labelPosition='right'>
                     <Button labelPosition='right' as={Link} to={`/stories/${id}`}>
                         <Button basic color='blue'>

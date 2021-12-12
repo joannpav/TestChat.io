@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Button, Card, Grid, Image, Icon, Label } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
-import LikeButton from '../components/LikeButton';
+import BigLikeButton from '../components/BigLikeButton';
 import DeleteButton from '../components/DeleteButton';
 import TestCaseButton from '../components/TestCaseButton';
 import TestCaseList from '../components/TestCaseList';
@@ -72,7 +72,7 @@ function SingleStory(props) {
                             <Card.Content extra>
                                 <TestCaseButton count={testScenarioCount} user={user}/>
                                 
-                                <LikeButton user={user} story={{ id, likeCount, likes }} />
+                                <BigLikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes} />
                                 <Button
                                     as="div"
                                     labelPosition="right"

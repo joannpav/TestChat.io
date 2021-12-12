@@ -28,14 +28,17 @@ module.exports = {
         }        
     },
     Mutation: {
-        async createStory(_, { body, acceptanceCriteria }, context) {            
+        async createStory(_, { epic, body, acceptanceCriteria }, context) {            
             const user = checkAuth(context);
-            
+            if (epic.trim() === '') {
+                throw new Error('Epic must not be empty');
+            }
             if (body.trim() === '') {
                 throw new Error('Story body must not be empty');
             }
 
             const newStory = new Story({
+                epic, 
                 body,
                 acceptanceCriteria,
                 user: user.id,

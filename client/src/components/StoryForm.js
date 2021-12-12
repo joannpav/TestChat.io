@@ -8,6 +8,7 @@ import { FETCH_STORIES_QUERY } from '../util/graphql';
 
 function StoryForm() {
     const { values, onChange, onSubmit } = useForm(createStoryCallback, {
+        epic: '',
         body: '',
         acceptanceCriteria: ''
     });
@@ -23,6 +24,7 @@ function StoryForm() {
                 query: FETCH_STORIES_QUERY, 
                 data 
             });
+            values.epic = '';
             values.body = '';
             values.acceptanceCriteria = '';
         }
@@ -37,6 +39,13 @@ function StoryForm() {
         <Form onSubmit={onSubmit}>
             <h2>Create a story:</h2>
             <Form.Field>
+                <Form.Input
+                    placeholder="Epic..."
+                    name="epic"
+                    onChange={onChange}
+                    value={values.epic}
+                    error={error ? true : false}
+                />
                 <Form.Input
                     placeholder="As a user..."
                     name="body"
@@ -67,9 +76,10 @@ function StoryForm() {
 }
 
 const CREATE_STORY_MUTATION = gql`
-    mutation createStory($body: String!, $acceptanceCriteria: String) {
-        createStory(body: $body, acceptanceCriteria: $acceptanceCriteria) {
+    mutation createStory($epic: String, $body: String!, $acceptanceCriteria: String) {
+        createStory(epic: $epic, body: $body, acceptanceCriteria: $acceptanceCriteria) {
             id
+            epic
             body
             acceptanceCriteria
             createdAt

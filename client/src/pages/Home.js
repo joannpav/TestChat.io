@@ -33,7 +33,7 @@ function Home() {
                 as={List}
                 duration={600}
                 divided
-                // size='huge'
+                size='mini'
                 verticalAlign='middle'
               >
                 {stories &&

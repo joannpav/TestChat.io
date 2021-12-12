@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Icon, Feed } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Button, Icon, Label, Feed } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-function LikeButton({user, storyId, likeCount, likes}) {
+
+function BigLikeButton({user, storyId, likeCount, likes}) {
     const [liked, setLiked] = useState(false);
     const [errors, setErrors] = useState({});
     
@@ -26,18 +28,29 @@ function LikeButton({user, storyId, likeCount, likes}) {
 
     const likeButton = user ? (
         liked ? (
-            <><Icon name='like' color='red' onClick={likeStory}/> {likeCount } {likeCount === 1 ? "Like" : "Likes"}</>
+            <Button color='teal'>
+                <Icon name='heart' />
+                Like
+            </Button>
         ) : (
-            <><Icon name='like' onClick={likeStory}/> {likeCount } {likeCount === 1 ? "Like" : "Likes"}</>
+        <Button color='teal' basic>
+            <Icon name='heart' />
+            Like
+        </Button>
         )
     ) : (
-        <><Icon name='like' to="/login"/> {likeCount } {likeCount === 1 ? "Like" : "Likes"}</>
+        <Button as={Link} to="/login" color='teal' basic>
+            <Icon name='heart' />
+            Like
+        </Button>
     )
-
-    return (        
-        <Feed.Like>
-            {likeButton} 
-        </Feed.Like>        
+    return (
+        <Button as="div" labelPosition="right" onClick={likeStory}>
+            {likeButton}
+            <Label basic color="teal" pointing="left">
+                {likeCount}
+            </Label>
+        </Button>
     )
 }
 
@@ -54,4 +67,4 @@ const LIKE_STORY_MUTATION = gql`
     }
 `;
 
-export default LikeButton;
+export default BigLikeButton;

@@ -4,6 +4,7 @@ export const FETCH_STORIES_QUERY = gql`
 {
     getStories {
         id
+        epic
         body
         acceptanceCriteria
         createdAt
