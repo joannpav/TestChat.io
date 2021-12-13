@@ -2,12 +2,6 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
 
-# Todo: make Epic type
-# type Epic {
-#     id: ID!
-#     title: String!
-#     createdAt: String!
-# }
 
 type Story {
     id: ID!

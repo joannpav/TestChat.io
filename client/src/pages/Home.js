@@ -10,9 +10,7 @@ import { FETCH_STORIES_QUERY } from "../util/graphql";
 
 function Home() {
   const { user } = useContext(AuthContext);    
-  const { 
-      loading, 
-      data: {getStories: stories} = {} 
+  const { loading, data: {getStories: stories} = {} 
   } = useQuery(FETCH_STORIES_QUERY);
     
   return (

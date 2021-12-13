@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { Image, Feed, Icon, Card, Grid  } from 'semantic-ui-react';
 import { FETCH_STORIES_QUERY } from "../util/graphql";
@@ -7,30 +7,42 @@ import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
 import TestCaseButton from "../components/TestCaseButton";
 import StoryForm from "../components/StoryForm";
+import { useNavigate } from "react-router";
 
 
 function StoryFeed() {
-    const { user } = useContext(AuthContext);    
-    const { 
-        loading, 
-        data: {getStories: stories} = {} 
-    } = useQuery(FETCH_STORIES_QUERY);
-    
+    const [storyFeed, setStoryFeed] = useState();
 
-   
+    const { user } = useContext(AuthContext);    
+    // const { error, data: {getStories: stories} = {} }
+    // = useQuery(FETCH_STORIES_QUERY);
+    const { data, error, loading } = useQuery(FETCH_STORIES_QUERY);
+
+    // console.log(data);
+    // console.log(`what's in data? ${JSON.stringify(stories)}`);
+    
+    let navigate = useNavigate();
+    
+    if (loading) return <p>Loading ...</p>;
+    if (error) return <p>{`Error loading ${error}`}</p>
+    if (!user) { navigate("/login") }
+
+    const handleCallback = (childData) => {
+        setStoryFeed({data: childData})
+    }
 
     return(
         <>
         <Grid columns={3}>
             <Grid.Row>
                 <Grid.Column>
-                    <StoryForm />
+                    <StoryForm handleCallback={handleCallback}/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
         <Feed>
-            {stories &&
-                stories.map((story) => (                                                        
+            {data &&
+                data.getStories.map((story) => (                                                        
                 <Card fluid key={story.id}>
                 <Card.Content >   
                 <Feed.Event>                                        

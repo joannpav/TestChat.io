@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const FETCH_STORIES_QUERY = gql`
-{
+  query getStories {
     getStories {
         id
         epic
@@ -20,6 +20,11 @@ export const FETCH_STORIES_QUERY = gql`
             username  
             createdAt                                  
             approvalCount
+            approvals {
+                id
+                username
+                createdAt
+            }
         }
         
         commentCount
@@ -31,7 +36,8 @@ export const FETCH_STORIES_QUERY = gql`
         }
         
     }
-}`;
+  
+  }`;
 
 // testScenarioCount
 //         testScenarios {

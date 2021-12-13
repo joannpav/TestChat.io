@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { useForm } from '../util/hooks';
 import { FETCH_STORIES_QUERY } from '../util/graphql';
 
-function StoryForm() {
+function StoryForm({ handleCallback }) {
     const { values, onChange, onSubmit } = useForm(createStoryCallback, {
         epic: '',
         body: '',
@@ -18,20 +18,20 @@ function StoryForm() {
         update(proxy, result) {
             const data = proxy.readQuery({
                 query: FETCH_STORIES_QUERY
-            });
+            });            
             data.getStories = [result.data.createStory, ...data.getStories];
-            proxy.writeQuery({ 
-                query: FETCH_STORIES_QUERY, 
-                data 
-            });
+            console.log(JSON.stringify(data));
+            proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });
+            
             values.epic = '';
             values.body = '';
             values.acceptanceCriteria = '';
-        }
+            handleCallback(data);
+        }        
     });
 
     function createStoryCallback() {
-        createStory();
+        createStory();                
     }
 
     return (
@@ -103,6 +103,13 @@ const CREATE_STORY_MUTATION = gql`
                 scenario
                 username
                 createdAt
+                approvalCount
+                approvals {
+                    id
+                    username
+                    createdAt
+                }
+                
             }
         }
     }
