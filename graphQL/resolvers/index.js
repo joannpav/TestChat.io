@@ -1,27 +1,35 @@
-const postsResolvers = require('./posts');
+const storiesResolvers = require('./stories');
 const usersResolvers = require('./users');
 const commentsResolvers = require('./comments');
-
+const testScenariosResolvers = require('./testScenarios');
 
 // each query, mutation or sub, it has a resolver to process the logic
 
 
 module.exports = {
-    Post: {
+    Story: {
         likeCount: (parent) => parent.likes.length,
-        commentCount: (parent) => parent.comments.length
+        commentCount: (parent) => parent.comments.length, 
+        testScenarioCount: (parent) => parent.testScenarios.length               
+    },
+    TestScenario: {        
+        approvalCount: (parent) => parent.approvals.length,
+        // questionCount: (parent) => parent.questions.length,
+        // viewerCount: (parent) => parent.viewers.length
     },
     Query: {
-        ...postsResolvers.Query,
-        ...usersResolvers.Query
+        ...storiesResolvers.Query,
+        ...usersResolvers.Query,
+        // ...testScenariosResolvers.Query
     },
     Mutation: {
         ...usersResolvers.Mutation,
-        ...postsResolvers.Mutation,
-        ...commentsResolvers.Mutation
+        ...storiesResolvers.Mutation,
+        ...commentsResolvers.Mutation,
+        ...testScenariosResolvers.Mutation
     },
     
     // Subscription: {
-    //     ...postsResolvers.Subscription
+    //     ...storiesResolvers.Subscription
     // }
 };

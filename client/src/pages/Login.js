@@ -30,8 +30,7 @@ function Login(props) {
             navigate("/");
         },
         onError(err) {
-            setErrors(err.graphQLErrors[0].extensions.errors);
-            // setErrors(err&&err.graphQLErrors[0]?err.graphQLErrors[0].extensions.exception.errors:{});
+            setErrors(err.graphQLErrors[0].extensions.errors);            
         },
         variables: values
     });
@@ -45,6 +44,7 @@ function Login(props) {
             <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
                 <h1>Login</h1>
                 <Form.Input
+                    id="username"
                     label="Username"
                     placeholder="Username.."
                     name="username"
@@ -54,6 +54,7 @@ function Login(props) {
                     onChange={onChange}
                 />               
                 <Form.Input
+                    id="password"
                     label="Password"
                     placeholder="Password.."
                     name="password"
@@ -62,7 +63,7 @@ function Login(props) {
                     error={errors.password? true : false}
                     onChange={onChange}
                 />
-                <Button type="submit" primary>
+                <Button id="loginButton" type="submit" primary>
                     Login
                 </Button>
             </Form>

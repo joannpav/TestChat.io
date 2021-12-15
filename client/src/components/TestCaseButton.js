@@ -1,19 +1,23 @@
 import React from 'react';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Feed, Icon } from 'semantic-ui-react';
 
-function TestCaseButton(props) {
-    return (
-        <>
-        <Button as="div" labelPosition="right" onClick={console.log("build tc")}>
-            <Button color='purple'basic>
-                <Icon name='list' />                
-            </Button>
-            <Label basic color="purple" pointing="left">
-                5
-            </Label>
-        </Button>
-        </>
+
+function TestCaseButton({count, user}) {        
+    const testCaseButton = user ? (     
+        count > 0 ? (           
+            <Icon color='teal' name='write square' />                    
+        ) : (
+            <Icon name='write square' />                    
+        )
+    ) : (        
+            <Icon to="/login/" name='write square' />        
     )
-}
+    return (
+        <Feed.Like>
+            {testCaseButton} {count} {count === 1 ? "Scenario" : "Scenarios"}        
+        </Feed.Like>        
+    )
+};
+
 
 export default TestCaseButton;

@@ -3,26 +3,45 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { Button, Confirm, Icon } from 'semantic-ui-react';
 
-import { FETCH_STORIES_QUERY } from '../util/graphql';
+import {FETCH_STORY_QUERY} from '../util/graphql';
 import CustomPopup from '../util/CustomPopup';
 
 
-function DeleteButton({ storyId, commentId, callback, handleCallback }) {
+function DeleteScenarioButton({ storyId, scenarioId, callback, handleCallback }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
-    const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_STORY_MUTATION;
+    const mutation = DELETE_SCENARIO_MUTATION;
 
-    const [deleteStoryOrComment] = useMutation(mutation, {
+    const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
+        variables: {
+            storyId
+        }
+    });
+
+    const { 
+        id, 
+        body, 
+        acceptanceCriteria, 
+        createdAt, 
+        username, 
+        testScenarios, 
+        comments, 
+        likes, 
+        likeCount, 
+        commentCount, 
+        testScenarioCount
+    } = story;
+
+    const [deleteScenario] = useMutation(mutation, {
        update(proxy) {
-            setConfirmOpen(false);
-            if(!commentId){
-                const data = proxy.readQuery({
-                query: FETCH_STORIES_QUERY
-                });
-                data.getStories = data.getStories.filter((p) => p.id !== storyId);
-                proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });                
-                if (handleCallback) handleCallback(data);
-            } 
-            if (callback) callback();
+            setConfirmOpen(false);            
+            // const data = proxy.readQuery({
+            //     query: FETCH_STORIES_QUERY
+            // });
+            data.getStories = data.getStories.filter((p) => p.id !== storyId);
+            proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });                
+            if (handleCallback) handleCallback(data);
+            
+            // if (callback) callback();
             
        },
        variables: {
@@ -35,7 +54,6 @@ function DeleteButton({ storyId, commentId, callback, handleCallback }) {
         <>
             <CustomPopup content={commentId ? 'Delete comment' : 'Delete story'}>
                 <Button 
-                    data-cy="deleteButton"
                     as="div"
                     color="red"
                     floated="right"
