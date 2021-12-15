@@ -39,6 +39,7 @@ Epics
 Stories
 ----
 - Stories belong to epics
+- If there are no stories for an epic, a friendly message should be displayed
 - Stories can be liked / signed off and should be as a sign that all group members have reviewd
 - Stories have scenarios that test the acceptance criteria of the story
 - Stories can have comments
@@ -55,6 +56,7 @@ ie: An authenticated user can only navigate to their own org
 - Scenarios can have comments
 - Scenarios can be deleted by the scenario creator
 - Scenarios cannot be edited. This is to protect the integrety since comments and approvals may not be relevant if the story scenario is changed
+- If there are no scenarios for a story, a message should be displayed
 
 Comments
 ---

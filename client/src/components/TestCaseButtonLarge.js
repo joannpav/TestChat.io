@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Button, Icon, Label } from 'semantic-ui-react';
 
 
-function TestCaseButtonLarge({count, user}) {        
-    const testCaseButton = user ? (        
+function TestScenarioButtonLarge({count, user}) {        
+    const testScenarioButton = user ? (        
         <Button color='teal' basic>
             <Icon name='write square' />
             Scenarios
@@ -17,7 +17,7 @@ function TestCaseButtonLarge({count, user}) {
     )
     return (
         <Button as="div" labelPosition="right">
-            {testCaseButton}
+            {testScenarioButton}
             <Label basic color="teal" pointing="left">
                 {count}
             </Label>
@@ -26,4 +26,4 @@ function TestCaseButtonLarge({count, user}) {
 };
 
 
-export default TestCaseButtonLarge;
+export default TestScenarioButtonLarge;

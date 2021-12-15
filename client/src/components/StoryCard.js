@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
-import TestCaseButton from './TestCaseButton';
+import TestScenarioButton from './TestScenarioButton';
 import { AuthContext } from '../context/auth';
 
 function StoryCard({ story: { body, acceptanceCriteria, createdAt, id, username, likeCount, commentCount, testScenarioCount, likes }}) {
@@ -26,7 +26,7 @@ function StoryCard({ story: { body, acceptanceCriteria, createdAt, id, username,
                 <Card.Description as={Link} to={`/stories/${id}`}>{body}</Card.Description>                
             </Card.Content>
             <Card.Content extra>
-                <TestCaseButton count={testScenarioCount} user={user} />                
+                <TestScenarioButton count={testScenarioCount} user={user} />                
                 <LikeButton user={user} storyId={id} likeCount={likeCount} likes={likes} />
                 <Button as='div' labelPosition='right'>
                     <Button labelPosition='right' as={Link} to={`/stories/${id}`}>

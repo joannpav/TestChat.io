@@ -26,12 +26,12 @@ function LikeButton({user, storyId, likeCount, likes}) {
 
     const likeButton = user ? (
         liked ? (
-            <><Icon name='like' color='red' onClick={likeStory}/> {likeCount } {likeCount === 1 ? "Like" : "Likes"}</>
+            <><Icon name='like' color='red' onClick={likeStory}/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "}</>
         ) : (
-            <><Icon name='like' onClick={likeStory}/> {likeCount } {likeCount === 1 ? "Like" : "Likes"}</>
+            <><Icon name='like' onClick={likeStory}/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "}</>
         )
     ) : (
-        <><Icon name='like' to="/login"/> {likeCount } {likeCount === 1 ? "Like" : "Likes"}</>
+        <><Icon name='like' to="/login"/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "}</>
     )
 
     return (        
