@@ -53,14 +53,18 @@ module.exports = {
 
         async deleteStory(_, { storyId }, context) {
             const user = checkAuth(context);            
-                           
+            console.log(`attempting to delete story ${storyId}`);              
             try {
                 const story = await Story.findById(storyId);
+                console.log(`found story ${JSON.stringify(story)}`);
+                
                 if (user.username === story.username){
-                    const testScenarios = story.testScenarios;
-                    testScenarios.forEach(function(scenario) {
-                        scenario.delete();
-                    })
+                    // const testScenarios = story.testScenarios;
+                    // console.log(`BLAH***** ${JSON.stringify(testScenarios)}`);
+                    // console.log(`BLAH***** ${typeof(testScenarios)}`);
+                    // testScenarios.forEach(function(scenario) {                        
+                    //     scenario.delete();
+                    // })
                     await story.delete();
                     return 'Story deleted successfully';
                 } else {

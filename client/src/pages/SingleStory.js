@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Children, useContext, useState } from 'react';
 import { useParams } from "react-router-dom";
 
 import gql from 'graphql-tag';
@@ -13,13 +13,13 @@ import TestCaseButton from '../components/TestCaseButton';
 import TestCaseList from '../components/TestCaseList';
 import TestScenarioForm from '../components/TestScenarioForm';
 import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
-function SingleStory(props) {    
+import {FETCH_STORY_QUERY} from '../util/graphql';
+
+function SingleStory() {  
+    const [ scenarios, setScenarios ] = useState();  
     const { storyId } = useParams();
     const { user } = useContext(AuthContext);    
-
-    const {                         
-        data: {getStory: story} = {} 
-    } = useQuery(FETCH_STORY_QUERY, {
+    const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
         variables: {
             storyId
         }
@@ -27,17 +27,39 @@ function SingleStory(props) {
     
     let navigate = useNavigate();
 
+    if (loading) return <p>Loading ...</p>;
+    if (error) return <p>{`Error loading ${error}`}</p>
+    if (!user) { navigate("/login") }
+
+    const handleCallback = (childData) => {   
+        console.log(`'handeCallback triggered ${JSON.stringify(childData)}`);     
+        setScenarios({data: childData})        
+        story.testScenarios = [story.testScenarios, ...childData.testScenarios];
+    }
+
     function deleteStoryCallback() {        
         navigate("/");
     }
+
 
     let storyMarkup;
     if(!story) {
         storyMarkup =  <p>Loading story...</p>
     } else {
-        const { id, body, acceptanceCriteria, createdAt, username, testScenarios, comments, likes, likeCount, commentCount, testScenarioCount} =
-        story;
-        console.log(`in SingleStory: ${JSON.stringify(story)}`);
+        const { 
+            id, 
+            body, 
+            acceptanceCriteria, 
+            createdAt, 
+            username, 
+            testScenarios, 
+            comments, 
+            likes, 
+            likeCount, 
+            commentCount, 
+            testScenarioCount
+        } = story;
+        
         storyMarkup = (
             <Grid>
                 <Grid.Row>
@@ -60,7 +82,7 @@ function SingleStory(props) {
                                 <Card.Description>
                                     {acceptanceCriteria}
                                     <hr />
-                                    <TestCaseList                                         
+                                    <TestCaseList                                           
                                         testScenarios={testScenarios}
                                         storyId={id}
                                         user={user}
@@ -86,13 +108,14 @@ function SingleStory(props) {
                                         {commentCount}
                                     </Label>    
                                 </Button>
-                                {user && user.username === username && (
+                                {/* {user && user.username === username && (
                                     <DeleteButton storyId={id} callback={deleteStoryCallback} />
-                                )}
+                                )} */}
                             </Card.Content>
                         </Card>
                         
                         {user && (<TestScenarioForm 
+                            handleCallback={handleCallback}
                             storyId={id}
                         />)}
                         
@@ -112,46 +135,46 @@ function SingleStory(props) {
 }
 
     
-const FETCH_STORY_QUERY = gql`
-    query($storyId: ID!) {
-        getStory(storyId: $storyId){
-            id 
-            body
-            acceptanceCriteria
-            createdAt
-            username
-            likeCount
-            likes {
-                username
-            }
-            commentCount
-            comments {
-                id
-                username
-                createdAt
-                body
-            }   
-            testScenarioCount
-            testScenarios {
-                id
-                scenario                
-                username
-                approvalCount
-                # questionCount
-                # viewerCount
-                approvals {
-                    username
-                    createdAt
-                }
-            #     questions {
-            #         username
-            #     }
-            #     viewers {
-            #         username
-            #     }
-            }         
-        }
-    }
-`;
+// const FETCH_STORY_QUERY = gql`
+//     query($storyId: ID!) {
+//         getStory(storyId: $storyId){
+//             id 
+//             body
+//             acceptanceCriteria
+//             createdAt
+//             username
+//             likeCount
+//             likes {
+//                 username
+//             }
+//             commentCount
+//             comments {
+//                 id
+//                 username
+//                 createdAt
+//                 body
+//             }   
+//             testScenarioCount
+//             testScenarios {
+//                 id
+//                 scenario                
+//                 username
+//                 approvalCount
+//                 # questionCount
+//                 # viewerCount
+//                 approvals {
+//                     username
+//                     createdAt
+//                 }
+//             #     questions {
+//             #         username
+//             #     }
+//             #     viewers {
+//             #         username
+//             #     }
+//             }         
+//         }
+//     }
+// `;
 
 export default SingleStory;

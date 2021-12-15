@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks'
 import { Card, Comment, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
+import DeleteButton from './DeleteButton';
 
 const TestCaseCommentGroup = ({comments, user, storyId}) => {   
     const[comment, setComment] = useState('');
@@ -15,8 +16,6 @@ const TestCaseCommentGroup = ({comments, user, storyId}) => {
             body: comment
         }
     });
-
-    // console.log(`these are the comments ${JSON.stringify(comments)}`);
     
     let commentGroupMarkup = (
         <Comment.Group>
@@ -77,9 +76,13 @@ const TestCaseCommentGroup = ({comments, user, storyId}) => {
                     <Comment.Text>{comment.body}</Comment.Text>
                     <Comment.Actions>
                     {user && user.username === comment.username && (
-                        <Comment.Action>Delete</Comment.Action>                    
+                        <Comment.Action>Delete</Comment.Action>     
+                                       
                     )}
-                    <Comment.Action>Reply</Comment.Action>
+                    {user && user.username === comment.username && (
+                        <DeleteButton storyId={storyId} commentId={comment.id} />
+                    )}
+                    <Comment.Action>Reply {storyId}</Comment.Action>
                     </Comment.Actions>
                 </Comment.Content>
                 </Comment>
@@ -99,6 +102,7 @@ const SUBMIT_COMMENT_MUTATION = gql`
                 username
                 createdAt
             }
+            commentCount
         }
     }
 `;

@@ -24,7 +24,8 @@ function App() {
         <Container>
           <MenuBar />
             <Routes>                                 
-              <Route index element={<StoryFeed/>} />              
+              <Route index element={<StoryFeed/>} />     
+              <Route path="/home" element={<Home /> } />         
               <Route path="/login" element={<Login/>} />              
               <Route path="/register" element={<Register/>} />
               <Route path="*" element={<NotFound />} /> 

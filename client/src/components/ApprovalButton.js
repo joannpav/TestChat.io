@@ -10,11 +10,15 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
     const [errors, setErrors] = useState({});
     
     useEffect(() => {
-        if(user && approvals.find(approve => approve.username === user.username)){
-            setApproved(true)
-        } else setApproved(false)
+        if (approvals) {
+            console.log(`what is in approvals? ${JSON.stringify(approvals)}`)
+            if(user && approvals.find(approve => approve.username === user.username)){
+                setApproved(true)
+            } else setApproved(false)
+        }
+        
         return () => setApproved(false);
-    }, [user, approvalCount, approvals]);
+    }, [approvals]);
 
     const [approveScenario] = useMutation(APPROVE_SCENARIO_MUTATION, {
         variables: { 

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { Table} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
+import DeleteButton from './DeleteButton';
 
 function TestCaseList({testScenarios, storyId, user}) {  
     
@@ -13,10 +14,21 @@ function TestCaseList({testScenarios, storyId, user}) {
     //         storyId
     //     }
     // });
+    const [scenarios, setScenarios] = useState();
+   
+    const handleCallback = (childData) => { 
+        // console.log(`'handleCallback triggered ${JSON.stringify(childData)}`);       
+        setScenarios({data: childData})        
+    }
+
+    useEffect(() => {
+       console.log(`yo ${{testScenarios}}`);
+       setScenarios(testScenarios)
+    }, [testScenarios, storyId, user]);
 
     let testMarkup = <p>Loading test scenarios...</p>        
     console.log(`TestCaseList: what is story id here: ${storyId}`);
-    console.log(`scenarios: ${JSON.stringify(testScenarios)}`);
+    console.log(`scenarios: ${JSON.stringify(scenarios)}`);
     
     testMarkup = (            
         <Table celled>
@@ -30,11 +42,16 @@ function TestCaseList({testScenarios, storyId, user}) {
       
           <Table.Body>
           
-          {testScenarios && testScenarios.map(scenario => (
+          {scenarios && scenarios.map(scenario => (
             <Table.Row key={scenario.id}>
               <Table.Cell>{scenario.scenario}</Table.Cell>
               <Table.Cell>{scenario.username}</Table.Cell>
               <Table.Cell negative><ApprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></ApprovalButton></Table.Cell>
+              {user && user.username === scenario.username && (
+                    <Table.Cell negative>
+                        <DeleteButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
+                    </Table.Cell>
+                )}
             </Table.Row>       
           ))}     
           

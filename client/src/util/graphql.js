@@ -39,6 +39,50 @@ export const FETCH_STORIES_QUERY = gql`
   
   }`;
 
+    
+export const FETCH_STORY_QUERY = gql`
+    query($storyId: ID!) {
+        getStory(storyId: $storyId){
+            id 
+            body
+            acceptanceCriteria
+            createdAt
+            username
+            likeCount
+            likes {
+                username
+            }
+            commentCount
+            comments {
+                id
+                username
+                createdAt
+                body
+            }   
+            testScenarioCount
+            testScenarios {
+                id
+                scenario                
+                username
+                approvalCount
+                # questionCount
+                # viewerCount
+                approvals {
+                    id
+                    username
+                    createdAt
+                }
+            #     questions {
+            #         username
+            #     }
+            #     viewers {
+            #         username
+            #     }
+            }         
+        }
+    }
+`;
+
 // testScenarioCount
 //         testScenarios {
 //             id

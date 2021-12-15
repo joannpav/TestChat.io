@@ -1,29 +1,7 @@
-const { AuthenticationError, UserInputError } = require('apollo-server-errors');
 const Story = require('../../models/Story');
 const checkAuth = require('../../util/check-auth');
 
-module.exports = {  
-    // Query: {
-    //     async getTestScenarios(_, { storyId }){
-    //         try{
-    //             console.log(`in getTestScenario ${storyId}`);
-    //             const story = await Story.findById(storyId);
-    //             console.log(`in story ${JSON.stringify(story)}`);
-    //             // console.log(TestScenario.find(scenario => scenario.id === story.id));
-    //             // console.log(Story.testScenarios);
-    //             // const testScenarios = await Story.testScenarios.find();
-    //             const testScenario = await testScenario.find(story.id);
-    //             // console.log(`in getTestScenario, testScenario ${testScenarios}`);
-    //             if(testScenarios){
-    //                 return story;
-    //             } else {
-    //                 throw new Error("testScenario not found");
-    //             }
-    //         }catch(err) {
-    //             throw new Error(err);
-    //         }
-    //     }
-    // },  
+module.exports = {     
     Mutation: {
         async createTestScenario(_, { storyId, scenario  }, context) {            
             const {username} = checkAuth(context);            

@@ -18,9 +18,9 @@ function StoryForm({ handleCallback }) {
         update(proxy, result) {
             const data = proxy.readQuery({
                 query: FETCH_STORIES_QUERY
-            });            
-            data.getStories = [result.data.createStory, ...data.getStories];
-            console.log(JSON.stringify(data));
+            });    
+            console.log(`what is in this result? ${JSON.stringify(result)}`);        
+            data.getStories = [result.data.createStory, ...data.getStories];            
             proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });
             
             values.epic = '';
@@ -40,6 +40,7 @@ function StoryForm({ handleCallback }) {
             <h2>Create a story:</h2>
             <Form.Field>
                 <Form.Input
+                    data-cy = "epic"
                     placeholder="Epic..."
                     name="epic"
                     onChange={onChange}
@@ -47,6 +48,7 @@ function StoryForm({ handleCallback }) {
                     error={error ? true : false}
                 />
                 <Form.Input
+                data-cy = "body"
                     placeholder="As a user..."
                     name="body"
                     onChange={onChange}
@@ -54,13 +56,14 @@ function StoryForm({ handleCallback }) {
                     error={error ? true : false}
                 />
                 <Form.Input
+                    data-cy = "acceptance"
                     placeholder="Acceptance..."
                     name="acceptanceCriteria"
                     onChange={onChange}
                     value={values.acceptanceCriteria}
                     error={error ? true : false}
                 />
-                <Button type="submit" color="teal">
+                <Button type="submit" color="teal" data-cy = "submit">
                     Submit
                 </Button>
             </Form.Field>

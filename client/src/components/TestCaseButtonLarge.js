@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Icon, Label } from 'semantic-ui-react';
 
 
-function TestCaseButtonLarge({count, user}) {    
-    console.log(`what about is here? ${JSON.stringify(count)}`);
+function TestCaseButtonLarge({count, user}) {        
     const testCaseButton = user ? (        
         <Button color='teal' basic>
             <Icon name='write square' />
