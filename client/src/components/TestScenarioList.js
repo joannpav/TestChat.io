@@ -41,7 +41,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
               <Table.Row>
                 <Table.HeaderCell>Scenario</Table.HeaderCell>
                 <Table.HeaderCell>User</Table.HeaderCell>
-                <Table.HeaderCell>Notes</Table.HeaderCell>
+                <Table.HeaderCell>Feedback</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
         

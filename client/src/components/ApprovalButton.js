@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Icon, Feed, Popup, Image } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import moment from 'moment';
 
 
 function ApprovalButton({user, story, testScenario: {id, approvalCount, approvals}}) {
@@ -29,32 +29,53 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
         }
     })
     
-
     const approvalButton = user ? (
         approved ? (
-            <Button color='teal'>
-                <Icon name='check' />
-                Approve
-            </Button>
+            <>
+                <Icon name='users' color='teal' onClick={approveScenario}/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}
+                {approvals.map((approval) => (
+                    <Popup
+                        content={moment(approval.createdAt).fromNow()}
+                        key={approval.username}
+                        header={approval.username}
+                        trigger={<Image src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />}
+                    />
+                ))}
+                   
+            </>
         ) : (
-        <Button color='teal' basic>
-            <Icon name='check' />
-            Approve
-        </Button>
+            <><Icon name='users' onClick={approveScenario}/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}</>
         )
     ) : (
-        <Button as={Link} to="/login" color='teal' basic>
-            <Icon name='check' />
-            Approve
-        </Button>
+        <><Icon name='users' to="/login"/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}</>
     )
+
+
+    // const approvalButton = user ? (
+    //     approved ? (
+    //         <Button color='teal'>
+    //             <Icon name='flag checkered' />
+    //             Approve
+    //         </Button>
+    //     ) : (
+    //     <Button color='teal' basic>
+    //         <Icon name='flag checkered' />
+    //         Approve
+    //     </Button>
+    //     )
+    // ) : (
+    //     <Button as={Link} to="/login" color='teal' basic>
+    //         <Icon name='flag checkered' />
+    //         Approve
+    //     </Button>
+    // )
     return (
-        <Button as="div" labelPosition="right" onClick={approveScenario}>
-            {approvalButton}
-            <Label basic color="teal" pointing="left">
-                {approvalCount}
-            </Label>
-        </Button>
+        <Feed.Like>
+            {approvalButton} 
+        </Feed.Like> 
+             
+           
+       
     )
 }
 
