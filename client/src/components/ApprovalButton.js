@@ -18,7 +18,7 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
         }
         
         return () => setApproved(false);
-    }, [approvals]);
+    }, [user, approvals]);
 
     const [approveScenario] = useMutation(APPROVE_SCENARIO_MUTATION, {
         variables: { 
@@ -26,6 +26,7 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
             scenarioId: id},
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.errors);
+            console.log(errors);
         }
     })
     

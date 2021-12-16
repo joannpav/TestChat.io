@@ -19,7 +19,8 @@ function LikeButton({user, storyId, likeCount, likes}) {
     const [likeStory] = useMutation(LIKE_STORY_MUTATION, {
         variables: { storyId: storyId},
         onError(err) {
-            setErrors(err.graphQLErrors[0].extensions.errors);         
+            setErrors(err.graphQLErrors[0].extensions.errors);  
+            console.log(errors);       
         }
     })
     

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
 import { Message, Table} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 import DeleteButton from './DeleteButton';

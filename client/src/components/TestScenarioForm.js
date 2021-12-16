@@ -1,5 +1,5 @@
 import React, {useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Form, Card } from 'semantic-ui-react';
 import {FETCH_STORY_QUERY} from '../util/graphql';
@@ -29,7 +29,7 @@ const TestScenarioForm = ({storyId, handleCallback}) => {
             scenario
         },
         onError: (err) => {
-            console.log(`Error creating scenario, user likely not logged in. ${err}`);
+            console.log(`Error creating scenario, user likely not logged in. ${err}, ${error}`);
             navigate("/login");
         }        
     });

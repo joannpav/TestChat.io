@@ -1,15 +1,11 @@
-import React, { Children, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useParams } from "react-router-dom";
-
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import { Button, Card, Grid, Image, Icon, Label } from 'semantic-ui-react';
+import { Card, Grid, Image, Label } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
 import LikeButton from '../components/LikeButton';
-import DeleteButton from '../components/DeleteButton';
-import CommentButton from '../components/CommentButton';
 import TestScenarioButton from '../components/TestScenarioButton';
 import TestScenarioList from '../components/TestScenarioList';
 import TestScenarioForm from '../components/TestScenarioForm';
@@ -38,9 +34,9 @@ function SingleStory() {
         story.testScenarios = [story.testScenarios, ...childData.testScenarios];
     }
 
-    function deleteStoryCallback() {        
-        navigate("/");
-    }
+    // function deleteStoryCallback() {        
+    //     navigate("/");
+    // }
 
 
     let storyMarkup;
