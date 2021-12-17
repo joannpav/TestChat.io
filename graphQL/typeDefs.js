@@ -2,6 +2,13 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
 
+type Organization {
+    id: ID!
+    orgName: String!
+    createdAt: String!    
+    adminUser: String
+    users: [User]
+}
 
 type Story {
     id: ID!
@@ -66,18 +73,19 @@ type User {
     token: String!
     username: String!
     createdAt: String!
+    orgName: String!
 }
 input RegisterInput {
     username: String!
     password: String!
     confirmPassword: String!
     email: String!
+    orgName: String!
 }
 type Query {
     getUsers: [User]
     getStories: [Story]
-    getStory(storyId: ID!): Story    
-    # getTestScenarios(storyId: ID!): [TestScenario]
+    getStory(storyId: ID!): Story        
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
@@ -89,6 +97,7 @@ type Mutation {
     likeStory(storyId: ID!): Story! 
     createTestScenario(storyId: ID!, scenario: String!): Story!
     approveScenario(storyId: ID!, scenarioId: ID!): Story!
+    deleteScenario(storyId: ID!, scenarioId: ID!): Story!
 }
 
 `;

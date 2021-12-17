@@ -38,7 +38,7 @@ function StoryFeed() {
                 <StoryForm handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb section="Epics" epic="Managing Stories" />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="Managing Stories" />
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -52,7 +52,7 @@ function StoryFeed() {
                 <StoryForm handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb section="Epics" epic="Managing Stories" />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="Managing Stories" />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              
@@ -76,11 +76,13 @@ function StoryFeed() {
                                 <Feed.Meta>{story.acceptanceCriteria}</Feed.Meta>
                             </Feed.Extra>
                             <hr />
-                            <Feed.Meta>
+                                <Feed.Meta>
                                 <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                                 <TestScenarioButton count={story.testScenarioCount} user={user} />   
+                                </Feed.Meta>
                                 {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} storyId={story.id} />}                                          
-                            </Feed.Meta>                    
+                                
+                            
                             
                         </Feed.Content>
                     </Feed.Event>

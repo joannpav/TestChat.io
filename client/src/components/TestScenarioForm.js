@@ -17,12 +17,12 @@ const TestScenarioForm = ({storyId, handleCallback}) => {
                 variables: {
                     storyId
                 }                
-            });  
-            // data.getStory.testScenarios = [result.data.createTestScenario.testScenarios, ...data.getStory.testScenarios];            
+            });              
             data.getStory.testScenarios = result.data.createTestScenario.testScenarios;            
             
             proxy.writeQuery({ query: FETCH_STORY_QUERY, data });                        
             handleCallback(data.getStory);
+            setScenario('');
         },
         variables: {
             storyId,

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useParams } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
@@ -13,7 +13,6 @@ import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function SingleStory() {  
-    const [ scenarios, setScenarios ] = useState();  
     const { storyId } = useParams();
     const { user } = useContext(AuthContext);    
     const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
@@ -29,15 +28,8 @@ function SingleStory() {
     if (!user) { navigate("/login") }
 
     const handleCallback = (childData) => {   
-        console.log(`'handeCallback triggered ${JSON.stringify(childData)}`);     
-        setScenarios({data: childData})        
         story.testScenarios = [story.testScenarios, ...childData.testScenarios];
     }
-
-    // function deleteStoryCallback() {        
-    //     navigate("/");
-    // }
-
 
     let storyMarkup;
     if(!story) {
@@ -51,10 +43,6 @@ function SingleStory() {
             username, 
             testScenarios, 
             comments, 
-            likes, 
-            likeCount, 
-            commentCount, 
-            testScenarioCount
         } = story;
         
         storyMarkup = (
@@ -85,14 +73,14 @@ function SingleStory() {
                                     <TestScenarioList                                           
                                         testScenarios={testScenarios}
                                         storyId={id}
-                                        user={user}
+                                        user={user}                           
                                     />                                
                                 </Card.Description>                                
                             </Card.Content>
                             
                             <hr/>
                             <Card.Content extra>
-                                <TestScenarioButton count={testScenarioCount} user={user}/>
+                                <TestScenarioButton count={story.testScenarios.length} user={user}/>
                                 <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                             </Card.Content>
                         </Card>

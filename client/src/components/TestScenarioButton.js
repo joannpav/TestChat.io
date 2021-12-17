@@ -13,7 +13,7 @@ function TestScenarioButton({count, user}) {
             <Icon to="/login/" name='write square' />        
     )
     return (
-        <Feed.Like>
+        <Feed.Like style={{cursor:"default"}}>
             {testScenarioButton} {count} {count === 1 ? "Scenario " : "Scenarios "}        
         </Feed.Like>        
     )

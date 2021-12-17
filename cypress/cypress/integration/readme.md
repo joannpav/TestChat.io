@@ -7,7 +7,7 @@ Registration
 
 User
 ----
-- Can log in / out
+DONE - Can log in / out
 - Can reset password
 
 User Profile
@@ -39,12 +39,13 @@ Epics
 Stories
 ----
 - Stories belong to epics
-- If there are no stories for an epic, a friendly message should be displayed
-- Stories can be liked / signed off and should be as a sign that all group members have reviewd
-- Stories have scenarios that test the acceptance criteria of the story
-- Stories can have comments
-- Stories can be deleted
-- Stories cannot be edited 
+DONE - If there are no stories for an epic, a friendly message should be displayed
+DONE - Stories can be liked 
+- Stories can be approved as a sign that an org member has reviewd
+DONE - Stories have scenarios that test the acceptance criteria of the story
+DONE - Stories can have comments
+DONE - Stories can be deleted
+DONE - Stories cannot be edited 
 
 Scenarios
 ---
@@ -52,16 +53,16 @@ Scenarios
 ie: As a member of an org, I can add a scenario to a story
 ie: As an authenticated user, I can approve a scenario
 ie: An authenticated user can only navigate to their own org
-- Scenarios can be approved
+DONE - Scenarios can be approved
 - Scenarios can have comments
-- Scenarios can be deleted by the scenario creator
-- Scenarios cannot be edited. This is to protect the integrety since comments and approvals may not be relevant if the story scenario is changed
-- If there are no scenarios for a story, a message should be displayed
+DONE - Scenarios can be deleted by the scenario creator
+DONE - Scenarios cannot be edited. Protects integrity - approvals not relevant if scenario has changed
+DONE - If there are no scenarios for a story, a message should be displayed
 
 Comments
 ---
-- Anyone in an org can comment on a story
-- Commenters can delete their own comment only
+DONE - Anyone in an org can comment on a story
+DONE - Commenters can delete their own comment only
 
 
 Integrations
@@ -70,3 +71,8 @@ Import epics from Gitlab
 Import epics from Jira
 Export test scenarios to excel 
 Export test scenarios as skeleton code
+
+Auditing
+-----
+Audit log of all user interactions
+Audit log available from admin profile only

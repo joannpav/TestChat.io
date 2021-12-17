@@ -10,8 +10,7 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
     const [errors, setErrors] = useState({});
     
     useEffect(() => {
-        if (approvals) {
-            console.log(`what is in approvals? ${JSON.stringify(approvals)}`)
+        if (approvals) {            
             if(user && approvals.find(approve => approve.username === user.username)){
                 setApproved(true)
             } else setApproved(false)
@@ -32,23 +31,34 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
     
     const approvalButton = user ? (
         approved ? (
-            <>
-                <Icon name='users' color='teal' onClick={approveScenario}/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}
+            
+            <Feed.Like onClick={approveScenario}>
+                <Icon name='check' color='teal' /> Approved by &nbsp;   
                 {approvals.map((approval) => (
                     <Popup
                         content={moment(approval.createdAt).fromNow()}
                         key={approval.username}
                         header={approval.username}
-                        trigger={<Image src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />}
+                        trigger={<Image size="tiny" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />}
                     />
                 ))}
                    
-            </>
+            </Feed.Like>
         ) : (
-            <><Icon name='users' onClick={approveScenario}/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}</>
+            <Feed.Like onClick={approveScenario}>
+                <Icon name='check' color="grey" /> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}
+                {approvals.map((approval) => (
+                    <Popup
+                        content={moment(approval.createdAt).fromNow()}
+                        key={approval.username}
+                        header={approval.username}
+                        trigger={<Image size="tiny" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />}
+                    />
+                ))}
+            </Feed.Like>
         )
     ) : (
-        <><Icon name='users' to="/login"/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}</>
+        <Feed.Like><Icon name='check' color="grey" to="/login"/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}</Feed.Like>
     )
 
 

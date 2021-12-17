@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Message, Table} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
-import DeleteButton from './DeleteButton';
+import DeleteScenarioButton from './DeleteScenarioButton';
 
 function TestScenarioList({testScenarios, storyId, user}) {  
     
@@ -49,10 +49,12 @@ function TestScenarioList({testScenarios, storyId, user}) {
               <Table.Row key={scenario.id}>
                 <Table.Cell>{scenario.scenario}</Table.Cell>
                 <Table.Cell>{scenario.username}</Table.Cell>
-                <Table.Cell negative><ApprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></ApprovalButton></Table.Cell>
+                <Table.Cell negative={scenario.approvalCount === 0 } >
+                  <ApprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></ApprovalButton>
+                </Table.Cell>
                 {user && user.username === scenario.username && (
                       <Table.Cell negative>
-                          <DeleteButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
+                          <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
                       </Table.Cell>
                   )}
               </Table.Row>       

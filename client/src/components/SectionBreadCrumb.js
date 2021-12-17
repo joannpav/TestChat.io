@@ -1,9 +1,9 @@
 import React from 'react'
 import { Breadcrumb } from 'semantic-ui-react'
 
-const SectionBreadCrumb = ({section, epic}) => (
+const SectionBreadCrumb = ({orgName, section, epic}) => (
   <Breadcrumb>
-    <Breadcrumb.Section link>Home</Breadcrumb.Section>
+    <Breadcrumb.Section link>{orgName}</Breadcrumb.Section>
     <Breadcrumb.Divider />    
     <Breadcrumb.Section link>{section}</Breadcrumb.Section>
     <Breadcrumb.Divider />    

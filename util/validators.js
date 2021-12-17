@@ -2,7 +2,8 @@ module.exports.validateRegisterInput = (
     username,
     email,
     password,
-    confirmPassword
+    confirmPassword,
+    orgName
 ) => {
     const errors = {};
     if(username.trim() === '') {
@@ -21,6 +22,9 @@ module.exports.validateRegisterInput = (
         errors.password = 'Password must not be empty'
     } else if(password !== confirmPassword) {
             errors.confirmPassword = 'Passwords must match';
+    }
+    if(orgName.trim() === ''){
+        errors.orgName = 'Organization or group name must not be empty'
     }
 
     return {
