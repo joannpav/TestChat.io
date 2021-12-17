@@ -1,3 +1,5 @@
+const { AuthenticationError } = require('apollo-server-errors');
+
 const Story = require('../../models/Story');
 const checkAuth = require('../../util/check-auth');
 
@@ -45,6 +47,20 @@ module.exports = {
                 return story;
             } else {
                 throw new Error("Story not found");
+            }
+        },
+        async deleteScenario(_, { storyId, scenarioId }, context) {            
+            const { username } = checkAuth(context);
+            const story = await Story.findById(storyId);
+            if (story) {                
+                const scenarioIndex = story.testScenarios.findIndex(c => c.id === scenarioId);
+                if(story.testScenarios[scenarioIndex].username === username) {
+                    story.testScenarios.splice(scenarioIndex, 1);
+                    await story.save();
+                    return story;
+                } else {
+                    throw new AuthenticationError('Action not allowed');
+                }
             }
         } 
        

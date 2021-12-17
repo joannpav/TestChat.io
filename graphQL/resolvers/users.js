@@ -6,6 +6,7 @@ const { validateLoginInput, validateRegisterInput } = require('../../util/valida
 
 const { SECRET_KEY } = require('../../config');
 const User = require('../../models/User');
+const Organization = require('../../models/Organization');
 
 function generateToken(user) {
     const token = jwt.sign({
@@ -47,24 +48,25 @@ module.exports = {
                 throw new UserInputError("Wrong credentials", {errors});
             }
             const token = generateToken(user);
-            
+            console.log(`what is in user? ${JSON.stringify(user)}`);
             return {
                 ...user._doc,
                 id: user._id,                
-                token
+                token,
+                orgName: user.orgName
             };
 
 
         },
         async register(
             _, 
-            {registerInput : {username, email, password, confirmPassword}}
+            {registerInput : {username, email, password, confirmPassword, orgName}}
             , 
             context, 
             info
             ){
             //TODO: Validate user data
-            const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
+            const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword, orgName);
             if(!valid){
                 throw new UserInputError('Errors', {errors})
             }
@@ -80,15 +82,30 @@ module.exports = {
             }                        
             password = await bcrypt.hash(password, 12);
 
+            let theOrg = await Organization.findOne({ orgName });
+            if (!theOrg) {                
+                const newOrg = new Organization({
+                    orgName,
+                    createdAt: new Date().toISOString()
+                })
+                theOrg = await newOrg.save();
+                console.log(`the org is ${JSON.stringify(theOrg)}`);
+            }
+           
             const newUser = new User({
                 email,
                 username,
                 password,
                 confirmPassword,
+                orgName,
                 createdAt: new Date().toISOString()
             });
 
+            
             const res = await newUser.save();
+           
+            theOrg.users.push(newUser);
+            await theOrg.save();
             
             // const token = jwt.sign({
             //     id: res.id,

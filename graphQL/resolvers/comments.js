@@ -36,7 +36,7 @@ module.exports = {
                 const commentIndex = story.comments.findIndex(c => c.id === commentId);                                        
                 if(story.comments[commentIndex].username === username) {
                     story.comments.splice(commentIndex, 1);
-                    await story.save()
+                    await story.save();
                     return story;
                 } else {
                     throw new AuthenticationError('Action not allowed');

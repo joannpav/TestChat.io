@@ -1,12 +1,15 @@
 import React, {useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Form, Card } from 'semantic-ui-react';
 import {FETCH_STORY_QUERY} from '../util/graphql';
+import { useNavigate } from 'react-router';
 
 
 const TestScenarioForm = ({storyId, handleCallback}) => {
     const[scenario, setScenario] = useState('');    
+    let navigate = useNavigate();
+
     const [createScenario, { error }] = useMutation(CREATE_TEST_SCENARIO_MUTATION, {        
         update(proxy, result) {
             const data = proxy.readQuery({
@@ -14,21 +17,24 @@ const TestScenarioForm = ({storyId, handleCallback}) => {
                 variables: {
                     storyId
                 }                
-            });  
-            // data.getStory.testScenarios = [result.data.createTestScenario.testScenarios, ...data.getStory.testScenarios];            
+            });              
             data.getStory.testScenarios = result.data.createTestScenario.testScenarios;            
             
             proxy.writeQuery({ query: FETCH_STORY_QUERY, data });                        
             handleCallback(data.getStory);
+            setScenario('');
         },
         variables: {
             storyId,
             scenario
+        },
+        onError: (err) => {
+            console.log(`Error creating scenario, user likely not logged in. ${err}, ${error}`);
+            navigate("/login");
         }        
     });
 
-    
-    
+  
     let scenarioFormMarkup = (
         <Card fluid>
             <Card.Content>
@@ -75,17 +81,5 @@ const CREATE_TEST_SCENARIO_MUTATION = gql`
     }
 `;
 
-// const GET_STORY = gql`
-// query GetStory($storyId: ID!) {
-//   getStory(storyId: $storyId) {
-//     id
-//     body
-//     testScenarios {
-//       id
-//     }
-    
-//   }
-// }
-// `;
 
 export default TestScenarioForm;

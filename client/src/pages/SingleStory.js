@@ -1,22 +1,18 @@
-import React, { Children, useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useParams } from "react-router-dom";
-
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import { Button, Card, Grid, Image, Icon, Label } from 'semantic-ui-react';
+import { Card, Grid, Image, Label } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
-import BigLikeButton from '../components/BigLikeButton';
-import DeleteButton from '../components/DeleteButton';
-import TestCaseButton from '../components/TestCaseButton';
-import TestCaseList from '../components/TestCaseList';
+import LikeButton from '../components/LikeButton';
+import TestScenarioButton from '../components/TestScenarioButton';
+import TestScenarioList from '../components/TestScenarioList';
 import TestScenarioForm from '../components/TestScenarioForm';
 import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function SingleStory() {  
-    const [ scenarios, setScenarios ] = useState();  
     const { storyId } = useParams();
     const { user } = useContext(AuthContext);    
     const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
@@ -32,15 +28,8 @@ function SingleStory() {
     if (!user) { navigate("/login") }
 
     const handleCallback = (childData) => {   
-        console.log(`'handeCallback triggered ${JSON.stringify(childData)}`);     
-        setScenarios({data: childData})        
         story.testScenarios = [story.testScenarios, ...childData.testScenarios];
     }
-
-    function deleteStoryCallback() {        
-        navigate("/");
-    }
-
 
     let storyMarkup;
     if(!story) {
@@ -54,10 +43,6 @@ function SingleStory() {
             username, 
             testScenarios, 
             comments, 
-            likes, 
-            likeCount, 
-            commentCount, 
-            testScenarioCount
         } = story;
         
         storyMarkup = (
@@ -75,42 +60,28 @@ function SingleStory() {
                             <Card.Content>
                                 <Label as='a' color='red' ribbon style={{marginBottom:'10px'}}>
                                     Story
-                                </Label>                                
+                                </Label>  
+                                <Label  color='black' attached='top right'>
+                                  Login Epic
+                                </Label>                              
                                 <Card.Header>{body}</Card.Header>
                                 <Card.Meta>{username}</Card.Meta>
                                 <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
                                 <Card.Description>
                                     {acceptanceCriteria}
                                     <hr />
-                                    <TestCaseList                                           
+                                    <TestScenarioList                                           
                                         testScenarios={testScenarios}
                                         storyId={id}
-                                        user={user}
+                                        user={user}                           
                                     />                                
                                 </Card.Description>                                
                             </Card.Content>
                             
                             <hr/>
                             <Card.Content extra>
-                                <TestCaseButton count={testScenarioCount} user={user}/>
-                                
-                                <BigLikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes} />
-                                <Button
-                                    as="div"
-                                    labelPosition="right"
-                                    onClick={() => console.log('comment on story')}
-                                >
-                                    <Button basic color="blue">
-                                        <Icon name="comments" />
-                                        
-                                    </Button>
-                                    <Label basic color="blue" pointing="left">
-                                        {commentCount}
-                                    </Label>    
-                                </Button>
-                                {/* {user && user.username === username && (
-                                    <DeleteButton storyId={id} callback={deleteStoryCallback} />
-                                )} */}
+                                <TestScenarioButton count={story.testScenarios.length} user={user}/>
+                                <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                             </Card.Content>
                         </Card>
                         
@@ -134,47 +105,5 @@ function SingleStory() {
     return storyMarkup;
 }
 
-    
-// const FETCH_STORY_QUERY = gql`
-//     query($storyId: ID!) {
-//         getStory(storyId: $storyId){
-//             id 
-//             body
-//             acceptanceCriteria
-//             createdAt
-//             username
-//             likeCount
-//             likes {
-//                 username
-//             }
-//             commentCount
-//             comments {
-//                 id
-//                 username
-//                 createdAt
-//                 body
-//             }   
-//             testScenarioCount
-//             testScenarios {
-//                 id
-//                 scenario                
-//                 username
-//                 approvalCount
-//                 # questionCount
-//                 # viewerCount
-//                 approvals {
-//                     username
-//                     createdAt
-//                 }
-//             #     questions {
-//             #         username
-//             #     }
-//             #     viewers {
-//             #         username
-//             #     }
-//             }         
-//         }
-//     }
-// `;
 
 export default SingleStory;

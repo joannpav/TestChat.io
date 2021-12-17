@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Form } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-
+import { useNavigate } from 'react-router';
 import { useForm } from '../util/hooks';
 import { FETCH_STORIES_QUERY } from '../util/graphql';
 
@@ -13,6 +13,8 @@ function StoryForm({ handleCallback }) {
         acceptanceCriteria: ''
     });
 
+    let navigate = useNavigate();
+    
     const [createStory, { error }] = useMutation(CREATE_STORY_MUTATION, {
         variables: values,
         update(proxy, result) {
@@ -27,7 +29,11 @@ function StoryForm({ handleCallback }) {
             values.body = '';
             values.acceptanceCriteria = '';
             handleCallback(data);
-        }        
+        },
+        onError: (err) => {
+            console.log(`Error creating story, user likely not logged in. ${err}`);
+            navigate("/login");
+        }              
     });
 
     function createStoryCallback() {
@@ -37,8 +43,8 @@ function StoryForm({ handleCallback }) {
     return (
         <>
         <Form onSubmit={onSubmit}>
-            <h2>Create a story:</h2>
-            <Form.Field>
+            <h2 style={{color: 'white'}}>Create a story:</h2>
+            <Form.Group widths="equal">
                 <Form.Input
                     data-cy = "epic"
                     placeholder="Epic..."
@@ -66,7 +72,7 @@ function StoryForm({ handleCallback }) {
                 <Button type="submit" color="teal" data-cy = "submit">
                     Submit
                 </Button>
-            </Form.Field>
+            </Form.Group>
         </Form>
         {error && (
             <div className="ui error message">

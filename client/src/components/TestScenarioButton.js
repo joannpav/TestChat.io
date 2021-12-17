@@ -2,8 +2,8 @@ import React from 'react';
 import { Feed, Icon } from 'semantic-ui-react';
 
 
-function TestCaseButton({count, user}) {        
-    const testCaseButton = user ? (     
+function TestScenarioButton({count, user}) {        
+    const testScenarioButton = user ? (     
         count > 0 ? (           
             <Icon color='teal' name='write square' />                    
         ) : (
@@ -13,11 +13,11 @@ function TestCaseButton({count, user}) {
             <Icon to="/login/" name='write square' />        
     )
     return (
-        <Feed.Like>
-            {testCaseButton} {count} {count === 1 ? "Scenario" : "Scenarios"}        
+        <Feed.Like style={{cursor:"default"}}>
+            {testScenarioButton} {count} {count === 1 ? "Scenario " : "Scenarios "}        
         </Feed.Like>        
     )
 };
 
 
-export default TestCaseButton;
+export default TestScenarioButton;

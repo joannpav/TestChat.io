@@ -21,7 +21,8 @@ const AuthContext = createContext({
   logout: () => {}
 });
 
-function authReducer(state, action) {  
+function authReducer(state, action) {
+  console.log(`in authReducer, what is action ${JSON.stringify(action)} and what is state ${JSON.stringify(state)}`)  
   switch (action.type) {
     case 'LOGIN':
       return {

@@ -21,7 +21,8 @@ function Register(props) {
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        orgName: ''
     });
 
     const [addUser, { loading }] = useMutation(REGISTER_USER, {
@@ -32,7 +33,8 @@ function Register(props) {
             navigate("/");
            
         },
-        onError(err) {            
+        onError(err) {     
+            console.log(JSON.stringify(err));                               
             setErrors(err.graphQLErrors[0].extensions.errors);
         },
         variables: values
@@ -83,6 +85,15 @@ function Register(props) {
                     error={errors.confirmPassword? true : false}
                     onChange={onChange}
                 />
+                <Form.Input
+                    label="Organization"
+                    placeholder="Company or Group.."
+                    name="orgName"
+                    type="text"
+                    value={values.orgName}
+                    error={errors.orgName? true : false}
+                    onChange={onChange}
+                />
                 <Button type="submit" primary>
                     Register
                 </Button>
@@ -106,7 +117,8 @@ const REGISTER_USER = gql`
         $username: String!
         $email: String!
         $password: String!
-        $confirmPassword: String!        
+        $confirmPassword: String!  
+        $orgName: String!      
     ) {
         register(
             registerInput: {
@@ -114,6 +126,7 @@ const REGISTER_USER = gql`
                 email: $email
                 password: $password
                 confirmPassword: $confirmPassword
+                orgName: $orgName
             }
         ) {
             id
@@ -121,6 +134,7 @@ const REGISTER_USER = gql`
             username
             createdAt
             token
+            orgName 
         }
     }
 `;

@@ -1,58 +1,49 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Button, Confirm, Icon } from 'semantic-ui-react';
 
 import {FETCH_STORY_QUERY} from '../util/graphql';
 import CustomPopup from '../util/CustomPopup';
 
 
-function DeleteScenarioButton({ storyId, scenarioId, callback, handleCallback }) {
+function DeleteScenarioButton({ storyId, scenarioId, handleCallback }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
-    const mutation = DELETE_SCENARIO_MUTATION;
 
-    const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
-        variables: {
-            storyId
-        }
-    });
+    // const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
+    //     variables: {
+    //         storyId
+    //     }
+    // });
 
-    const { 
-        id, 
-        body, 
-        acceptanceCriteria, 
-        createdAt, 
-        username, 
-        testScenarios, 
-        comments, 
-        likes, 
-        likeCount, 
-        commentCount, 
-        testScenarioCount
-    } = story;
+    // const { 
+    //     id, 
+    //     body, 
+    //     acceptanceCriteria, 
+    //     createdAt, 
+    //     username, 
+    //     testScenarios, 
+    //     comments, 
+    //     likes, 
+    //     likeCount, 
+    //     commentCount, 
+    //     testScenarioCount
+    // } = story;
 
-    const [deleteScenario] = useMutation(mutation, {
+    const [deleteScenario] = useMutation(DELETE_SCENARIO_MUTATION, {
        update(proxy) {
-            setConfirmOpen(false);            
-            // const data = proxy.readQuery({
-            //     query: FETCH_STORIES_QUERY
-            // });
-            data.getStories = data.getStories.filter((p) => p.id !== storyId);
-            proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });                
-            if (handleCallback) handleCallback(data);
-            
-            // if (callback) callback();
-            
+            setConfirmOpen(false);                                    
+            // if (handleCallback) handleCallback();            
        },
        variables: {
            storyId,
-           commentId
+           scenarioId
        }
     });
 
     return(
         <>
-            <CustomPopup content={commentId ? 'Delete comment' : 'Delete story'}>
+            <CustomPopup content='Delete scenario'>
                 <Button 
                     as="div"
                     color="red"
@@ -66,31 +57,32 @@ function DeleteScenarioButton({ storyId, scenarioId, callback, handleCallback })
             <Confirm
                 open={confirmOpen}
                 onCancel={() => setConfirmOpen(false)}
-                onConfirm={deleteStoryOrComment}
+                onConfirm={deleteScenario}
             />
         </>
     );
 }
     
 
-const DELETE_STORY_MUTATION = gql`
-    mutation deleteStory($storyId: ID!) {
-        deleteStory(storyId: $storyId)                     
+const DELETE_SCENARIO_MUTATION = gql`
+    mutation deleteScenario($storyId: ID!, $scenarioId: ID!) {
+        deleteScenario(storyId: $storyId, scenarioId: $scenarioId) {
+            id
+            testScenarios {
+                id
+                scenario
+                username
+                createdAt
+                approvalCount
+                approvals {
+                    id
+                    username
+                    createdAt
+                }
+            }
+        }                    
     }
 `;
 
-const DELETE_COMMENT_MUTATION = gql`
-    mutation deleteComment($storyId: ID!, $commentId: ID!) {
-        deleteComment(storyId: $storyId, commentId: $commentId) {
-            id
-            comments {
-                id
-                username
-                createdAt
-                body
-            }
-            commentCount
-        }
-    }
-`;
-export default DeleteButton;
+
+export default DeleteScenarioButton;
