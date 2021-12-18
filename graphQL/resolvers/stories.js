@@ -4,9 +4,9 @@ const checkAuth = require('../../util/check-auth');
 
 module.exports = {    
     Query: {
-        async getStories(){
+        async getStories(_, { epicName }){
             try{
-                const stories = await Story.find().sort({ createdAt: -1 });                
+                const stories = await Story.find({epic: epicName}).sort({ createdAt: -1 });                
                 return stories;
             } catch(err) {
                 throw new Error(err);
@@ -29,6 +29,7 @@ module.exports = {
     },
     Mutation: {
         async createStory(_, { epic, body, acceptanceCriteria }, context) {            
+            // TODO: Need to make epic mandatory
             const user = checkAuth(context);
             if (epic.trim() === '') {
                 throw new Error('Epic must not be empty');

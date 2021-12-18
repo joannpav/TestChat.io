@@ -20,12 +20,12 @@ type User {
 type Epic {
     id: ID!
     epicName: String!
-    description: String
+    description: String        
     createdAt: String!
-    organization: Organization!
-    user: [User!]
-    status: String
+    users: [User]!
+    organization: Organization
 }
+
 type Story {
     id: ID!
     epic: String
@@ -38,7 +38,7 @@ type Story {
     comments: [Comment]!
     likes: [Like]!
     likeCount: Int!
-    commentCount: Int!    
+    commentCount: Int!     
 }
 type Comment{
     id: ID!
@@ -93,7 +93,7 @@ input RegisterInput {
 }
 type Query {
     getUsers: [User]
-    getStories: [Story]
+    getStories(epicName: String): [Story]
     getStory(storyId: ID!): Story   
     getEpics: [Epic]     
 }

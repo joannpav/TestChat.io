@@ -6,12 +6,10 @@ export const FETCH_EPICS_QUERY = gql`
             id
             epicName
             description
-            organization {
-                id
+            organization {                
                 orgName
             }
-            user {
-                id
+            users {
                 username
             }
         }
@@ -19,8 +17,8 @@ export const FETCH_EPICS_QUERY = gql`
 `;
 
 export const FETCH_STORIES_QUERY = gql`
-  query getStories {
-    getStories {
+  query getStories($epicName: String) {
+    getStories (epicName: $epicName) {
         id
         epic
         body

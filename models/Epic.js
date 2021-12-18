@@ -3,15 +3,15 @@ const { model, Schema } = require('mongoose');
 const epicSchema = new Schema({
     epicName: String,
     description: String,
+    createdAt: String,   
+    users: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     organization: {
         type: Schema.Types.ObjectId,
-        ref: 'organizations'
-    },
-    createdAt: String,                   
-    user: [{
-        type: Schema.Types.ObjectId,
-        ref: 'users'
-    }]
+        ref: 'Organization'
+    },                    
 });
 
 module.exports = model('Epic', epicSchema);

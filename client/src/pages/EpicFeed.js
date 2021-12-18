@@ -41,11 +41,35 @@ function EpicFeed() {
             </>
         )
     } else {   
-        feedItemListMarkup = (<div>Epic Feed {JSON.stringify(data)}</div>)
-    }
-    // return (
-    //     <div>Epic Feed {JSON.stringify(data)}</div>
-    // )
+        feedItemListMarkup = (
+            <>
+            <Segment style={{backgroundColor: 'teal'}}>
+            <Container>
+                <EpicForm handleCallback={handleCallback}/>
+            </Container>
+            </Segment>         
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="All" />
+            <Feed data-cy="feedContainer">
+                
+                {data && 
+                    data.getEpics.map((epic) => (
+                        <Card fluid key={epic.id}>
+                        <Card.Content >   
+                            <Feed.Event>
+                                <Feed.Content>
+                                    <Feed.Summary>
+                                        <Feed.Label>{epic.epicName}</Feed.Label>
+                                        <Feed.Date>{moment(epic.createdAt).fromNow()}</Feed.Date>
+                                    </Feed.Summary>
+                                </Feed.Content>
+                            </Feed.Event>
+                        </Card.Content>
+                        </Card>
+                    ))}
+            </Feed>
+            </>
+        )}
+    
     return feedItemListMarkup
   
 };
