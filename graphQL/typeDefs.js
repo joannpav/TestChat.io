@@ -9,7 +9,23 @@ type Organization {
     adminUser: String
     users: [User]
 }
-
+type User {
+    id: ID!
+    email: String!
+    token: String!
+    username: String!
+    createdAt: String!
+    orgName: String!
+}
+type Epic {
+    id: ID!
+    epicName: String!
+    description: String
+    createdAt: String!
+    organization: Organization!
+    user: [User!]
+    status: String
+}
 type Story {
     id: ID!
     epic: String
@@ -67,14 +83,7 @@ type Like{
     createdAt: String!
     username: String!
 }
-type User {
-    id: ID!
-    email: String!
-    token: String!
-    username: String!
-    createdAt: String!
-    orgName: String!
-}
+
 input RegisterInput {
     username: String!
     password: String!
@@ -85,11 +94,13 @@ input RegisterInput {
 type Query {
     getUsers: [User]
     getStories: [Story]
-    getStory(storyId: ID!): Story        
+    getStory(storyId: ID!): Story   
+    getEpics: [Epic]     
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    createEpic(epicName: String!, description: String): Epic!
     createStory(epic: String, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
