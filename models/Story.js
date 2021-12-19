@@ -5,7 +5,7 @@ const storySchema = new Schema({
     //     title: String,
     //     createdAt: String,
     // },
-    epic: String,
+    epicName: String,
     body: String,
     acceptanceCriteria: String,
     username: String,

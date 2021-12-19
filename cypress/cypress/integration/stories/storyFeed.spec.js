@@ -1,32 +1,9 @@
 /// <reference types="cypress" />
 
 describe('story feed page', () => {    
-    beforeEach(() => {        
-        const loginMutation = `
-        mutation login ($username: String!, $password: String!) {
-            login (username: $username, password: $password) {
-                id
-                token
-                username
-            }
-        }`;
-        cy.request({
-            url: 'http://localhost:5000',
-            method: 'POST',
-            body: {
-                query: loginMutation,
-                variables: {
-                    username: 'joannpav',
-                    password: 'joannpav'
-                }                
-            }
-        }).then(($response) => {
-            cy.log($response.body.data.login.token);
-            Cypress.env('token', $response.body.data.login.token);             
-        })
-        
-    })
-    
+    before(() => { 
+        cy.login();            
+    })    
 
     it('can login through UI', () => {
         cy.visit("http://localhost:3000");
@@ -54,27 +31,30 @@ describe('story feed page', () => {
     })
 
     it('can create a story from the UI', () => {    
-        const token = Cypress.env('token');
-        localStorage.setItem("jwtToken", token);      
-        cy.visit("http://localhost:3000");
-                
+        cy.setTokenLoadHome();
+        cy.visit("/asdf/stories")
+
+        const EPIC = "asdf";
+
         cy.request({
             url: 'http://localhost:5000/',
             method: 'POST',
             body: { 
                 operationName: 'getStories',
                 query: `
-                query getStories {
-                    getStories {
-                        id
-                    }
-                }`,
-                },
+                    query getStories($epicName: String!) {
+                        getStories (epicName: $epicName) {
+                            id
+                        }
+                    }`,
+                variables: {
+                    epicName: EPIC 
+                }
+            },
             failOnStatusCode: false
         }).then($resp => {
             cy.log($resp.body.data.getStories.length);
-            const initialStoryCount = $resp.body.data.getStories.length
-            cy.get('[data-cy=epic] > input').type("Managing Stories Epic");
+            const initialStoryCount = $resp.body.data.getStories.length            
             cy.get('[data-cy=body] > input').type("A user that is logged in should be able to manage a story");
             cy.get('[data-cy=acceptance] > input').type("User can add, delete, like and comment on a story");
             cy.get('[data-cy=submit]').click();
@@ -91,12 +71,12 @@ describe('story feed page', () => {
         const uuid = () => Cypress._.random(0, 1e6).toString()
         
         const token = Cypress.env('token');
-        const epic = "this is the epic";
+        const epicName = "this is the epic";
         const body = uuid();
         const acceptance = "this is the acceptance";
         const mutation = `
-        mutation createStory ($epic: String, $body: String!, $acceptanceCriteria: String) {
-            createStory (epic: $epic, body: $body, acceptanceCriteria: $acceptanceCriteria) {
+        mutation createStory ($epicName: String, $body: String!, $acceptanceCriteria: String) {
+            createStory (epicName: $epicName, body: $body, acceptanceCriteria: $acceptanceCriteria) {
                 id
             }
         }`;
@@ -110,7 +90,7 @@ describe('story feed page', () => {
             body: { 
                 query: mutation,
                 variables: {
-                    epic: epic,
+                    epicName: epicName,
                     body: body,
                     acceptanceCriteria: acceptance
                 }
@@ -137,14 +117,14 @@ describe('story feed page', () => {
         })
     })
     
-    it('clicking story name opens single story page', () => {
-        // todo 
+    it('clicking story name opens single story page', () => {        
+        assert.fail("Not implemented") 
     })
     it('clicking like increases like count and updates color', () => {
-        // todo 
+        assert.fail("Not implemented") 
     })
     it('adding scenarios updates scenario count and changes color', () => {
-        // todo 
+        assert.fail("Not implemented") 
     })
 
 })

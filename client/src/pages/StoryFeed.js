@@ -41,7 +41,7 @@ function StoryFeed() {
             <>
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
-                <StoryForm handleCallback={handleCallback}/>
+                <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>     
             <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
@@ -55,7 +55,7 @@ function StoryFeed() {
         feedItemListMarkup = (<>  
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
-                <StoryForm handleCallback={handleCallback}/>
+                <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>         
             <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
@@ -86,7 +86,7 @@ function StoryFeed() {
                                 <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                                 <TestScenarioButton count={story.testScenarioCount} user={user} />   
                                 </Feed.Meta>
-                                {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} storyId={story.id} />}                                          
+                                {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={epicName} storyId={story.id} />}                                          
                                 
                             
                             
