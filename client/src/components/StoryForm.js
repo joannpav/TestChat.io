@@ -41,8 +41,7 @@ function StoryForm({ epicName, handleCallback }) {
             handleCallback(data);
         },
         onError: (err) => {
-            console.log(`Error creating story, user likely not logged in. ${err}`);
-            // navigate("/login");
+            console.log(`Error creating story. ${err}`);            
         }              
     });
 

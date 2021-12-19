@@ -18,6 +18,8 @@ function StoryFeed() {
 
     const { user } = useContext(AuthContext);    
     const { epicName } = useParams();
+    console.log(`what is epicName returned in useParams? ${epicName}`);
+
     const { data, error, loading } = useQuery(FETCH_STORIES_QUERY, {
         variables: {
             epicName
@@ -44,7 +46,7 @@ function StoryFeed() {
                 <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epicName={epicName} />
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -58,7 +60,7 @@ function StoryFeed() {
                 <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epicName={epicName} />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              

@@ -29,13 +29,15 @@ function DeleteButton({ epicName, storyId, commentId, callback, handleCallback }
                 });                
                 if (handleCallback) handleCallback(data);
             } 
-            if (callback) callback();
-            
+            if (callback) callback();            
        },
        variables: {
            storyId,
            commentId
-       }
+       },
+       onError: (err) => {
+        console.log(`Error deleting story. ${err}`);        
+    } 
     });
 
     return(
