@@ -27,7 +27,7 @@ function App() {
             <Routes>                                 
               <Route index element={<EpicFeed/>} />   
               <Route path="/epics" element={<EpicFeed/>} />   
-              <Route path=":epicName/story" element={<StoryFeed/>} />  
+              <Route path=":epicName/stories" element={<StoryFeed/>} />  
               <Route path="/home" element={<Home /> } />         
               <Route path="/login" element={<Login/>} />              
               <Route path="/register" element={<Register/>} />

@@ -58,7 +58,7 @@ function EpicFeed() {
                             <Feed.Event>
                                 <Feed.Content>
                                     <Feed.Summary>
-                                        <Feed.Label>{epic.epicName}</Feed.Label>
+                                        <Feed.Label><a href={`${epic.epicName}/stories`}>{epic.epicName}</a></Feed.Label>
                                         <Feed.Date>{moment(epic.createdAt).fromNow()}</Feed.Date>
                                     </Feed.Summary>
                                 </Feed.Content>

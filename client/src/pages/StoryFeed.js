@@ -44,7 +44,7 @@ function StoryFeed() {
                 <StoryForm handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="Managing Stories" />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -58,7 +58,7 @@ function StoryFeed() {
                 <StoryForm handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="Managing Stories" />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              

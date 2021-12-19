@@ -12,6 +12,7 @@ if (localStorage.getItem('jwtToken')) {
     localStorage.removeItem('jwtToken');
   } else {
     initialState.user = decodedToken;
+    initialState.user.orgName = localStorage.getItem('orgName');
   }
 }
 
@@ -25,16 +26,19 @@ function authReducer(state, action) {
   console.log(`in authReducer, what is action ${JSON.stringify(action)} and what is state ${JSON.stringify(state)}`)  
   switch (action.type) {
     case 'LOGIN':
+      console.log(`is this action.payload.orgName populated ${action.payload.orgName}`);
+      console.log(`is this action.payloadpopulated ${action.payload}`);
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
+        orgName: action.payload.orgName
       };
     case 'LOGOUT':
       return {
         ...state,
         user: null
-      };
-    default:
+      };      
+    default:      
       return state;
   }
 }
@@ -44,6 +48,8 @@ function AuthProvider(props) {
 
   function login(userData) {    
     localStorage.setItem('jwtToken', userData.token);
+    localStorage.setItem('orgName', userData.orgName);
+    console.log(`auth.js: login: ${JSON.stringify(userData)}`);
     dispatch({
       type: 'LOGIN',
       payload: userData
@@ -56,10 +62,13 @@ function AuthProvider(props) {
   }
 
   return (
+    <>
+    <div>this is in auth.js ${JSON.stringify(state)}</div>
     <AuthContext.Provider
       value={{ user: state.user, login, logout }}
       {...props}
     />
+    </>
   );
 }
 
