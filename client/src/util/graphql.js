@@ -1,8 +1,24 @@
 import gql from 'graphql-tag';
 
+export const FETCH_EPICS_QUERY = gql`
+    query getEpics {
+        getEpics {
+            id
+            epicName
+            description
+            organization {                
+                orgName
+            }
+            users {
+                username
+            }
+        }
+    }
+`;
+
 export const FETCH_STORIES_QUERY = gql`
-  query getStories {
-    getStories {
+  query getStories($epicName: String) {
+    getStories (epicName: $epicName) {
         id
         epic
         body

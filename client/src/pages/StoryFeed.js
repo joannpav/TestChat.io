@@ -9,6 +9,7 @@ import DeleteButton from "../components/DeleteButton";
 import TestScenarioButton from "../components/TestScenarioButton";
 import StoryForm from "../components/StoryForm";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
 
 
@@ -16,8 +17,13 @@ function StoryFeed() {
     const [storyFeed, setStoryFeed] = useState();
 
     const { user } = useContext(AuthContext);    
-    const { data, error, loading } = useQuery(FETCH_STORIES_QUERY);
-
+    const { epicName } = useParams();
+    const { data, error, loading } = useQuery(FETCH_STORIES_QUERY, {
+        variables: {
+            epicName
+        }
+    });
+    
     let navigate = useNavigate();
   
     if (loading) return <p>Loading ...</p>;
@@ -38,7 +44,7 @@ function StoryFeed() {
                 <StoryForm handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="Managing Stories" />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -52,7 +58,7 @@ function StoryFeed() {
                 <StoryForm handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="Managing Stories" />
+            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              

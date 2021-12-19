@@ -9,6 +9,22 @@ type Organization {
     adminUser: String
     users: [User]
 }
+type User {
+    id: ID!
+    email: String!
+    token: String!
+    username: String!
+    createdAt: String!
+    orgName: String!
+}
+type Epic {
+    id: ID!
+    epicName: String!
+    description: String        
+    createdAt: String!
+    users: [User]!
+    organization: Organization
+}
 
 type Story {
     id: ID!
@@ -22,7 +38,7 @@ type Story {
     comments: [Comment]!
     likes: [Like]!
     likeCount: Int!
-    commentCount: Int!    
+    commentCount: Int!     
 }
 type Comment{
     id: ID!
@@ -67,14 +83,7 @@ type Like{
     createdAt: String!
     username: String!
 }
-type User {
-    id: ID!
-    email: String!
-    token: String!
-    username: String!
-    createdAt: String!
-    orgName: String!
-}
+
 input RegisterInput {
     username: String!
     password: String!
@@ -84,12 +93,14 @@ input RegisterInput {
 }
 type Query {
     getUsers: [User]
-    getStories: [Story]
-    getStory(storyId: ID!): Story        
+    getStories(epicName: String): [Story]
+    getStory(storyId: ID!): Story   
+    getEpics: [Epic]     
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    createEpic(epicName: String!, description: String): Epic!
     createStory(epic: String, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
