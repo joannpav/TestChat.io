@@ -61,14 +61,11 @@ function AuthProvider(props) {
     dispatch({ type: 'LOGOUT' });
   }
 
-  return (
-    <>
-    <div>this is in auth.js ${JSON.stringify(state)}</div>
+  return (    
     <AuthContext.Provider
       value={{ user: state.user, login, logout }}
       {...props}
-    />
-    </>
+    />    
   );
 }
 

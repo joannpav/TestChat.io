@@ -46,7 +46,7 @@ function StoryFeed() {
                 <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epicName={epicName} />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf={epicName} />
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -60,7 +60,7 @@ function StoryFeed() {
                 <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epicName={epicName} />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={epicName} leaf="Stories" />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              
@@ -76,7 +76,7 @@ function StoryFeed() {
                         </Feed.Label>
                         <Feed.Content>
                             <Feed.Summary>                            
-                                <Feed.Content><a href={`/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
+                                <Feed.Content><a href={`/${epicName}/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
                                 <Feed.Date>{moment(story.createdAt).fromNow()}</Feed.Date>                                                        
                             </Feed.Summary>
                             

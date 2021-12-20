@@ -3,17 +3,27 @@ const Epic = require('../../models/Epic');
 const User = require('../../models/User');
 const Organization = require('../../models/Organization');
 const checkAuth = require('../../util/check-auth');
+const Story = require('../../models/Story');
 
 module.exports = {
+    StoryCountInEpic: {
+        async getStoryCountByEpic(parent, { }, context) {            
+            const storyCount = await Story.find({epicName: parent.epicName});             
+            return storyCount.length;    
+        }
+    },
     Query: {
         async getEpics() {
             try { 
-                const epics = await Epic.find().populate('users').populate('organization').sort({ createdAt: -1 });                
+                const epics = await Epic.find()
+                    .populate('users')
+                    .populate('organization')                    
+                    .sort({ createdAt: -1 });                
                 return epics;
             } catch (err) {
                 throw new Error(err);
             }
-        },
+        },        
     },
     // Mutation: {
     //     async createEpic(_, { epicName, description  }, context) {   

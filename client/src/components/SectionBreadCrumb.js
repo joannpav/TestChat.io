@@ -2,13 +2,13 @@ import React from 'react'
 import { Breadcrumb } from 'semantic-ui-react'
 
 
-const SectionBreadCrumb = ({orgName, epicAll, epicName}) => (  
+const SectionBreadCrumb = ({trunk, branch, leaf}) => (  
   <Breadcrumb>
-    <Breadcrumb.Section link>{orgName}</Breadcrumb.Section>
+    <Breadcrumb.Section  href="/">{trunk}</Breadcrumb.Section>
     <Breadcrumb.Divider />    
-    <Breadcrumb.Section href="/">{epicAll ? epicAll : "Epics"}</Breadcrumb.Section>
-    <Breadcrumb.Divider />    
-    <Breadcrumb.Section active>{epicName}</Breadcrumb.Section>
+    <Breadcrumb.Section>{branch ? branch : "Epics"}</Breadcrumb.Section>
+    {leaf ? <Breadcrumb.Divider /> : <></>}    
+    <Breadcrumb.Section active>{leaf}</Breadcrumb.Section>
   </Breadcrumb>
 )
 

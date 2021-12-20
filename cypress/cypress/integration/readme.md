@@ -2,7 +2,7 @@ Outline of MVP functionality
 
 Registration
 ----
-- Input username, email, password, and group name
+DONE - Input username, email, password, and org name
 - Send verification email - is this necessary?
 
 User
@@ -16,7 +16,7 @@ User Profile
 - Can see requests to join their org
 - Can invite others to join their org using their email
 
-Groups
+Orgs
 ----
 A group is akin to a company or organization. Groups are unique. First user to create a group is
 is the admin and they have to approve or invite others
@@ -31,14 +31,15 @@ https://testchat.io/cytosport/story/a3423rfw3
 
 Epics
 ----
-- User can create a new epic manually or import
+DONE - User can create a new epic manually
+- User can import epic from gitlab
 - Epics are listed in the side bar
-- Click an epic to view story feed for that epic
+DONE - Click an epic to view story feed for that epic
 - Users of the org can join one or more epics
 
 Stories
 ----
-- Stories belong to epics
+DONE - Stories belong to epics
 DONE - If there are no stories for an epic, a friendly message should be displayed
 DONE - Stories can be liked 
 - Stories can be approved as a sign that an org member has reviewd

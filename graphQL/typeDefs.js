@@ -24,8 +24,12 @@ type Epic {
     createdAt: String!
     users: [User]!
     organization: Organization
+    storyCount: Int!
 }
-
+# type StoryCountInEpic {
+#     epicName: String
+#     totalStories: Int
+# }
 type Story {
     id: ID!
     epicName: String
@@ -95,7 +99,8 @@ type Query {
     getUsers: [User]
     getStories(epicName: String): [Story]
     getStory(storyId: ID!): Story   
-    getEpics: [Epic]     
+    getEpics: [Epic] 
+    getStoryCountByEpic(epicName: String): Int    
 }
 type Mutation {
     register(registerInput: RegisterInput): User!

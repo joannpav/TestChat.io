@@ -12,6 +12,7 @@ export const FETCH_EPICS_QUERY = gql`
             users {
                 username
             }
+            storyCount
         }
     }
 `;
