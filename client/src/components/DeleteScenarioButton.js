@@ -44,14 +44,13 @@ function DeleteScenarioButton({ storyId, scenarioId, handleCallback }) {
     return(
         <>
             <CustomPopup content='Delete scenario'>
-                <Button 
-                    as="div"
+                {/* <Button 
+                    size="mini"                    
                     color="red"
-                    floated="right"
                     onClick={() => setConfirmOpen(true)}
-                >
-                    <Icon name="trash" style={{ margin: 0 }} />
-                </Button>
+                >Delete                    
+                </Button> */}
+                <Icon color="red" name="delete" link onClick={() => setConfirmOpen(true)}/>
             </CustomPopup>
         
             <Confirm

@@ -18,6 +18,8 @@ function StoryFeed() {
 
     const { user } = useContext(AuthContext);    
     const { epicName } = useParams();
+    console.log(`what is epicName returned in useParams? ${epicName}`);
+
     const { data, error, loading } = useQuery(FETCH_STORIES_QUERY, {
         variables: {
             epicName
@@ -41,10 +43,10 @@ function StoryFeed() {
             <>
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
-                <StoryForm handleCallback={handleCallback}/>
+                <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf={epicName} />
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -55,10 +57,10 @@ function StoryFeed() {
         feedItemListMarkup = (<>  
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
-                <StoryForm handleCallback={handleCallback}/>
+                <StoryForm epicName={epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} epicAll="Epics" epic={epicName} />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={epicName} leaf="Stories" />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              
@@ -74,7 +76,7 @@ function StoryFeed() {
                         </Feed.Label>
                         <Feed.Content>
                             <Feed.Summary>                            
-                                <Feed.Content><a href={`/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
+                                <Feed.Content><a href={`/${epicName}/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
                                 <Feed.Date>{moment(story.createdAt).fromNow()}</Feed.Date>                                                        
                             </Feed.Summary>
                             
@@ -86,7 +88,7 @@ function StoryFeed() {
                                 <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                                 <TestScenarioButton count={story.testScenarioCount} user={user} />   
                                 </Feed.Meta>
-                                {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} storyId={story.id} />}                                          
+                                {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={epicName} storyId={story.id} />}                                          
                                 
                             
                             

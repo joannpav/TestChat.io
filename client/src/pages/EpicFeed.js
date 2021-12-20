@@ -8,11 +8,13 @@ import {AuthContext} from "../context/auth";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import EpicForm from "../components/EpicForm";
 
+
 function EpicFeed() {
     const [epicFeed, setEpicFeed] = useState();
     const { user } = useContext(AuthContext);
     const { data, error, loading } = useQuery(FETCH_EPICS_QUERY);
 
+    
     let navigate = useNavigate();
 
     if (loading) return <p>Loading ...</p>;
@@ -33,7 +35,7 @@ function EpicFeed() {
                 <EpicForm handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="All" />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
             <Message info>
                 <Message.Header>No epics found</Message.Header>
                 <p>Why don't you create one?</p>
@@ -48,7 +50,7 @@ function EpicFeed() {
                 <EpicForm handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb orgName={user?.orgName ? user.orgName : ""} section="Epics" epic="All" />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
             <Feed data-cy="feedContainer">
                 
                 {data && 
@@ -61,6 +63,9 @@ function EpicFeed() {
                                         <Feed.Label><a href={`${epic.epicName}/stories`}>{epic.epicName}</a></Feed.Label>
                                         <Feed.Date>{moment(epic.createdAt).fromNow()}</Feed.Date>
                                     </Feed.Summary>
+                                    <Feed.Extra>
+                                        <Feed.Meta>{epic.storyCount} Stories</Feed.Meta>
+                                    </Feed.Extra>
                                 </Feed.Content>
                             </Feed.Event>
                         </Card.Content>

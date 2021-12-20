@@ -11,7 +11,7 @@ const epicSchema = new Schema({
     organization: {
         type: Schema.Types.ObjectId,
         ref: 'Organization'
-    },                    
+    }    
 });
 
 module.exports = model('Epic', epicSchema);

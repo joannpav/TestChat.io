@@ -32,7 +32,7 @@ function App() {
               <Route path="/login" element={<Login/>} />              
               <Route path="/register" element={<Register/>} />
               <Route path="*" element={<NotFound />} /> 
-              <Route exact path="/stories/:storyId" element={<SingleStory />} />              
+              <Route exact path=":epicName/stories/:storyId" element={<SingleStory />} />              
             </Routes>                      
         </Container>
       </Router>      

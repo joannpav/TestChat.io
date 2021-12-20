@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router';
 import { useForm } from '../util/hooks';
 import { FETCH_STORIES_QUERY } from '../util/graphql';
 
-function StoryForm({ handleCallback }) {
-    const { values, onChange, onSubmit } = useForm(createStoryCallback, {
-        epic: '',
+function StoryForm({ epicName, handleCallback }) {
+    console.log(`In StoryForm, epic is ${epicName}`);
+
+    const { values, onChange, onSubmit } = useForm(createStoryCallback, {  
+        epicName,      
         body: '',
         acceptanceCriteria: ''
     });
@@ -19,20 +21,27 @@ function StoryForm({ handleCallback }) {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({
-                query: FETCH_STORIES_QUERY
+                query: FETCH_STORIES_QUERY,
+                variables: {
+                    epicName
+                }
             });    
             console.log(`what is in this result? ${JSON.stringify(result)}`);        
             data.getStories = [result.data.createStory, ...data.getStories];            
-            proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });
-            
-            values.epic = '';
+            proxy.writeQuery({ 
+                query: FETCH_STORIES_QUERY,
+                variables: {
+                    epicName
+                },
+                data 
+            });
+                        
             values.body = '';
             values.acceptanceCriteria = '';
             handleCallback(data);
         },
         onError: (err) => {
-            console.log(`Error creating story, user likely not logged in. ${err}`);
-            navigate("/login");
+            console.log(`Error creating story. ${err}`);            
         }              
     });
 
@@ -45,14 +54,14 @@ function StoryForm({ handleCallback }) {
         <Form onSubmit={onSubmit}>
             <h2 style={{color: 'white'}}>Create a story:</h2>
             <Form.Group widths="equal">
-                <Form.Input
+                {/* <Form.Input
                     data-cy = "epic"
                     placeholder="Epic..."
                     name="epic"
                     onChange={onChange}
                     value={values.epic}
                     error={error ? true : false}
-                />
+                /> */}
                 <Form.Input
                 data-cy = "body"
                     placeholder="As a user..."
@@ -85,10 +94,10 @@ function StoryForm({ handleCallback }) {
 }
 
 const CREATE_STORY_MUTATION = gql`
-    mutation createStory($epic: String, $body: String!, $acceptanceCriteria: String) {
-        createStory(epic: $epic, body: $body, acceptanceCriteria: $acceptanceCriteria) {
+    mutation createStory($epicName: String, $body: String!, $acceptanceCriteria: String) {
+        createStory(epicName: $epicName, body: $body, acceptanceCriteria: $acceptanceCriteria) {
             id
-            epic
+            epicName
             body
             acceptanceCriteria
             createdAt

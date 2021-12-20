@@ -12,6 +12,7 @@ export const FETCH_EPICS_QUERY = gql`
             users {
                 username
             }
+            storyCount
         }
     }
 `;
@@ -20,15 +21,11 @@ export const FETCH_STORIES_QUERY = gql`
   query getStories($epicName: String) {
     getStories (epicName: $epicName) {
         id
-        epic
+        epicName
         body
         acceptanceCriteria
-        createdAt
         username
-        likeCount
-        likes {
-            username
-        }
+        createdAt                
         testScenarioCount
         testScenarios {
             id
@@ -41,8 +38,7 @@ export const FETCH_STORIES_QUERY = gql`
                 username
                 createdAt
             }
-        }
-        
+        }        
         commentCount
         comments {
             id
@@ -50,7 +46,10 @@ export const FETCH_STORIES_QUERY = gql`
             createdAt
             body
         }
-        
+        likeCount
+        likes {
+            username
+        }
     }
   
   }`;

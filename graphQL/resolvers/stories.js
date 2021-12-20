@@ -6,7 +6,7 @@ module.exports = {
     Query: {
         async getStories(_, { epicName }){
             try{
-                const stories = await Story.find({epic: epicName}).sort({ createdAt: -1 });                
+                const stories = await Story.find({epicName: epicName}).sort({ createdAt: -1 });                
                 return stories;
             } catch(err) {
                 throw new Error(err);
@@ -28,18 +28,20 @@ module.exports = {
         }        
     },
     Mutation: {
-        async createStory(_, { epic, body, acceptanceCriteria }, context) {            
+        async createStory(_, { epicName, body, acceptanceCriteria }, context) {            
             // TODO: Need to make epic mandatory
             const user = checkAuth(context);
-            if (epic.trim() === '') {
-                throw new Error('Epic must not be empty');
-            }
+            console.log(`in Mutation: createStory, is epic passed in? ${epicName}`);
+
+            // if (epic.trim() === '') {
+            //     throw new Error('Epic must not be empty');
+            // }
             if (body.trim() === '') {
                 throw new Error('Story body must not be empty');
             }
 
             const newStory = new Story({
-                epic, 
+                epicName, 
                 body,
                 acceptanceCriteria,
                 user: user.id,

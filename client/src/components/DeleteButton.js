@@ -7,7 +7,7 @@ import { FETCH_STORIES_QUERY } from '../util/graphql';
 import CustomPopup from '../util/CustomPopup';
 
 
-function DeleteButton({ storyId, commentId, callback, handleCallback }) {
+function DeleteButton({ epicName, storyId, commentId, callback, handleCallback }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
     const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_STORY_MUTATION;
 
@@ -16,19 +16,28 @@ function DeleteButton({ storyId, commentId, callback, handleCallback }) {
             setConfirmOpen(false);
             if(!commentId){
                 const data = proxy.readQuery({
-                query: FETCH_STORIES_QUERY
+                    query: FETCH_STORIES_QUERY,
+                    variables: {
+                        epicName
+                    }
                 });
                 data.getStories = data.getStories.filter((p) => p.id !== storyId);
-                proxy.writeQuery({ query: FETCH_STORIES_QUERY, data });                
+                proxy.writeQuery({ 
+                    query: FETCH_STORIES_QUERY, 
+                    variables: epicName,
+                    data 
+                });                
                 if (handleCallback) handleCallback(data);
             } 
-            if (callback) callback();
-            
+            if (callback) callback();            
        },
        variables: {
            storyId,
            commentId
-       }
+       },
+       onError: (err) => {
+        console.log(`Error deleting story. ${err}`);        
+    } 
     });
 
     return(

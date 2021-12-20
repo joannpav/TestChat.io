@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Message, Table} from 'semantic-ui-react';
+import { Label, Icon, Message, Table, Header, Card} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
+import DisapprovalButton from './DisapprovalButton';
 import DeleteScenarioButton from './DeleteScenarioButton';
+import moment from 'moment';
 
-function TestScenarioList({testScenarios, storyId, user}) {  
-    
-    // const {                         
-    //     data: {getTestScenarios: testScenarios} = {} 
-    // } = useQuery(FETCH_TEST_SCENARIOS_QUERY, {
-    //     variables: {
-    //         storyId
-    //     }
-    // });
-    const [scenarios, setScenarios] = useState();
-   
-    const handleCallback = (childData) => { 
-        // console.log(`'handleCallback triggered ${JSON.stringify(childData)}`);       
+function TestScenarioList({testScenarios, storyId, user}) {         
+    const [scenarios, setScenarios] = useState();   
+    const handleCallback = (childData) => {         
         setScenarios({data: childData})        
     }
 
@@ -37,9 +29,10 @@ function TestScenarioList({testScenarios, storyId, user}) {
           <Table celled>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Scenario</Table.HeaderCell>
-                <Table.HeaderCell>User</Table.HeaderCell>
-                <Table.HeaderCell>Feedback</Table.HeaderCell>
+                <Table.HeaderCell>Scenario</Table.HeaderCell> 
+                <Table.HeaderCell>Reactions</Table.HeaderCell>
+                <Table.HeaderCell>Manage</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
         
@@ -47,15 +40,25 @@ function TestScenarioList({testScenarios, storyId, user}) {
             
             {scenarios && scenarios.map(scenario => (
               <Table.Row key={scenario.id}>
-                <Table.Cell>{scenario.scenario}</Table.Cell>
-                <Table.Cell>{scenario.username}</Table.Cell>
+                <Table.Cell  width="eight">   
+                  <Label size="mini" color="purple">Functional</Label> 
+                  <Label size="mini" color="orange">Auto</Label>                            
+                  <br />
+                      {scenario.scenario}                                                         
+                </Table.Cell>                                                
                 <Table.Cell negative={scenario.approvalCount === 0 } >
-                  <ApprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></ApprovalButton>
+                  <ApprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></ApprovalButton>&nbsp;
+                  <DisapprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></DisapprovalButton>
                 </Table.Cell>
-                {user && user.username === scenario.username && (
-                      <Table.Cell negative>
-                          <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
-                      </Table.Cell>
+                <Table.Cell verticalAlign="middle">
+                  <Card.Meta>
+                    {scenario.username}<br /><i>{moment(scenario.createdAt).fromNow(true)}</i>
+                  </Card.Meta>
+                </Table.Cell>
+                {user && user.username === scenario.username && (                     
+                  <Table.Cell textAlign="center">
+                    <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
+                  </Table.Cell>
                   )}
               </Table.Row>       
             ))}     

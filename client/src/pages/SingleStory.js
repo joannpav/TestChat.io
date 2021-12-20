@@ -13,7 +13,7 @@ import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function SingleStory() {  
-    const { storyId } = useParams();
+    const { epicName, storyId } = useParams();
     const { user } = useContext(AuthContext);    
     const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
         variables: {
@@ -42,7 +42,7 @@ function SingleStory() {
             createdAt, 
             username, 
             testScenarios, 
-            comments, 
+            comments            
         } = story;
         
         storyMarkup = (
@@ -62,7 +62,7 @@ function SingleStory() {
                                     Story
                                 </Label>  
                                 <Label  color='black' attached='top right'>
-                                  Login Epic
+                                  {epicName}
                                 </Label>                              
                                 <Card.Header>{body}</Card.Header>
                                 <Card.Meta>{username}</Card.Meta>

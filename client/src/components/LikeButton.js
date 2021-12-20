@@ -27,19 +27,19 @@ function LikeButton({user, storyId, likeCount, likes}) {
 
     const likeButton = user ? (
         liked ? (
-            <Feed.Like onClick={likeStory}><Icon name='like' color='red'/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} </Feed.Like>
+            <Feed.Like onClick={likeStory}>
+                <Icon name='like' color='red'/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} 
+            </Feed.Like>
         ) : (
-            <Feed.Like onClick={likeStory}><Icon name='like' /> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} </Feed.Like>
+            <Feed.Like onClick={likeStory}>
+                <Icon name='like' /> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} 
+            </Feed.Like>
         )
     ) : (
         <Feed.Like><Icon name='like' to="/login"/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} </Feed.Like> 
     )
 
-    return (        
-        <Feed.Like>
-            {likeButton} 
-        </Feed.Like>        
-    )
+    return likeButton
 }
 
 const LIKE_STORY_MUTATION = gql`
