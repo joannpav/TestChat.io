@@ -23,6 +23,12 @@ const storySchema = new Schema({
                         username: String,
                         createdAt: String
                     }
+                ],
+                disapprovals: [
+                    {
+                        username: String,
+                        createdAt: String
+                    }
                 ]
             }
         ],

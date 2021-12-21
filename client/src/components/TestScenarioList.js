@@ -40,15 +40,16 @@ function TestScenarioList({testScenarios, storyId, user}) {
             
             {scenarios && scenarios.map(scenario => (
               <Table.Row key={scenario.id}>
-                <Table.Cell  width="eight">   
-                  <Label size="mini" color="purple">Functional</Label> 
-                  <Label size="mini" color="orange">Auto</Label>                            
-                  <br />
-                      {scenario.scenario}                                                         
+                <Table.Cell  width="eight">                     
+                      {scenario.scenario}     
+                      <br />
+                      <Label size="mini" color="purple">Functional</Label> 
+                      <Label size="mini" color="orange">Auto</Label>                            
+                                                                      
                 </Table.Cell>                                                
                 <Table.Cell negative={scenario.approvalCount === 0 } >
-                  <ApprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></ApprovalButton>&nbsp;
-                  <DisapprovalButton key={scenario.id} story={storyId} user={user} testScenario={scenario}></DisapprovalButton>
+                  <ApprovalButton key="abc" story={storyId} user={user} testScenario={scenario}></ApprovalButton>&nbsp;
+                  <DisapprovalButton key="def" story={storyId} user={user} testScenario={scenario}></DisapprovalButton>
                 </Table.Cell>
                 <Table.Cell verticalAlign="middle">
                   <Card.Meta>

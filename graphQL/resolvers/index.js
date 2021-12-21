@@ -18,6 +18,7 @@ module.exports = {
     },
     TestScenario: {        
         approvalCount: (parent) => parent.approvals.length,
+        disapprovalCount: (parent) => parent.disapprovals.length,
         // questionCount: (parent) => parent.questions.length,
         // viewerCount: (parent) => parent.viewers.length
     },

@@ -5,6 +5,7 @@ export const FETCH_EPICS_QUERY = gql`
         getEpics {
             id
             epicName
+            createdAt
             description
             organization {                
                 orgName
@@ -34,6 +35,12 @@ export const FETCH_STORIES_QUERY = gql`
             createdAt                                  
             approvalCount
             approvals {
+                id
+                username
+                createdAt
+            }
+            disapprovalCount
+            disapprovals {
                 id
                 username
                 createdAt
@@ -79,10 +86,17 @@ export const FETCH_STORY_QUERY = gql`
                 id
                 scenario                
                 username
+                createdAt
                 approvalCount
                 # questionCount
                 # viewerCount
                 approvals {
+                    id
+                    username
+                    createdAt
+                }
+                disapprovalCount
+                disapprovals {
                     id
                     username
                     createdAt
@@ -98,22 +112,3 @@ export const FETCH_STORY_QUERY = gql`
     }
 `;
 
-// testScenarioCount
-//         testScenarios {
-//             id
-//             scenario
-//             createdAt
-//             username
-//             approvals{
-//                 username
-//                 createdAt
-//             }
-//             questions{
-//                 username
-//                 createdAt
-//             }
-//             viewers{
-//                 username
-//                 createdAt
-//             }
-//         }
