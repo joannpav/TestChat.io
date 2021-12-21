@@ -45,6 +45,13 @@ export const FETCH_STORIES_QUERY = gql`
                 username
                 createdAt
             }
+            commentCount
+            comments {
+                id
+                username
+                createdAt
+                body
+            }
         }        
         commentCount
         comments {
@@ -100,6 +107,13 @@ export const FETCH_STORY_QUERY = gql`
                     id
                     username
                     createdAt
+                }
+                commentCount
+                comments {
+                    id
+                    username
+                    createdAt
+                    body
                 }
             #     questions {
             #         username

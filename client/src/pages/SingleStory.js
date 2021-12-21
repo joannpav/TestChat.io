@@ -9,7 +9,7 @@ import LikeButton from '../components/LikeButton';
 import TestScenarioButton from '../components/TestScenarioButton';
 import TestScenarioList from '../components/TestScenarioList';
 import TestScenarioForm from '../components/TestScenarioForm';
-import TestCaseCommentGroup from '../components/TestCaseCommentGroup';
+import StoryCommentGroup from '../components/StoryCommentGroup';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function SingleStory() {  
@@ -55,7 +55,7 @@ function SingleStory() {
                         float="right"
                         />
                     </Grid.Column>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={12}>
                         <Card fluid color='red'>
                             <Card.Content>
                                 <Label as='a' color='red' ribbon style={{marginBottom:'10px'}}>
@@ -90,7 +90,7 @@ function SingleStory() {
                             storyId={id}
                         />)}
                         
-                        <TestCaseCommentGroup
+                        <StoryCommentGroup
                             comments={comments}
                             user={user}
                             storyId={id}

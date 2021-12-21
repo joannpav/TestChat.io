@@ -66,6 +66,8 @@ type TestScenario {
     disapprovals: [Dispproval]
     questions: [Question]
     viewers: [Viewer]  
+    comments: [Comment]!
+    commentCount: Int!
 }
 type Approval{
     id: ID!
@@ -117,6 +119,7 @@ type Mutation {
     deleteStory(storyId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
     deleteComment(storyId: ID!, commentId: ID!): Story!
+    createScenarioComment(storyId: ID!, scenarioId: ID!, body: String!): TestScenario
     likeStory(storyId: ID!): Story! 
     createTestScenario(storyId: ID!, scenario: String!): Story!
     approveScenario(storyId: ID!, scenarioId: ID!): Story!

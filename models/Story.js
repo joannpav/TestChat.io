@@ -29,7 +29,14 @@ const storySchema = new Schema({
                         username: String,
                         createdAt: String
                     }
-                ]
+                ],
+                comments: [
+                    {
+                        body: String,
+                        username: String,
+                        createdAt: String
+                    }
+                ],
             }
         ],
     comments: [

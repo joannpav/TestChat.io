@@ -14,11 +14,12 @@ module.exports = {
     Story: {
         likeCount: (parent) => parent.likes.length,
         commentCount: (parent) => parent.comments.length, 
-        testScenarioCount: (parent) => parent.testScenarios.length               
+        testScenarioCount: (parent) => parent.testScenarios.length          
     },
     TestScenario: {        
         approvalCount: (parent) => parent.approvals.length,
         disapprovalCount: (parent) => parent.disapprovals.length,
+        commentCount: (parent) => parent.comments.length             
         // questionCount: (parent) => parent.questions.length,
         // viewerCount: (parent) => parent.viewers.length
     },

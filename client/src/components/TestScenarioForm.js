@@ -75,6 +75,12 @@ const CREATE_TEST_SCENARIO_MUTATION = gql`
                     username
                     createdAt
                 }
+                commentCount
+                comments {
+                    id
+                    username
+                    createdAt
+                }
             }        
             
         }

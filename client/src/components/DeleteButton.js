@@ -43,15 +43,22 @@ function DeleteButton({ epicName, storyId, commentId, callback, handleCallback }
     return(
         <>
             <CustomPopup content={commentId ? 'Delete comment' : 'Delete story'}>
-                <Button 
+                {/* <Button 
                     data-cy="deleteButton"
                     as="div"
                     color="red"
                     floated="right"
                     onClick={() => setConfirmOpen(true)}
-                >
-                    <Icon name="trash" style={{ margin: 0 }} />
-                </Button>
+                > */}
+                
+                    <Icon                         
+                        className="trash-button"
+                        onClick={() => setConfirmOpen(true)} 
+                        color="red" 
+                        name="trash" style={{ margin: 0 }} 
+                    />
+                
+                {/* </Button> */}
             </CustomPopup>
         
             <Confirm

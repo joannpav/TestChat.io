@@ -6,6 +6,7 @@ const { SECRET_KEY } = require('../config');
 module.exports = (context) => {
     // context = { ...headers }
     const authHeader = context.req.headers.authorization;
+    console.log(`checking auth, what is in header? ${JSON.stringify(authHeader)}`);
     if (authHeader){
         const token = authHeader.split('Bearer ')[1];
         if (token) {
@@ -13,6 +14,7 @@ module.exports = (context) => {
                 const user = jwt.verify(token, SECRET_KEY);
                 return user;
             } catch (err) {
+                console.log(`Auth error?? ${err}`);
                 throw new AuthenticationError('Invalid/Expired token');
             }
         }

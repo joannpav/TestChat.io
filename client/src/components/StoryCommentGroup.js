@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks'
-import { Card, Comment, Form, Header } from 'semantic-ui-react';
+import { Button, Card, Comment, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import DeleteButton from './DeleteButton';
 
-const TestCaseCommentGroup = ({comments, user, storyId}) => {   
+const StoryCommentGroup = ({comments, user, storyId}) => {   
     const[comment, setComment] = useState('');
     const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
         update() {
@@ -47,24 +47,6 @@ const TestCaseCommentGroup = ({comments, user, storyId}) => {
                 )}
                
 
-            {/* {user && (
-                <Form reply>
-                    <Form.TextArea 
-                        name="comment"
-                        value={comment}
-                        onChange={event => setComment(event.target.value)}        
-                    />
-                    <Button 
-                        content='Add Reply' 
-                        labelPosition='left' 
-                        icon='edit' 
-                        primary 
-                        disabled={comment.trim() === ''}
-                        onClick={submitComment}
-                    />
-                </Form>
-            )} */}
-
             {comments.map(comment => (
                 <Comment key={comment.id}>
                 <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
@@ -75,14 +57,14 @@ const TestCaseCommentGroup = ({comments, user, storyId}) => {
                     </Comment.Metadata>
                     <Comment.Text>{comment.body}</Comment.Text>
                     <Comment.Actions>
-                    {user && user.username === comment.username && (
+                    {/* {user && user.username === comment.username && (
                         <Comment.Action>Delete</Comment.Action>     
                                        
-                    )}
+                    )} */}
                     {user && user.username === comment.username && (
                         <DeleteButton storyId={storyId} commentId={comment.id} />
                     )}
-                    <Comment.Action>Reply {storyId}</Comment.Action>
+                    {/* <Comment.Action>Reply {storyId}</Comment.Action> */}
                     </Comment.Actions>
                 </Comment.Content>
                 </Comment>
@@ -107,4 +89,4 @@ const SUBMIT_COMMENT_MUTATION = gql`
     }
 `;
 
-export default TestCaseCommentGroup
+export default StoryCommentGroup
