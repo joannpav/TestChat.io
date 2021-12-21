@@ -1,5 +1,7 @@
 import React from 'react';
-import { Popup, Image, Icon, Feed } from 'semantic-ui-react';
+import { Comment, Popup, Image, Icon, Feed } from 'semantic-ui-react';
+import moment from 'moment';
+import ScenarioCommentGroup from "../components/ScenarioCommentGroup";
 
 function ScenarioChatButton({user, story, testScenario: {id, commentCount, comments}}) {    
 
@@ -7,10 +9,20 @@ function ScenarioChatButton({user, story, testScenario: {id, commentCount, comme
         commentCount > 0 ? (
             <>
                 
-                <Popup
+                <Popup                        
                         content={comments && comments.map((comment) => (
-                            <>                        
-                            <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{JSON.stringify(comment)}</p>
+                            <>
+                            <Comment.Group>
+                                <Comment>
+                                    <Comment.Avatar as="a" src="https://react.semantic-ui.com/images/avatar/small/molly.png" />
+                                    <Comment.Content>
+                                        <Comment.Author as='a'>{comment.username}</Comment.Author>
+                                        <Comment.Metadata><span>{moment(comment.createdAt).fromNow()}</span></Comment.Metadata>
+                                        <Comment.Text>{comment.body}</Comment.Text>
+                                    </Comment.Content>
+                                    </Comment>
+                            </Comment.Group>
+                            <ScenarioCommentGroup storyId={story.id} user={user} comments=""></ScenarioCommentGroup>
                             </>
                             ))}
                         trigger={<Icon size="small" circular inverted name='comments' color='teal'/> }              

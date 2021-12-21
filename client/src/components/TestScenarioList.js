@@ -33,7 +33,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 <Table.HeaderCell>Scenario</Table.HeaderCell> 
                 <Table.HeaderCell>Reactions</Table.HeaderCell>
                 <Table.HeaderCell>Author</Table.HeaderCell>
-                <Table.HeaderCell>Manage</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
         
@@ -41,7 +41,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
             
             {scenarios && scenarios.map(scenario => (
               <Table.Row key={scenario.id}>
-                <Table.Cell  width="eight">                     
+                <Table.Cell  width="nine">                     
                       {scenario.scenario}     
                       <br />
                       <Label size="mini" color="purple">Functional</Label> 
@@ -55,7 +55,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 </Table.Cell>
                 <Table.Cell verticalAlign="middle">
                   <Card.Meta>
-                    {scenario.username}<br /><i>{moment(scenario.createdAt).fromNow(true)}</i>
+                    {scenario.username}<br /><i><span style={{fontSize:"xx-small"}}>{moment(scenario.createdAt).fromNow()}</span></i>
                   </Card.Meta>
                 </Table.Cell>
                 {user && user.username === scenario.username && (                     

@@ -5,7 +5,7 @@ import { Button, Card, Comment, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import DeleteButton from './DeleteButton';
 
-const StoryCommentGroup = ({comments, user, storyId}) => {   
+const ScenarioCommentGroup = ({comments, user, storyId}) => {   
     const[comment, setComment] = useState('');
     const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
         update() {
@@ -25,7 +25,7 @@ const StoryCommentGroup = ({comments, user, storyId}) => {
                 {user && (
                     <Card fluid>
                         <Card.Content>
-                            <p>Story comment</p>
+                            <p>Story a comment</p>
                             <Form>
                             <div className="ui action input fluid">
                                 <input
@@ -47,7 +47,7 @@ const StoryCommentGroup = ({comments, user, storyId}) => {
                 )}
                
 
-            {comments.map(comment => (
+            {comments && comments.map(comment => (
                 <Comment key={comment.id}>
                 <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
                 <Comment.Content>
@@ -89,4 +89,4 @@ const SUBMIT_COMMENT_MUTATION = gql`
     }
 `;
 
-export default StoryCommentGroup
+export default ScenarioCommentGroup

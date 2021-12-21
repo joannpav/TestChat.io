@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { useNavigate } from "react-router"
-import { Image, Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
+import { Pagination, Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
 import { FETCH_EPICS_QUERY } from "../util/graphql";
 import moment from 'moment';
 import {AuthContext} from "../context/auth";
@@ -25,12 +25,11 @@ function EpicFeed() {
         setEpicFeed({data: childData})
     }
 
-    console.log(`%%%% ${JSON.stringify(user)}`);
     let feedItemListMarkup = ""
     if (data.getEpics && data.getEpics.length === 0 || data.getEpics === null) {
         feedItemListMarkup = (
             <>
-            <Segment style={{backgroundColor: 'teal'}}>
+            <Segment style={{backgroundColor: 'teal'}} >
             <Container>
                 <EpicForm handleCallback={handleCallback}/>
             </Container>
@@ -72,6 +71,19 @@ function EpicFeed() {
                         </Card>
                     ))}
             </Feed>
+            {/* <Container>
+                <Segment raised>
+                    <Pagination
+                        boundaryRange={0}
+                        defaultActivePage={1}
+                        ellipsisItem={null}
+                        firstItem={null}
+                        lastItem={null}
+                        siblingRange={1}
+                        totalPages={10}
+                    />
+                </Segment>
+            </Container> */}
             </>
         )}
     
