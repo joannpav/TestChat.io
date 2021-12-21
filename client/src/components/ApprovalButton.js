@@ -31,15 +31,21 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
 
     const approvalButton = user ? (            
             <Feed.Like onClick={approveScenario} color={approved ? "teal" : "grey"}>
-                <Popup
-                    content={approvals && approvals.map((approval) => (
-                        <>                        
-                        <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{approval.username}</p>
-                        </>
-                         ))}
-                    trigger={<Icon size="small" circular inverted name="thumbs up" color={approved ? "teal" : "grey"} />}               
-                />
-                <span style={{color:approved ? "teal" : "grey" }}>{approvalCount} </span>
+                {approvalCount > 0 ? (<>
+                    <Popup
+                        content={approvals && approvals.map((approval) => (
+                            <>                        
+                            <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{approval.username}</p>
+                            </>
+                            ))}
+                        trigger={<Icon size="small" circular inverted name="thumbs up" color={approved ? "teal" : "grey"} />}               
+                    />
+                    <span style={{color:approved ? "teal" : "grey" }}>{approvalCount} </span>
+                </>) : (<>
+                    <Icon size="small" circular inverted name="thumbs up" color={approved ? "teal" : "grey"} />
+                    <span style={{color:approved ? "teal" : "grey" }}>{approvalCount} </span>
+                </>)}
+                
             </Feed.Like>
         
     ) : (

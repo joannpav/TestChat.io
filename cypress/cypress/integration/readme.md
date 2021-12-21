@@ -59,6 +59,8 @@ DONE - Scenarios can be approved
 DONE - Scenarios can be deleted by the scenario creator
 DONE - Scenarios cannot be edited. Protects integrity - approvals not relevant if scenario has changed
 DONE - If there are no scenarios for a story, a message should be displayed
+DONE - Scenarios can be approved or disapproved
+DONE - Approvers/Disapprovers list displayed on hover
 
 Comments
 ---

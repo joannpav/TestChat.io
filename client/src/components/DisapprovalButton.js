@@ -30,15 +30,20 @@ function DisapprovalButton({user, story, testScenario: {id, disapprovalCount, di
     
     const disapprovalButton = user ? (            
         <Feed.Like onClick={disapproveScenario} color={disapproved ? "teal" : "grey"}>
-            <Popup
-                content={disapprovals && disapprovals.map((disapproval) => (
-                    <>                        
-                    <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{disapproval.username}</p>
-                    </>
-                     ))}
-                trigger={<Icon size="small" circular inverted name="thumbs down" color={disapproved ? "teal" : "grey"} />}               
-            />
-            <span style={{color:disapproved ? "teal" : "grey" }}>{disapprovalCount}  </span>                                  
+            {disapprovalCount > 0 ? (<>
+                <Popup
+                    content={disapprovals && disapprovals.map((disapproval) => (
+                        <>                        
+                        <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{disapproval.username}</p>
+                        </>
+                        ))}
+                    trigger={<Icon size="small" circular inverted name="thumbs down" color={disapproved ? "teal" : "grey"} />}               
+                />
+                <span style={{color:disapproved ? "teal" : "grey" }}>{disapprovalCount}  </span>                                  
+            </>) : (<>
+                <Icon size="small" circular inverted name="thumbs down" color={disapproved ? "teal" : "grey"} />
+                <span style={{color:disapproved ? "teal" : "grey" }}>{disapprovalCount}  </span>                                  
+            </>)}            
         </Feed.Like>
     
     ) : (
