@@ -30,10 +30,10 @@ function ScenarioCommentLink({ user, storyId, scenarioId }) {
           <Modal.Content>    
 
             <Modal.Description>                    
-                    <ScenarioCommentGroup user={user} storyId={storyId} scenarioId={scenarioId}></ScenarioCommentGroup>
+                    <ScenarioCommentGroup user={user} storyId={storyId} scenarioId={scenarioId.id}></ScenarioCommentGroup>
             </Modal.Description>
           </Modal.Content>
-          <Modal.Actions>
+          {/* <Modal.Actions>
             <Button color='black' onClick={() => setOpen(false)}>
               Cancel
             </Button>
@@ -44,7 +44,7 @@ function ScenarioCommentLink({ user, storyId, scenarioId }) {
               onClick={() => setOpen(false)}
               positive
             />
-          </Modal.Actions>
+          </Modal.Actions> */}
         </Modal>
       )
     }

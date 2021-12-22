@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Card, Comment, Form, Header } from 'semantic-ui-react';
-import moment from 'moment';
-import DeleteButton from './DeleteButton';
+import { Card, Comment, Form, Header } from 'semantic-ui-react';
 
 const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {   
     const[comment, setComment] = useState('');
@@ -45,29 +43,14 @@ const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {
                             </Form>
                         </Card.Content>
                     </Card>
-                )}
-               
-
+                )}               
             
         </Comment.Group>
     );
     return commentGroupMarkup;
 };
 
-// const SUBMIT_COMMENT_MUTATION = gql`
-//     mutation($storyId: ID!, $body: String!){
-//         createComment(storyId: $storyId, body: $body){
-//             id
-//             comments {
-//                 id
-//                 body
-//                 username
-//                 createdAt
-//             }
-//             commentCount
-//         }
-//     }
-// `;
+
 const SUBMIT_SCENARIO_COMMENT_MUTATION = gql`
    mutation CreateScenarioComment($scenarioId: ID!, $body: String!, $storyId: ID!) {
         createScenarioComment(scenarioId: $scenarioId, body: $body, storyId: $storyId) {

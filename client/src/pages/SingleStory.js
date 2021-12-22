@@ -55,7 +55,7 @@ function SingleStory() {
                         float="right"
                         />
                     </Grid.Column>
-                    <Grid.Column width={12}>
+                    <Grid.Column width={14}>
                         <Card fluid color='red'>
                             <Card.Content>
                                 <Label as='a' color='red' ribbon style={{marginBottom:'10px'}}>

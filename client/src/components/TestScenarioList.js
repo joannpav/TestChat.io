@@ -42,7 +42,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
             
             {scenarios && scenarios.map(scenario => (
               <Table.Row key={scenario.id}>
-                <Table.Cell  width="nine">                     
+                <Table.Cell  width="8">                     
                       {scenario.scenario}     
                       <br />
                       <Label size="mini" color="purple">Functional</Label> 
@@ -61,7 +61,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 </Table.Cell>
                 {user && user.username === scenario.username && (                     
                   <Table.Cell textAlign="center">
-                    <ScenarioCommentLink user={user} storyId={storyId} scenarioId={scenario.id}/>                    
+                    <ScenarioCommentLink user={user} storyId={storyId} scenarioId={scenario}/>                    
                     <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
                   </Table.Cell>
                   )}
