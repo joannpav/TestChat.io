@@ -5,18 +5,19 @@ import { Button, Card, Comment, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import DeleteButton from './DeleteButton';
 
-const ScenarioCommentGroup = ({comments, user, storyId}) => {   
+const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {   
     const[comment, setComment] = useState('');
-    const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
+    const [submitComment] = useMutation(SUBMIT_SCENARIO_COMMENT_MUTATION, {
         update() {
             setComment('');
         },
         variables: {
             storyId,
+            scenarioId,
             body: comment
         }
     });
-    
+    console.log(`what is user???? ${JSON.stringify(user)}`);
     let commentGroupMarkup = (
         <Comment.Group>
             <Header as='h3' dividing>
@@ -47,46 +48,37 @@ const ScenarioCommentGroup = ({comments, user, storyId}) => {
                 )}
                
 
-            {comments && comments.map(comment => (
-                <Comment key={comment.id}>
-                <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
-                <Comment.Content>
-                    <Comment.Author as='a'>{comment.username}</Comment.Author>
-                    <Comment.Metadata>
-                    <div>{moment(comment.createdAt).fromNow()}</div>
-                    </Comment.Metadata>
-                    <Comment.Text>{comment.body}</Comment.Text>
-                    <Comment.Actions>
-                    {/* {user && user.username === comment.username && (
-                        <Comment.Action>Delete</Comment.Action>     
-                                       
-                    )} */}
-                    {user && user.username === comment.username && (
-                        <DeleteButton storyId={storyId} commentId={comment.id} />
-                    )}
-                    {/* <Comment.Action>Reply {storyId}</Comment.Action> */}
-                    </Comment.Actions>
-                </Comment.Content>
-                </Comment>
-            ))}            
+            
         </Comment.Group>
     );
     return commentGroupMarkup;
 };
 
-const SUBMIT_COMMENT_MUTATION = gql`
-    mutation($storyId: ID!, $body: String!){
-        createComment(storyId: $storyId, body: $body){
-            id
+// const SUBMIT_COMMENT_MUTATION = gql`
+//     mutation($storyId: ID!, $body: String!){
+//         createComment(storyId: $storyId, body: $body){
+//             id
+//             comments {
+//                 id
+//                 body
+//                 username
+//                 createdAt
+//             }
+//             commentCount
+//         }
+//     }
+// `;
+const SUBMIT_SCENARIO_COMMENT_MUTATION = gql`
+   mutation CreateScenarioComment($scenarioId: ID!, $body: String!, $storyId: ID!) {
+        createScenarioComment(scenarioId: $scenarioId, body: $body, storyId: $storyId) {
             comments {
                 id
-                body
-                username
                 createdAt
-            }
+                username
+                body
+                }
             commentCount
         }
     }
 `;
-
 export default ScenarioCommentGroup

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Label, Icon, Message, Table, Header, Card} from 'semantic-ui-react';
+import { Comment, Label, Icon, Message, Table, Header, Card} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 import DisapprovalButton from './DisapprovalButton';
 import DeleteScenarioButton from './DeleteScenarioButton';
 import ChatButton from '../components/ChatButton';
+import ScenarioCommentLink from '../components/ScenarioCommentLink';
 import moment from 'moment';
 
 function TestScenarioList({testScenarios, storyId, user}) {         
@@ -48,10 +49,10 @@ function TestScenarioList({testScenarios, storyId, user}) {
                       <Label size="mini" color="orange">Auto</Label>                            
                                                                       
                 </Table.Cell>                                                
-                <Table.Cell negative={scenario.approvalCount === 0 } >
+                <Table.Cell negative={scenario.approvalCount === 0 } textAlign="center">
                   <ApprovalButton key="abc" story={storyId} user={user} testScenario={scenario}></ApprovalButton>&nbsp;
-                  <DisapprovalButton key="def" story={storyId} user={user} testScenario={scenario}></DisapprovalButton>
-                  <ChatButton key="ghi" story={storyId} user={user} testScenario={scenario}></ChatButton>
+                  <DisapprovalButton key="def" story={storyId} user={user} testScenario={scenario}></DisapprovalButton>&nbsp;
+                  <ChatButton key={storyId} story={storyId} user={user} testScenario={scenario}></ChatButton>&nbsp;
                 </Table.Cell>
                 <Table.Cell verticalAlign="middle">
                   <Card.Meta>
@@ -60,6 +61,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 </Table.Cell>
                 {user && user.username === scenario.username && (                     
                   <Table.Cell textAlign="center">
+                    <ScenarioCommentLink user={user} storyId={storyId} scenarioId={scenario.id}/>                    
                     <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
                   </Table.Cell>
                   )}
