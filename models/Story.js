@@ -1,10 +1,10 @@
 const { model, Schema } = require('mongoose');
 
 const storySchema = new Schema({
-    // epic: {
-    //     title: String,
-    //     createdAt: String,
-    // },
+    epic: {
+        type: Schema.Types.ObjectId,
+        ref: 'Epic'
+    },
     epicName: String,
     body: String,
     acceptanceCriteria: String,

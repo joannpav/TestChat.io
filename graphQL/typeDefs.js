@@ -19,7 +19,7 @@ type User {
 }
 type Epic {
     id: ID!
-    epicName: String!
+    epicName: String
     description: String        
     createdAt: String!
     users: [User]!
@@ -33,7 +33,7 @@ type Epic {
 # }
 type Story {
     id: ID!
-    epicName: String
+    epic: Epic!
     body: String!
     acceptanceCriteria: String
     createdAt: String!
@@ -107,8 +107,9 @@ input RegisterInput {
 }
 type Query {
     getUsers: [User]
-    getStories(epicName: String): [Story]
     getStory(storyId: ID!): Story   
+    getStories(epicId: ID!): [Story]    
+    getEpic(epicName: String!): Epic
     getEpics: [Epic] 
     getStoryCountByEpic(epicName: String): Int  
     getScenarioCountByEpic(epicName: String): Int  

@@ -8,14 +8,16 @@ const testScenarios = require('./testScenarios');
 
 module.exports = {
     StoryCountInEpic: {
-        async getStoryCountByEpic(parent, { }, context) {            
-            const storyCount = await Story.find({epicName: parent.epicName});             
+        async getStoryCountByEpic(parent, { }, context) { 
+            
+            console.log(`is epic id in here? ${parent.id}`);           
+            const storyCount = await Story.find({epic: parent.id});             
             return storyCount.length;    
         }
     },
     ScenarioCountInEpic: {
         async getScenarioCountByEpic(parent, { }, context) {                        
-            const story = await Story.find({epicName: parent.epicName});    
+            const story = await Story.find({epic: parent.id});    
             let scenarioCount = 0;
             for (let i=0; i<story.length; i++){            
                 scenarioCount += story[i].testScenarios.length;
@@ -24,13 +26,22 @@ module.exports = {
         }
     },
     Query: {
-        async getEpics() {
+        async getEpics() {            
             try { 
                 const epics = await Epic.find()
                     .populate('users')
                     .populate('organization')                    
                     .sort({ createdAt: -1 });                
                 return epics;
+            } catch (err) {
+                throw new Error(err);
+            }
+        },            
+        async getEpic(_, { epicName }, context) {            
+            try { 
+                const epic = await Epic.findOne({epicName:epicName});
+                console.log(`anything returned for epic? ${JSON.stringify(epic)}`);
+                return epic;
             } catch (err) {
                 throw new Error(err);
             }

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { Image, Feed, Card, Container, Segment, Message  } from 'semantic-ui-react';
-import { FETCH_STORIES_QUERY } from "../util/graphql";
+import { FETCH_EPIC_QUERY, FETCH_STORIES_QUERY } from "../util/graphql";
 import moment from 'moment';
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
@@ -17,12 +17,17 @@ function StoryFeed() {
     const [storyFeed, setStoryFeed] = useState();
 
     const { user } = useContext(AuthContext);    
-    const { epicName } = useParams();
-    console.log(`what is epicName returned in useParams? ${epicName}`);
-
+    const { epicId } = useParams();
+    console.log(`what is epicId returned in useParams? ${epicId}`);
+    // const epicId = useQuery(FETCH_EPIC_QUERY, {
+    //     variables: {
+    //         epicName
+    //     }
+    // });
+    
     const { data, error, loading } = useQuery(FETCH_STORIES_QUERY, {
         variables: {
-            epicName
+            epicId
         }
     });
     
@@ -36,6 +41,7 @@ function StoryFeed() {
         setStoryFeed({data: childData})        
     }
 
+    console.log(`is this?? ${data.epicName}`);
 
     let feedItemListMarkup = ""
     if (data.getStories.length === 0) {
@@ -43,10 +49,10 @@ function StoryFeed() {
             <>
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
-                <StoryForm epicName={epicName} handleCallback={handleCallback}/>
+                <StoryForm epicName={data.epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>     
-            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf={epicName} />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf={data.epicName} />
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -57,10 +63,10 @@ function StoryFeed() {
         feedItemListMarkup = (<>  
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
-                <StoryForm epicName={epicName} handleCallback={handleCallback}/>
+                <StoryForm epicName={data.epicName} handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={epicName} leaf="Stories" />
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={data.epicName} leaf="Stories" />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              
@@ -76,7 +82,7 @@ function StoryFeed() {
                         </Feed.Label>
                         <Feed.Content>
                             <Feed.Summary>                            
-                                <Feed.Content><a href={`/${epicName}/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
+                                <Feed.Content><a href={`/${data.epicName}/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
                                 <Feed.Date>{moment(story.createdAt).fromNow()}</Feed.Date>                                                        
                             </Feed.Summary>
                             
@@ -87,7 +93,7 @@ function StoryFeed() {
                                 <Feed.Meta>
                                     <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                                     <TestScenarioButton count={story.testScenarioCount} user={user} />                                   
-                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={epicName} storyId={story.id} />}                                          
+                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={data.epicName} storyId={story.id} />}                                          
                                 </Feed.Meta>
                             
                             

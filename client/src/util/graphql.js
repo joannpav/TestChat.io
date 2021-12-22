@@ -19,11 +19,25 @@ export const FETCH_EPICS_QUERY = gql`
     }
 `;
 
+export const FETCH_EPIC_QUERY = gql`
+    query getEpic($epicName: String!) {
+        getEpic(epicName: $epicName) {
+            id
+            epicName
+            createdAt
+        }
+    } 
+`;
+
 export const FETCH_STORIES_QUERY = gql`
-  query getStories($epicName: String) {
-    getStories (epicName: $epicName) {
+  query getStories($epicId: ID!) {
+    getStories (epicId: $epicId) {
         id
-        epicName
+        epic {
+            id
+            epicName
+            createdAt
+        }
         body
         acceptanceCriteria
         username

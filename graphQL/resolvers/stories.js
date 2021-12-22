@@ -1,21 +1,27 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-errors');
 const Story = require('../../models/Story');
+const Epic = require('../../models/Epic');
 const checkAuth = require('../../util/check-auth');
 
 module.exports = {    
     Query: {
-        async getStories(_, { epicName }){
+        async getStories(_, { epicId }){
+            console.log(`in getStories, epicId is ${epicId}`);
             try{
-                const stories = await Story.find({epicName: epicName}).sort({ createdAt: -1 });                
+                const epic = await Epic.findById(epicId);
+                    
+                console.log(`in getStories, epic is ${epic}`);
+                const stories = await Story.find({epic})
+                    .populate('epic')
+                    .sort({ createdAt: -1 });                                
                 return stories;
             } catch(err) {
                 throw new Error(err);
             }
         },
         async getStory(_, { storyId }){
-            try{
-                // debugger;
-                const story = await Story.findById(storyId);                
+            try{                
+                const story = await Story.findById(storyId);                                
                 if(story){
                     return story;
                 } else {
@@ -33,15 +39,14 @@ module.exports = {
             const user = checkAuth(context);
             console.log(`in Mutation: createStory, is epic passed in? ${epicName}`);
 
-            // if (epic.trim() === '') {
-            //     throw new Error('Epic must not be empty');
-            // }
+            const epic = await Epic.findOne({epicName: epicName});
+            console.log(`was epic found ${epic}`);
             if (body.trim() === '') {
                 throw new Error('Story body must not be empty');
             }
 
             const newStory = new Story({
-                epicName, 
+                epic: epic, 
                 body,
                 acceptanceCriteria,
                 user: user.id,

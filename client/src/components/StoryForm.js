@@ -97,7 +97,12 @@ const CREATE_STORY_MUTATION = gql`
     mutation createStory($epicName: String, $body: String!, $acceptanceCriteria: String) {
         createStory(epicName: $epicName, body: $body, acceptanceCriteria: $acceptanceCriteria) {
             id
-            epicName
+            epic {
+                id
+                epicName
+                username
+                createdAt
+            }
             body
             acceptanceCriteria
             createdAt
