@@ -14,6 +14,7 @@ export const FETCH_EPICS_QUERY = gql`
                 username
             }
             storyCount
+            scenarioCount
         }
     }
 `;

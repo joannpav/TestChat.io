@@ -25,6 +25,7 @@ type Epic {
     users: [User]!
     organization: Organization
     storyCount: Int!
+    scenarioCount: Int!
 }
 # type StoryCountInEpic {
 #     epicName: String
@@ -109,7 +110,8 @@ type Query {
     getStories(epicName: String): [Story]
     getStory(storyId: ID!): Story   
     getEpics: [Epic] 
-    getStoryCountByEpic(epicName: String): Int    
+    getStoryCountByEpic(epicName: String): Int  
+    getScenarioCountByEpic(epicName: String): Int  
 }
 type Mutation {
     register(registerInput: RegisterInput): User!

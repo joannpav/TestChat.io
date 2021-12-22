@@ -51,7 +51,8 @@ function DeleteButton({ epicName, storyId, commentId, callback, handleCallback }
                     onClick={() => setConfirmOpen(true)}
                 > */}
                 
-                    <Icon                         
+                    <Icon  
+                        data-cy="deleteButton"                       
                         className="trash-button"
                         onClick={() => setConfirmOpen(true)} 
                         color="red" 

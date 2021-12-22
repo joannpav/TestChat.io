@@ -9,7 +9,8 @@ const epicsResolvers = require('./epics');
 
 module.exports = {
     Epic: {                
-        storyCount: epicsResolvers.StoryCountInEpic.getStoryCountByEpic
+        storyCount: epicsResolvers.StoryCountInEpic.getStoryCountByEpic,
+        scenarioCount: epicsResolvers.ScenarioCountInEpic.getScenarioCountByEpic
     },
     Story: {
         likeCount: (parent) => parent.likes.length,

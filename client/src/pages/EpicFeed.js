@@ -9,6 +9,12 @@ import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import EpicForm from "../components/EpicForm";
 
 
+// TODO:
+// Add delete button
+// Deleting an epic should delete all stories
+// May want to convert from using the epicName to the epicID bc what if 2 epics have same name?
+// Both epics end up pointing to the same stories
+
 function EpicFeed() {
     const [epicFeed, setEpicFeed] = useState();
     const { user } = useContext(AuthContext);
@@ -64,26 +70,14 @@ function EpicFeed() {
                                     </Feed.Summary>
                                     <Feed.Extra>
                                         <Feed.Meta>{epic.storyCount} Stories</Feed.Meta>
+                                        <Feed.Meta>{epic.scenarioCount} Scenarios</Feed.Meta>
                                     </Feed.Extra>
                                 </Feed.Content>
                             </Feed.Event>
                         </Card.Content>
                         </Card>
                     ))}
-            </Feed>
-            {/* <Container>
-                <Segment raised>
-                    <Pagination
-                        boundaryRange={0}
-                        defaultActivePage={1}
-                        ellipsisItem={null}
-                        firstItem={null}
-                        lastItem={null}
-                        siblingRange={1}
-                        totalPages={10}
-                    />
-                </Segment>
-            </Container> */}
+            </Feed>            
             </>
         )}
     

@@ -55,7 +55,7 @@ ie: As a member of an org, I can add a scenario to a story
 ie: As an authenticated user, I can approve a scenario
 ie: An authenticated user can only navigate to their own org
 DONE - Scenarios can be approved
-- Scenarios can have comments
+DONE - Scenarios can have comments
 DONE - Scenarios can be deleted by the scenario creator
 DONE - Scenarios cannot be edited. Protects integrity - approvals not relevant if scenario has changed
 DONE - If there are no scenarios for a story, a message should be displayed
