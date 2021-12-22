@@ -127,6 +127,13 @@ const CREATE_STORY_MUTATION = gql`
                     username
                     createdAt
                 }
+                commentCount
+                comments {
+                    id
+                    username
+                    createdAt
+                }
+
                 
             }
         }

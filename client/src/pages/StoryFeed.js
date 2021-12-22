@@ -85,11 +85,10 @@ function StoryFeed() {
                             </Feed.Extra>
                             <hr />
                                 <Feed.Meta>
-                                <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
-                                <TestScenarioButton count={story.testScenarioCount} user={user} />   
+                                    <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
+                                    <TestScenarioButton count={story.testScenarioCount} user={user} />                                   
+                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={epicName} storyId={story.id} />}                                          
                                 </Feed.Meta>
-                                {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={epicName} storyId={story.id} />}                                          
-                                
                             
                             
                         </Feed.Content>

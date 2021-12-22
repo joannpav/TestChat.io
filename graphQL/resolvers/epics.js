@@ -4,12 +4,23 @@ const User = require('../../models/User');
 const Organization = require('../../models/Organization');
 const checkAuth = require('../../util/check-auth');
 const Story = require('../../models/Story');
+const testScenarios = require('./testScenarios');
 
 module.exports = {
     StoryCountInEpic: {
         async getStoryCountByEpic(parent, { }, context) {            
             const storyCount = await Story.find({epicName: parent.epicName});             
             return storyCount.length;    
+        }
+    },
+    ScenarioCountInEpic: {
+        async getScenarioCountByEpic(parent, { }, context) {                        
+            const story = await Story.find({epicName: parent.epicName});    
+            let scenarioCount = 0;
+            for (let i=0; i<story.length; i++){            
+                scenarioCount += story[i].testScenarios.length;
+            }            
+            return scenarioCount;
         }
     },
     Query: {

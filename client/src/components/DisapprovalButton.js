@@ -2,24 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Icon, Feed, Popup, Image } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import moment from 'moment';
 
 
-function DisapprovalButton({user, story, testScenario: {id, approvalCount, approvals}}) {
-    const [approved, setApproved] = useState(false);
+function DisapprovalButton({user, story, testScenario: {id, disapprovalCount, disapprovals}}) {
+    const [disapproved, setDisapproved] = useState(false);
     const [errors, setErrors] = useState({});
     
-    useEffect(() => {
-        if (approvals) {            
-            if(user && approvals.find(approve => approve.username === user.username)){
-                setApproved(true)
-            } else setApproved(false)
+    useEffect(() => {        
+        if (disapprovals) {            
+            if(user && disapprovals.find(disapprove => disapprove.username === user.username)){
+                setDisapproved(true)
+            } else setDisapproved(false)
         }
         
-        return () => setApproved(false);
-    }, [user, approvals]);
+        return () => setDisapproved(false);
+    }, [user, disapprovals]);
 
-    const [approveScenario] = useMutation(APPROVE_SCENARIO_MUTATION, {
+    const [disapproveScenario] = useMutation(DISAPPROVE_SCENARIO_MUTATION, {
         variables: { 
             storyId: story,
             scenarioId: id},
@@ -30,39 +29,41 @@ function DisapprovalButton({user, story, testScenario: {id, approvalCount, appro
     })
     
     const disapprovalButton = user ? (            
-        <Feed.Like onClick={approveScenario} color={approved ? "teal" : "grey"}>
-            <Popup
-                content={approvals.map((approval) => (
-                    <>                        
-                    <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{approval.username}</p>
-                    </>
-                     ))}
-                trigger={<Icon size="small" circular inverted  name="thumbs down" color={approved ? "teal" : "grey"} />}               
-            />
-            <span style={{color:approved ? "teal" : "grey" }}>{approvalCount}  </span>                                  
+        <Feed.Like onClick={disapproveScenario} color={disapproved ? "teal" : "grey"}>
+            {disapprovalCount > 0 ? (<>
+                <Popup
+                    content={disapprovals && disapprovals.map((disapproval) => (
+                        <>                        
+                        <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{disapproval.username}</p>
+                        </>
+                        ))}
+                    trigger={<Icon size="small" circular inverted name="thumbs down" color={disapproved ? "teal" : "grey"} />}               
+                />
+                <span style={{color:disapproved ? "teal" : "grey" }}>{disapprovalCount}  </span>                                  
+            </>) : (<>
+                <Icon size="small" circular inverted name="thumbs down" color={disapproved ? "teal" : "grey"} />
+                <span style={{color:disapproved ? "teal" : "grey" }}>{disapprovalCount}  </span>                                  
+            </>)}            
         </Feed.Like>
     
     ) : (
-        <Feed.Like><Icon name='thumbs down' color="grey" to="/login"/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}</Feed.Like>
+        <Feed.Like><Icon name='thumbs down' color="grey" to="/login"/> {disapprovalCount } {disapprovalCount === 1 ? "Disapproval  " : "Disapprovals  "}</Feed.Like>
     )
-
-
-    return (
-        <Feed.Like>
-            {disapprovalButton} 
-        </Feed.Like> 
-             
-           
-       
-    )
+    return disapprovalButton
 }
 
-const APPROVE_SCENARIO_MUTATION = gql`
-    mutation approveScenario($storyId: ID!, $scenarioId: ID!){
-        approveScenario(storyId: $storyId, scenarioId: $scenarioId){
+const DISAPPROVE_SCENARIO_MUTATION = gql`
+    mutation disapproveScenario($storyId: ID!, $scenarioId: ID!){
+        disapproveScenario(storyId: $storyId, scenarioId: $scenarioId){
             id
             testScenarios{
                 id
+                disapprovals {
+                    id
+                    username
+                    createdAt
+                }
+                disapprovalCount
                 approvals {
                     id
                     username

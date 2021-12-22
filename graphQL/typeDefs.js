@@ -25,6 +25,7 @@ type Epic {
     users: [User]!
     organization: Organization
     storyCount: Int!
+    scenarioCount: Int!
 }
 # type StoryCountInEpic {
 #     epicName: String
@@ -59,14 +60,23 @@ type TestScenario {
     username: String!
     createdAt: String! 
     approvalCount: Int!
+    disapprovalCount: Int!
     questionCount: Int!
     viewerCount: Int!
     approvals: [Approval]
+    disapprovals: [Dispproval]
     questions: [Question]
     viewers: [Viewer]  
+    comments: [Comment]!
+    commentCount: Int!
+}
+type Approval{
+    id: ID!
+    createdAt: String!
+    username: String!
 }
 
-type Approval{
+type Dispproval{
     id: ID!
     createdAt: String!
     username: String!
@@ -100,7 +110,8 @@ type Query {
     getStories(epicName: String): [Story]
     getStory(storyId: ID!): Story   
     getEpics: [Epic] 
-    getStoryCountByEpic(epicName: String): Int    
+    getStoryCountByEpic(epicName: String): Int  
+    getScenarioCountByEpic(epicName: String): Int  
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
@@ -110,9 +121,11 @@ type Mutation {
     deleteStory(storyId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
     deleteComment(storyId: ID!, commentId: ID!): Story!
+    createScenarioComment(storyId: ID!, scenarioId: ID!, body: String!): TestScenario
     likeStory(storyId: ID!): Story! 
     createTestScenario(storyId: ID!, scenario: String!): Story!
     approveScenario(storyId: ID!, scenarioId: ID!): Story!
+    disapproveScenario(storyId: ID!, scenarioId: ID!): Story!
     deleteScenario(storyId: ID!, scenarioId: ID!): Story!
 }
 

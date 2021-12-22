@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Icon, Feed, Popup, Image } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import moment from 'moment';
 
 
 function ApprovalButton({user, story, testScenario: {id, approvalCount, approvals}}) {
@@ -32,31 +31,27 @@ function ApprovalButton({user, story, testScenario: {id, approvalCount, approval
 
     const approvalButton = user ? (            
             <Feed.Like onClick={approveScenario} color={approved ? "teal" : "grey"}>
-                <Popup
-                    content={approvals.map((approval) => (
-                        <>                        
-                        <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{approval.username}</p>
-                        </>
-                         ))}
-                    trigger={<Icon size="small" circular inverted name="thumbs up" color={approved ? "teal" : "grey"} />}               
-                />
-                <span style={{color:approved ? "teal" : "grey" }}>{approvalCount}                                    </span>
+                {approvalCount > 0 ? (<>
+                    <Popup
+                        content={approvals && approvals.map((approval) => (
+                            <>                        
+                            <p><Image size="mini" src="https://react.semantic-ui.com/images/avatar/small/molly.png"  avatar />{approval.username}</p>
+                            </>
+                            ))}
+                        trigger={<Icon size="small" circular inverted name="thumbs up" color={approved ? "teal" : "grey"} />}               
+                    />
+                    <span style={{color:approved ? "teal" : "grey" }}>{approvalCount} </span>
+                </>) : (<>
+                    <Icon size="small" circular inverted name="thumbs up" color={approved ? "teal" : "grey"} />
+                    <span style={{color:approved ? "teal" : "grey" }}>{approvalCount} </span>
+                </>)}
+                
             </Feed.Like>
         
     ) : (
         <Feed.Like><Icon name='thumbs up' color="grey" to="/login"/> {approvalCount } {approvalCount === 1 ? "Approval  " : "Approvals  "}</Feed.Like>
     )
-
-
-    
-    return (
-        <Feed.Like>
-            {approvalButton} 
-        </Feed.Like> 
-             
-           
-       
-    )
+    return approvalButton
 }
 
 const APPROVE_SCENARIO_MUTATION = gql`
@@ -71,6 +66,12 @@ const APPROVE_SCENARIO_MUTATION = gql`
                     createdAt
                 }
                 approvalCount
+                disapprovals {
+                    id
+                    username
+                    createdAt
+                }
+                disapprovalCount
             }
           
         }

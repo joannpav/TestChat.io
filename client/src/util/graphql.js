@@ -5,6 +5,7 @@ export const FETCH_EPICS_QUERY = gql`
         getEpics {
             id
             epicName
+            createdAt
             description
             organization {                
                 orgName
@@ -13,6 +14,7 @@ export const FETCH_EPICS_QUERY = gql`
                 username
             }
             storyCount
+            scenarioCount
         }
     }
 `;
@@ -37,6 +39,19 @@ export const FETCH_STORIES_QUERY = gql`
                 id
                 username
                 createdAt
+            }
+            disapprovalCount
+            disapprovals {
+                id
+                username
+                createdAt
+            }
+            commentCount
+            comments {
+                id
+                username
+                createdAt
+                body
             }
         }        
         commentCount
@@ -79,6 +94,7 @@ export const FETCH_STORY_QUERY = gql`
                 id
                 scenario                
                 username
+                createdAt
                 approvalCount
                 # questionCount
                 # viewerCount
@@ -86,6 +102,19 @@ export const FETCH_STORY_QUERY = gql`
                     id
                     username
                     createdAt
+                }
+                disapprovalCount
+                disapprovals {
+                    id
+                    username
+                    createdAt
+                }
+                commentCount
+                comments {
+                    id
+                    username
+                    createdAt
+                    body
                 }
             #     questions {
             #         username
@@ -98,22 +127,3 @@ export const FETCH_STORY_QUERY = gql`
     }
 `;
 
-// testScenarioCount
-//         testScenarios {
-//             id
-//             scenario
-//             createdAt
-//             username
-//             approvals{
-//                 username
-//                 createdAt
-//             }
-//             questions{
-//                 username
-//                 createdAt
-//             }
-//             viewers{
-//                 username
-//                 createdAt
-//             }
-//         }

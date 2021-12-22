@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Container} from 'semantic-ui-react';
+import { Pagination, Container} from 'semantic-ui-react';
 
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
@@ -35,6 +35,7 @@ function App() {
               <Route exact path=":epicName/stories/:storyId" element={<SingleStory />} />              
             </Routes>                      
         </Container>
+       
       </Router>      
     </AuthProvider>
   );

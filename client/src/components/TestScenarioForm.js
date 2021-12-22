@@ -68,11 +68,25 @@ const CREATE_TEST_SCENARIO_MUTATION = gql`
             testScenarios {
                 id
                 scenario
-                username            
+                username  
+                createdAt          
                 approvalCount
                 approvals {
                     id
                     username
+                    createdAt
+                }
+                disapprovalCount
+                disapprovals {
+                    id
+                    username
+                    createdAt
+                }
+                commentCount
+                comments {
+                    id
+                    username
+                    body
                     createdAt
                 }
             }        

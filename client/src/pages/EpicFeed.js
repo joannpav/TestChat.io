@@ -1,13 +1,19 @@
 import React, { useContext, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { useNavigate } from "react-router"
-import { Image, Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
+import { Pagination, Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
 import { FETCH_EPICS_QUERY } from "../util/graphql";
 import moment from 'moment';
 import {AuthContext} from "../context/auth";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import EpicForm from "../components/EpicForm";
 
+
+// TODO:
+// Add delete button
+// Deleting an epic should delete all stories
+// May want to convert from using the epicName to the epicID bc what if 2 epics have same name?
+// Both epics end up pointing to the same stories
 
 function EpicFeed() {
     const [epicFeed, setEpicFeed] = useState();
@@ -25,12 +31,11 @@ function EpicFeed() {
         setEpicFeed({data: childData})
     }
 
-    console.log(`%%%% ${JSON.stringify(user)}`);
     let feedItemListMarkup = ""
     if (data.getEpics && data.getEpics.length === 0 || data.getEpics === null) {
         feedItemListMarkup = (
             <>
-            <Segment style={{backgroundColor: 'teal'}}>
+            <Segment style={{backgroundColor: 'teal'}} >
             <Container>
                 <EpicForm handleCallback={handleCallback}/>
             </Container>
@@ -65,13 +70,14 @@ function EpicFeed() {
                                     </Feed.Summary>
                                     <Feed.Extra>
                                         <Feed.Meta>{epic.storyCount} Stories</Feed.Meta>
+                                        <Feed.Meta>{epic.scenarioCount} Scenarios</Feed.Meta>
                                     </Feed.Extra>
                                 </Feed.Content>
                             </Feed.Event>
                         </Card.Content>
                         </Card>
                     ))}
-            </Feed>
+            </Feed>            
             </>
         )}
     
