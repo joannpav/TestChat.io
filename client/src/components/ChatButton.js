@@ -1,5 +1,5 @@
 import React from 'react';
-import { Comment, Popup, Image, Icon, Feed } from 'semantic-ui-react';
+import { Comment, Popup, Icon, Feed } from 'semantic-ui-react';
 import moment from 'moment';
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Comment, Label, Icon, Message, Table, Header, Card} from 'semantic-ui-react';
+import { Label, Message, Table, Card} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 import DisapprovalButton from './DisapprovalButton';
 import DeleteScenarioButton from './DeleteScenarioButton';

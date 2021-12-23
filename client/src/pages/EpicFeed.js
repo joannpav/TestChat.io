@@ -32,7 +32,7 @@ function EpicFeed() {
     }
 
     let feedItemListMarkup = ""
-    if (data.getEpics && data.getEpics.length === 0 || data.getEpics === null) {
+    if ((data.getEpics && data.getEpics.length === 0) || data.getEpics === null) {
         feedItemListMarkup = (
             <>
             <Segment style={{backgroundColor: 'teal'}} >

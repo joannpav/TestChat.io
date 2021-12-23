@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks'
-import { Card, Comment, Form, Header } from 'semantic-ui-react';
+import { Card, Comment, Form } from 'semantic-ui-react';
 
 const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {   
     const[comment, setComment] = useState('');
@@ -17,14 +17,11 @@ const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {
     });
     console.log(`what is user???? ${JSON.stringify(user)}`);
     let commentGroupMarkup = (
-        <Comment.Group>
-            <Header as='h3' dividing>
-            Comments
-            </Header>
+        <Comment.Group>            
                 {user && (
                     <Card fluid>
                         <Card.Content>
-                            <p>Story a comment</p>
+                            
                             <Form>
                             <div className="ui action input fluid">
                                 <input

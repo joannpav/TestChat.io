@@ -1,16 +1,16 @@
-import React, { useState, useMutation } from 'react'
-import { Modal, Button, Comment, Form, Header } from 'semantic-ui-react'
-import gql from 'graphql-tag';
+import React from 'react'
+import { Modal, Comment } from 'semantic-ui-react'
 import ScenarioCommentGroup from '../components/ScenarioCommentGroup';
 
 function ScenarioCommentLink({ user, storyId, scenarioId }) {
     const [open, setOpen] = React.useState(false);
-    const [comment, setComment] = useState('');
+    // const [comment, setComment] = useState('');
     
     console.log(`in ScenarioCommentLink, what is scenarioId? ${JSON.stringify(scenarioId)}`);
 
     return (
         <Modal
+          closeIcon
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
@@ -32,35 +32,9 @@ function ScenarioCommentLink({ user, storyId, scenarioId }) {
             <Modal.Description>                    
                     <ScenarioCommentGroup user={user} storyId={storyId} scenarioId={scenarioId.id}></ScenarioCommentGroup>
             </Modal.Description>
-          </Modal.Content>
-          {/* <Modal.Actions>
-            <Button color='black' onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              content="Save"
-              labelPosition='right'
-              icon='checkmark'
-              onClick={() => setOpen(false)}
-              positive
-            />
-          </Modal.Actions> */}
+          </Modal.Content>          
         </Modal>
       )
     }
-const SUBMIT_SCENARIO_COMMENT_MUTATION = gql`
-   mutation CreateScenarioComment($scenarioId: ID!, $body: String!, $storyId: ID!) {
-        createScenarioComment(scenarioId: $scenarioId, body: $body, storyId: $storyId) {
-            comments {
-                id
-                createdAt
-                username
-                body
-                }
-            commentCount
-        }
-    }
-`;
-
 
 export default ScenarioCommentLink

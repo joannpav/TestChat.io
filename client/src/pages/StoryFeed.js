@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { Image, Feed, Card, Container, Segment, Message  } from 'semantic-ui-react';
-import { FETCH_EPIC_QUERY, FETCH_STORIES_QUERY } from "../util/graphql";
+import { FETCH_STORIES_QUERY } from "../util/graphql";
 import moment from 'moment';
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
