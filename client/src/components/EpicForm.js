@@ -7,14 +7,13 @@ import { useForm } from '../util/hooks';
 import { FETCH_EPICS_QUERY } from '../util/graphql';
 
 function EpicForm({ handleCallback }) {
-    const { values, onChange, onSubmit } = useForm(createEpicCallback, {
+    const { values, onChange, onSubmit } = useForm(createEpicCallback, {        
         epicName: '',
         description: '',                
     });
 
     let navigate = useNavigate();
-        
-    console.log("why does this print 8 times???");
+            
     const [createEpic, { loading, error }] = useMutation(CREATE_EPIC_MUTATION, {
         variables: values,        
         update(proxy, result) {            
@@ -24,7 +23,7 @@ function EpicForm({ handleCallback }) {
             console.log(`what is in this result? ${JSON.stringify(result)}`);        
             data.getEpics = [result.data.createEpic, ...data.getEpics];            
             proxy.writeQuery({ query: FETCH_EPICS_QUERY, data });
-            
+
             values.epicName = '';
             values.description = '';            
             handleCallback(data);
@@ -86,7 +85,12 @@ function EpicForm({ handleCallback }) {
 const CREATE_EPIC_MUTATION = gql`
     mutation createEpic($epicName: String!, $description: String) {
         createEpic(epicName: $epicName, description: $description) {
-            id            
+            id    
+            epicName
+            description
+            createdAt        
+            storyCount
+            scenarioCount
         }
     }
 `;

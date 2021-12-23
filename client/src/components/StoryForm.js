@@ -6,24 +6,24 @@ import { useNavigate } from 'react-router';
 import { useForm } from '../util/hooks';
 import { FETCH_STORIES_QUERY } from '../util/graphql';
 
-function StoryForm({ epicName, handleCallback }) {
-    console.log(`In StoryForm, epic is ${epicName}`);
+function StoryForm({ epicId, handleCallback }) {
+    console.log(`In StoryForm, epic is ${epicId}`);
 
     const { values, onChange, onSubmit } = useForm(createStoryCallback, {  
-        epicName,      
+        epicId,      
         body: '',
         acceptanceCriteria: ''
     });
 
     let navigate = useNavigate();
-    
+    console.log(`, step2`);
     const [createStory, { error }] = useMutation(CREATE_STORY_MUTATION, {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({
                 query: FETCH_STORIES_QUERY,
                 variables: {
-                    epicName
+                    epicId
                 }
             });    
             console.log(`what is in this result? ${JSON.stringify(result)}`);        
@@ -31,7 +31,7 @@ function StoryForm({ epicName, handleCallback }) {
             proxy.writeQuery({ 
                 query: FETCH_STORIES_QUERY,
                 variables: {
-                    epicName
+                    epicId
                 },
                 data 
             });
@@ -86,7 +86,8 @@ function StoryForm({ epicName, handleCallback }) {
         {error && (
             <div className="ui error message">
             <ul className="list">
-                <li>{error.graphQLErrors[0].message}</li>
+                {/* .graphQLErrors[0]?.message */}
+                <li>{JSON.stringify(error)}</li>
             </ul> </div>
         )}
         </>
@@ -94,10 +95,9 @@ function StoryForm({ epicName, handleCallback }) {
 }
 
 const CREATE_STORY_MUTATION = gql`
-    mutation createStory($epicName: String, $body: String!, $acceptanceCriteria: String) {
-        createStory(epicName: $epicName, body: $body, acceptanceCriteria: $acceptanceCriteria) {
-            id
-            epicName
+    mutation createStory($epicId: ID!, $body: String!, $acceptanceCriteria: String) {
+        createStory(epicId: $epicId, body: $body, acceptanceCriteria: $acceptanceCriteria) {
+            id            
             body
             acceptanceCriteria
             createdAt

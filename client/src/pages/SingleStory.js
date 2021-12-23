@@ -13,7 +13,7 @@ import StoryCommentGroup from '../components/StoryCommentGroup';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function SingleStory() {  
-    const { epicName, storyId } = useParams();
+    const { epicId, storyId } = useParams();
     const { user } = useContext(AuthContext);    
     const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
         variables: {
@@ -37,6 +37,7 @@ function SingleStory() {
     } else {
         const { 
             id, 
+            epicName,
             body, 
             acceptanceCriteria, 
             createdAt, 

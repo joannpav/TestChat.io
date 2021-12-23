@@ -19,7 +19,7 @@ type User {
 }
 type Epic {
     id: ID!
-    epicName: String!
+    epicName: String
     description: String        
     createdAt: String!
     users: [User]!
@@ -33,7 +33,7 @@ type Epic {
 # }
 type Story {
     id: ID!
-    epicName: String
+    epic: Epic!
     body: String!
     acceptanceCriteria: String
     createdAt: String!
@@ -107,8 +107,9 @@ input RegisterInput {
 }
 type Query {
     getUsers: [User]
-    getStories(epicName: String): [Story]
     getStory(storyId: ID!): Story   
+    getStories(epicId: ID!): [Story]    
+    getEpic(epicName: String!): Epic
     getEpics: [Epic] 
     getStoryCountByEpic(epicName: String): Int  
     getScenarioCountByEpic(epicName: String): Int  
@@ -117,7 +118,7 @@ type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
     createEpic(epicName: String!, description: String): Epic!
-    createStory(epicName: String, body: String!, acceptanceCriteria: String): Story!
+    createStory(epicId: ID!, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
     deleteComment(storyId: ID!, commentId: ID!): Story!
