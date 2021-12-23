@@ -41,7 +41,7 @@ function StoryFeed() {
         setStoryFeed({data: childData})        
     }
 
-    console.log(`is this?? ${data.epicName}`);
+    console.log(`is this?? ${epicId}`);
 
     let feedItemListMarkup = ""
     if (data.getStories.length === 0) {
@@ -49,7 +49,7 @@ function StoryFeed() {
             <>
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
-                <StoryForm epicName={data.epicName} handleCallback={handleCallback}/>
+                <StoryForm epicId={epicId} handleCallback={handleCallback}/>
             </Container>
             </Segment>     
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf={data.epicName} />

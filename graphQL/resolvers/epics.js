@@ -61,11 +61,9 @@ module.exports = {
     // }
     Mutation: {
         async createEpic(_, { epicName, description }, context) {  
-            console.log("why are we not making it to createEpic mutation?");          
             const user = checkAuth(context);
-            console.log(`in createEpic, user: ${JSON.stringify(user)}`);
             const userFull = await User.findOne(user);
-            console.log(`in createEpic, userFull: ${JSON.stringify(userFull)}`);
+            
             if (epicName.trim() === '') {
                 throw new Error('Epic name must not be empty');
             }
@@ -82,6 +80,7 @@ module.exports = {
             
 
             const epic = await newEpic.save();
+            console.log(`new epic created ${epic}`);
             return epic;
         },
     }

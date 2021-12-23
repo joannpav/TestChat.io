@@ -118,7 +118,7 @@ type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
     createEpic(epicName: String!, description: String): Epic!
-    createStory(epicName: String, body: String!, acceptanceCriteria: String): Story!
+    createStory(epicId: ID!, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
     deleteComment(storyId: ID!, commentId: ID!): Story!

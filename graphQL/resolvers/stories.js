@@ -10,7 +10,7 @@ module.exports = {
             try{
                 const epic = await Epic.findById(epicId);
                     
-                console.log(`in getStories, epic is ${epic}`);
+                // console.log(`in getStories, epic is ${epic}`);
                 const stories = await Story.find({epic})
                     .populate('epic')
                     .sort({ createdAt: -1 });                                
