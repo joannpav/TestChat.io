@@ -37,7 +37,7 @@ function SingleStory() {
     } else {
         const { 
             id, 
-            epicName,
+            epic,
             body, 
             acceptanceCriteria, 
             createdAt, 
@@ -63,7 +63,7 @@ function SingleStory() {
                                     Story
                                 </Label>  
                                 <Label  color='black' attached='top right'>
-                                  {epicName}
+                                  {epic.epicName}
                                 </Label>                              
                                 <Card.Header>{body}</Card.Header>
                                 <Card.Meta>{username}</Card.Meta>

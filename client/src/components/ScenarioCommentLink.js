@@ -1,8 +1,8 @@
 import React from 'react'
 import { Modal, Comment } from 'semantic-ui-react'
-import ScenarioCommentGroup from '../components/ScenarioCommentGroup';
+import ScenarioCommentPopup from './ScenarioCommentPopup';
 
-function ScenarioCommentLink({ user, storyId, scenarioId }) {
+function ScenarioCommentLink({ user, storyId, scenarioId, handleCallback }) {
     const [open, setOpen] = React.useState(false);
     // const [comment, setComment] = useState('');
     
@@ -30,7 +30,7 @@ function ScenarioCommentLink({ user, storyId, scenarioId }) {
           <Modal.Content>    
 
             <Modal.Description>                    
-                    <ScenarioCommentGroup user={user} storyId={storyId} scenarioId={scenarioId.id}></ScenarioCommentGroup>
+                    <ScenarioCommentPopup handleCallback={handleCallback} user={user} storyId={storyId} scenarioId={scenarioId.id}></ScenarioCommentPopup>
             </Modal.Description>
           </Modal.Content>          
         </Modal>

@@ -3,11 +3,12 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks'
 import { Card, Comment, Form } from 'semantic-ui-react';
 
-const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {   
+const ScenarioCommentPopup = ({user, storyId, scenarioId, handleCallback}) => {   
     const[comment, setComment] = useState('');
     const [submitComment] = useMutation(SUBMIT_SCENARIO_COMMENT_MUTATION, {
         update() {
             setComment('');
+            if (handleCallback) handleCallback(comment);
         },
         variables: {
             storyId,
@@ -61,4 +62,4 @@ const SUBMIT_SCENARIO_COMMENT_MUTATION = gql`
         }
     }
 `;
-export default ScenarioCommentGroup
+export default ScenarioCommentPopup

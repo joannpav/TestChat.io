@@ -37,9 +37,11 @@ module.exports = {
                 throw new Error(err);
             }
         },            
-        async getEpic(_, { epicName }, context) {            
-            try { 
-                const epic = await Epic.findOne({epicName:epicName});
+        async getEpic(_, { epicId }, context) {            
+            try {                                 
+                const epic = await Epic.findById(epicId)
+                    .populate('users');
+
                 console.log(`anything returned for epic? ${JSON.stringify(epic)}`);
                 return epic;
             } catch (err) {

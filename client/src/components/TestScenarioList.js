@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLazyQuery } from '@apollo/client';
 import { Label, Message, Table, Card} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 import DisapprovalButton from './DisapprovalButton';
@@ -6,11 +7,25 @@ import DeleteScenarioButton from './DeleteScenarioButton';
 import ChatButton from '../components/ChatButton';
 import ScenarioCommentLink from '../components/ScenarioCommentLink';
 import moment from 'moment';
+import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function TestScenarioList({testScenarios, storyId, user}) {         
     const [scenarios, setScenarios] = useState();   
-    const handleCallback = (childData) => {         
-        setScenarios({data: childData})        
+    const [getScenarioList, { loading, error, data}] = useLazyQuery(
+      FETCH_STORY_QUERY, {
+        fetchPolicy: "network-only",
+        variables: {
+          storyId
+      }
+  });
+    const handleCallback = (childData) => {      
+        setScenarios({data: childData})                              
+    }
+
+    const handleScenarioCommentCallback = (comment) => {
+      console.log(`did comments get passed ${JSON.stringify(comment)}`);
+      getScenarioList(storyId);
+      console.log(`lazy load what did it return? ${data}`);
     }
 
     useEffect(() => {       
@@ -61,7 +76,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 </Table.Cell>
                 {user && user.username === scenario.username && (                     
                   <Table.Cell textAlign="center">
-                    <ScenarioCommentLink user={user} storyId={storyId} scenarioId={scenario}/>                    
+                    <ScenarioCommentLink handleCallback={handleScenarioCommentCallback} user={user} storyId={storyId} scenarioId={scenario}/>                    
                     <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
                   </Table.Cell>
                   )}

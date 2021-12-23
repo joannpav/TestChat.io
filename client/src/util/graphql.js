@@ -89,6 +89,9 @@ export const FETCH_STORY_QUERY = gql`
         getStory(storyId: $storyId){
             id 
             body
+            epic {
+                epicName
+            }
             acceptanceCriteria
             createdAt
             username

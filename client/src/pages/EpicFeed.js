@@ -62,7 +62,7 @@ function EpicFeed() {
                     data.getEpics.map((epic) => (
                         <Card fluid key={epic.id}>
                         <Card.Content >   
-                            <Feed.Event>
+                            <Feed.Event data-cy={epic.EpicName}>
                                 <Feed.Content>
                                     <Feed.Summary>
                                         <Feed.Label><a href={`${epic.id}/stories`}>{epic.epicName}</a></Feed.Label>
