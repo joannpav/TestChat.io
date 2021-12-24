@@ -26,13 +26,16 @@ module.exports = {
         }
     },
     Query: {
-        async getEpics() {            
+        async getEpics(_, { orgId }, context) {            
             try { 
-                const epics = await Epic.find()
+                const org = await Organization.findById(orgId);
+                if (org) {
+                    const epics = await Epic.find()
                     .populate('users')
                     .populate('organization')                    
                     .sort({ createdAt: -1 });                
                 return epics;
+                }                
             } catch (err) {
                 throw new Error(err);
             }
