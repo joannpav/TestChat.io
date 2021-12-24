@@ -110,7 +110,7 @@ type Query {
     getStory(storyId: ID!): Story   
     getStories(epicId: ID!): [Story]      
     getEpic(epicId: ID!): Epic
-    getEpics: [Epic] 
+    getEpics(orgId: ID!): [Epic] 
     getStoryCountByEpic: Int  
     getScenarioCountByEpic: Int  
 }

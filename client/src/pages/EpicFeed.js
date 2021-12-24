@@ -18,7 +18,11 @@ import EpicForm from "../components/EpicForm";
 function EpicFeed() {
     const [epicFeed, setEpicFeed] = useState();
     const { user } = useContext(AuthContext);
-    const { data, error, loading } = useQuery(FETCH_EPICS_QUERY);
+    const { data, error, loading } = useQuery(FETCH_EPICS_QUERY, {
+        variables: {
+            orgId
+        }
+    });
 
     
     let navigate = useNavigate();
