@@ -4,8 +4,6 @@ import moment from 'moment';
 
 
 function ScenarioComments({user, comments, commentCount}) {    
-    console.log(`any count in here? ${commentCount}`);
-    console.log(`any comments in here? ${JSON.stringify(comments)}`);
     const scenarioComments = user ? (
         commentCount > 0 ? (
             <>                
@@ -25,10 +23,10 @@ function ScenarioComments({user, comments, commentCount}) {
                 ))}                                     
             </>
         ) : (
-            <>{commentCount}</>
+            <></>
         )
     ) : (
-        <>{commentCount}</>
+        <></>
     )
     return scenarioComments
 }

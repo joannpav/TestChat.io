@@ -32,16 +32,18 @@ function TestScenarioList({testScenarios, storyId, user}) {
       
     }
 
-    const toggleShowComments = () => {
+    const toggleShowComments = (scenario) => {
       console.log("we are in toggleShowComments");
+      console.log(JSON.stringify(scenario.comments));
+      setScenarioComments(scenario.comments);      
       setShowScenarioComments(!showScenarioComments);
     }
 
-    const handleShowComments = (comments) => {
-      console.log(`in handleShowComments? ${comments}`);
-      setScenarioComments(comments);
-      // setShowScenarioComments(false);
-    }
+    // const handleShowComments = (scenario) => {
+    //   console.log(`in handleShowComments? ${scenario.comments}`);
+    //   // setScenarioComments(scenario.comments);
+    //   // setShowScenarioComments(false);
+    // }
 
     useEffect(() => {       
        setScenarios(testScenarios)
@@ -76,7 +78,8 @@ function TestScenarioList({testScenarios, storyId, user}) {
         
             <Table.Body>
             
-            {scenarios && scenarios.map(scenario => (
+            {scenarios && scenarios.map(scenario => (    
+              <>          
               <Table.Row key={scenario.id}>
                 <Table.Cell  width="8">                     
                       {scenario.scenario}     
@@ -88,7 +91,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 <Table.Cell negative={scenario.approvalCount === 0 } textAlign="center">
                   <ApprovalButton key="abc" story={storyId} user={user} testScenario={scenario}></ApprovalButton>&nbsp;
                   <DisapprovalButton key="def" story={storyId} user={user} testScenario={scenario}></DisapprovalButton>&nbsp;
-                  <span onClick={toggleShowComments}><ChatButton key={storyId}  handleShowComments={handleShowComments}  story={storyId} user={user} testScenario={scenario}></ChatButton>&nbsp;</span>
+                  <span onClick={() => toggleShowComments(scenario)}><ChatButton key={storyId}   story={storyId} user={user} testScenario={scenario}></ChatButton>&nbsp;</span>
                 </Table.Cell>
                 <Table.Cell verticalAlign="middle">
                   <Card.Meta>
@@ -101,11 +104,20 @@ function TestScenarioList({testScenarios, storyId, user}) {
                     <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
                   </Table.Cell>
                   )}
-              </Table.Row>  
-              
-              
+              </Table.Row> 
+              {/* Would like to show comments under the scenario.  This is showing the comments under each row, need to fix */}
+              {/* <Table.Row>
+                <Table.Cell colSpan={4}>
+              {showScenarioComments ? (
+                <Container >              
+                  <ScenarioComments user={user} scenarioId={scenario.id} comments={scenarioComments} commentCount={scenarioComments.length} />            
+                </Container>
+              ) : null }
+              </Table.Cell>
+              </Table.Row>   */}
+              </>                          
             ))}     
-            
+             
             </Table.Body>
           </Table>
           {showScenarioComments ? (

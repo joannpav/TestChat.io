@@ -37,7 +37,7 @@ function ScenarioChatButton({handleShowComments, user, story, testScenario: {id,
                     trigger={<Icon size="small" circular inverted name='comments' color='teal'/> }              
                     /> */}
                     {/* onClick={handleShowComments(comments, commentCount)}  */}
-                    <Icon  onClick={handleShowComments(comments, commentCount)} size="small" circular inverted name='comments' color='teal'/>
+                    <Icon  size="small" circular inverted name='comments' color='teal'/>
                     
                     <span style={{color:commentCount > 0 ? "teal" : "grey" }}>{commentCount} </span>
             </>
