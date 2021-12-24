@@ -2,7 +2,6 @@ import React from 'react';
 import {Button, Form } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { useNavigate } from 'react-router';
 import { useForm } from '../util/hooks';
 import { FETCH_EPICS_QUERY } from '../util/graphql';
 
@@ -10,9 +9,7 @@ function EpicForm({ handleCallback }) {
     const { values, onChange, onSubmit } = useForm(createEpicCallback, {        
         epicName: '',
         description: '',                
-    });
-
-    let navigate = useNavigate();
+    });    
             
     const [createEpic, { loading, error }] = useMutation(CREATE_EPIC_MUTATION, {
         variables: values,        
@@ -38,6 +35,7 @@ function EpicForm({ handleCallback }) {
         createEpic();                
     }
 
+    if (loading) return <p>Loading ...</p>;
     return (
         <>
         <Form onSubmit={onSubmit}>

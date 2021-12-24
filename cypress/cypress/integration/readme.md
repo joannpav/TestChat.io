@@ -31,6 +31,7 @@ https://testchat.io/cytosport/story/a3423rfw3
 
 Epics
 ----
+- Epics belong to orgs
 DONE - User can create a new epic manually
 - User can import epic from gitlab
 - Epics are listed in the side bar

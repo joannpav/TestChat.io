@@ -3,6 +3,7 @@ const Story = require('../../models/Story');
 const Epic = require('../../models/Epic');
 const checkAuth = require('../../util/check-auth');
 
+
 module.exports = {    
     Query: {
         async getStories(_, { epicId }){
@@ -10,7 +11,7 @@ module.exports = {
             try{
                 const epic = await Epic.findById(epicId);
                     
-                // console.log(`in getStories, epic is ${epic}`);
+                console.log(`in getStories, epic is ${epic}`);
                 const stories = await Story.find({epic})
                     .populate('epic')
                     .sort({ createdAt: -1 });                                
@@ -21,7 +22,8 @@ module.exports = {
         },
         async getStory(_, { storyId }){
             try{                
-                const story = await Story.findById(storyId);                                
+                const story = await Story.findById(storyId)
+                    .populate('epic');                                
                 if(story){
                     return story;
                 } else {
@@ -31,15 +33,17 @@ module.exports = {
             } catch(err) {
                 throw new Error(err);
             }
-        }        
+        }
+
     },
     Mutation: {
-        async createStory(_, { epicName, body, acceptanceCriteria }, context) {            
+        async createStory(_, { epicId, body, acceptanceCriteria }, context) {            
             // TODO: Need to make epic mandatory
             const user = checkAuth(context);
-            console.log(`in Mutation: createStory, is epic passed in? ${epicName}`);
+            console.log(`in Mutation: createStory, is epic passed in? ${epicId}`);
 
-            const epic = await Epic.findOne({epicName: epicName});
+            // const epic = await Epic.findOne({epicId});
+            const epic = await Epic.findById(epicId);
             console.log(`was epic found ${epic}`);
             if (body.trim() === '') {
                 throw new Error('Story body must not be empty');
@@ -67,12 +71,6 @@ module.exports = {
                 console.log(`found story ${JSON.stringify(story)}`);
                 
                 if (user.username === story.username){
-                    // const testScenarios = story.testScenarios;
-                    // console.log(`BLAH***** ${JSON.stringify(testScenarios)}`);
-                    // console.log(`BLAH***** ${typeof(testScenarios)}`);
-                    // testScenarios.forEach(function(scenario) {                        
-                    //     scenario.delete();
-                    // })
                     await story.delete();
                     return 'Story deleted successfully';
                 } else {

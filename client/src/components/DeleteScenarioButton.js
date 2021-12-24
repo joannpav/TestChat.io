@@ -3,8 +3,6 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { Confirm, Icon } from 'semantic-ui-react';
 
-import CustomPopup from '../util/CustomPopup';
-
 
 function DeleteScenarioButton({ storyId, scenarioId, handleCallback }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -21,11 +19,8 @@ function DeleteScenarioButton({ storyId, scenarioId, handleCallback }) {
     });
 
     return(
-        <>
-            {/* <CustomPopup content='Delete scenario'>                 */}
-                <Icon color="red" name="delete" link onClick={() => setConfirmOpen(true)}/>
-            {/* </CustomPopup> */}
-        
+        <>            
+            <Icon color="red" name="delete" link onClick={() => setConfirmOpen(true)}/>                    
             <Confirm
                 open={confirmOpen}
                 onCancel={() => setConfirmOpen(false)}

@@ -1,21 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { Comment, Label, Icon, Message, Table, Header, Card} from 'semantic-ui-react';
+import { useLazyQuery } from '@apollo/client';
+import { Container, Label, Message, Table, Card} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 import DisapprovalButton from './DisapprovalButton';
 import DeleteScenarioButton from './DeleteScenarioButton';
 import ChatButton from '../components/ChatButton';
 import ScenarioCommentLink from '../components/ScenarioCommentLink';
+import ScenarioComments from '../components/ScenarioComments';
 import moment from 'moment';
+import {FETCH_STORY_QUERY} from '../util/graphql';
+import { useNavigate } from 'react-router-dom';
 
 function TestScenarioList({testScenarios, storyId, user}) {         
     const [scenarios, setScenarios] = useState();   
-    const handleCallback = (childData) => {         
-        setScenarios({data: childData})        
+    const [scenarioComments, setScenarioComments] = useState("");
+    const [showScenarioComments, setShowScenarioComments] = useState(true)
+    const [getScenarioList, { loading, error, data}] = useLazyQuery(
+      FETCH_STORY_QUERY, {
+        fetchPolicy: "network-only",
+        variables: {
+          storyId
+      }
+  });
+    const handleCallback = (childData) => {      
+        setScenarios({data: childData})                              
     }
+
+    const handleScenarioCommentCallback = (comment) => {
+      console.log(`did comments get passed ${JSON.stringify(comment)}`);
+      getScenarioList(storyId);
+      
+    }
+
+    const toggleShowComments = (scenario) => {
+      console.log("we are in toggleShowComments");
+      console.log(JSON.stringify(scenario.comments));
+      setScenarioComments(scenario.comments);      
+      setShowScenarioComments(!showScenarioComments);
+    }
+
+    // const handleShowComments = (scenario) => {
+    //   console.log(`in handleShowComments? ${scenario.comments}`);
+    //   // setScenarioComments(scenario.comments);
+    //   // setShowScenarioComments(false);
+    // }
 
     useEffect(() => {       
        setScenarios(testScenarios)
     }, [testScenarios, storyId, user]);
+
+
+    // let navigate = useNavigate();
+    // if (!user) { navigate("/login") }
+    
 
     let testMarkup = <p>Loading test scenarios...</p>            
     
@@ -27,7 +64,8 @@ function TestScenarioList({testScenarios, storyId, user}) {
         </Message>   
       )
     } else {
-      testMarkup = (            
+      testMarkup = (     
+        <>       
           <Table celled>
             <Table.Header>
               <Table.Row>
@@ -40,7 +78,8 @@ function TestScenarioList({testScenarios, storyId, user}) {
         
             <Table.Body>
             
-            {scenarios && scenarios.map(scenario => (
+            {scenarios && scenarios.map(scenario => (    
+              <>          
               <Table.Row key={scenario.id}>
                 <Table.Cell  width="8">                     
                       {scenario.scenario}     
@@ -52,7 +91,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 <Table.Cell negative={scenario.approvalCount === 0 } textAlign="center">
                   <ApprovalButton key="abc" story={storyId} user={user} testScenario={scenario}></ApprovalButton>&nbsp;
                   <DisapprovalButton key="def" story={storyId} user={user} testScenario={scenario}></DisapprovalButton>&nbsp;
-                  <ChatButton key={storyId} story={storyId} user={user} testScenario={scenario}></ChatButton>&nbsp;
+                  <span onClick={() => toggleShowComments(scenario)}><ChatButton key={storyId}   story={storyId} user={user} testScenario={scenario}></ChatButton>&nbsp;</span>
                 </Table.Cell>
                 <Table.Cell verticalAlign="middle">
                   <Card.Meta>
@@ -61,16 +100,33 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 </Table.Cell>
                 {user && user.username === scenario.username && (                     
                   <Table.Cell textAlign="center">
-                    <ScenarioCommentLink user={user} storyId={storyId} scenarioId={scenario}/>                    
+                    <ScenarioCommentLink handleCallback={handleScenarioCommentCallback} user={user} storyId={storyId} scenarioId={scenario}/>                    
                     <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
                   </Table.Cell>
                   )}
-              </Table.Row>       
+              </Table.Row> 
+              {/* Would like to show comments under the scenario.  This is showing the comments under each row, need to fix */}
+              {/* <Table.Row>
+                <Table.Cell colSpan={4}>
+              {showScenarioComments ? (
+                <Container >              
+                  <ScenarioComments user={user} scenarioId={scenario.id} comments={scenarioComments} commentCount={scenarioComments.length} />            
+                </Container>
+              ) : null }
+              </Table.Cell>
+              </Table.Row>   */}
+              </>                          
             ))}     
-            
+             
             </Table.Body>
           </Table>
-
+          {showScenarioComments ? (
+            <Container >              
+              <ScenarioComments user={user} comments={scenarioComments} commentCount={scenarioComments.length} />            
+          </Container>
+          ) : null }         
+                
+      </>
       )}
     return testMarkup;
 }

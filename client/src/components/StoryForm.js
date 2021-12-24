@@ -2,21 +2,18 @@ import React from 'react';
 import {Button, Form } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { useNavigate } from 'react-router';
+import { useParams } from "react-router-dom";
 import { useForm } from '../util/hooks';
 import { FETCH_STORIES_QUERY } from '../util/graphql';
 
-function StoryForm({ epicId, handleCallback }) {
-    console.log(`In StoryForm, epic is ${epicId}`);
-
+function StoryForm({ handleCallback }) {
+    const { epicId } = useParams();
     const { values, onChange, onSubmit } = useForm(createStoryCallback, {  
         epicId,      
         body: '',
         acceptanceCriteria: ''
     });
-
-    let navigate = useNavigate();
-    console.log(`, step2`);
+    
     const [createStory, { error }] = useMutation(CREATE_STORY_MUTATION, {
         variables: values,
         update(proxy, result) {
@@ -26,7 +23,7 @@ function StoryForm({ epicId, handleCallback }) {
                     epicId
                 }
             });    
-            console.log(`what is in this result? ${JSON.stringify(result)}`);        
+            
             data.getStories = [result.data.createStory, ...data.getStories];            
             proxy.writeQuery({ 
                 query: FETCH_STORIES_QUERY,
@@ -46,6 +43,7 @@ function StoryForm({ epicId, handleCallback }) {
     });
 
     function createStoryCallback() {
+        console.log(`about to call createStory callback, what is epicId? ${epicId}`);
         createStory();                
     }
 

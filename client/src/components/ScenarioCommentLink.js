@@ -1,16 +1,19 @@
-import React, { useState, useMutation } from 'react'
-import { Modal, Button, Comment, Form, Header } from 'semantic-ui-react'
-import gql from 'graphql-tag';
-import ScenarioCommentGroup from '../components/ScenarioCommentGroup';
+import React from 'react'
+import { Modal, Comment } from 'semantic-ui-react'
+import ScenarioCommentPopup from './ScenarioCommentPopup';
+import { useNavigate } from 'react-router-dom';
 
-function ScenarioCommentLink({ user, storyId, scenarioId }) {
+function ScenarioCommentLink({ user, storyId, scenarioId, handleCallback }) {
     const [open, setOpen] = React.useState(false);
-    const [comment, setComment] = useState('');
     
     console.log(`in ScenarioCommentLink, what is scenarioId? ${JSON.stringify(scenarioId)}`);
 
+    // let navigate = useNavigate();
+    // if (!user) { navigate("/login") }
+    
     return (
         <Modal
+          closeIcon
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
@@ -30,37 +33,11 @@ function ScenarioCommentLink({ user, storyId, scenarioId }) {
           <Modal.Content>    
 
             <Modal.Description>                    
-                    <ScenarioCommentGroup user={user} storyId={storyId} scenarioId={scenarioId.id}></ScenarioCommentGroup>
+                    <ScenarioCommentPopup handleCallback={handleCallback} user={user} storyId={storyId} scenarioId={scenarioId.id}></ScenarioCommentPopup>
             </Modal.Description>
-          </Modal.Content>
-          {/* <Modal.Actions>
-            <Button color='black' onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              content="Save"
-              labelPosition='right'
-              icon='checkmark'
-              onClick={() => setOpen(false)}
-              positive
-            />
-          </Modal.Actions> */}
+          </Modal.Content>          
         </Modal>
       )
     }
-const SUBMIT_SCENARIO_COMMENT_MUTATION = gql`
-   mutation CreateScenarioComment($scenarioId: ID!, $body: String!, $storyId: ID!) {
-        createScenarioComment(scenarioId: $scenarioId, body: $body, storyId: $storyId) {
-            comments {
-                id
-                createdAt
-                username
-                body
-                }
-            commentCount
-        }
-    }
-`;
-
 
 export default ScenarioCommentLink

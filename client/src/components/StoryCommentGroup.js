@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Card, Comment, Form, Header } from 'semantic-ui-react';
+import { Card, Comment, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import DeleteButton from './DeleteButton';
 

@@ -108,11 +108,11 @@ input RegisterInput {
 type Query {
     getUsers: [User]
     getStory(storyId: ID!): Story   
-    getStories(epicId: ID!): [Story]    
-    getEpic(epicName: String!): Epic
+    getStories(epicId: ID!): [Story]      
+    getEpic(epicId: ID!): Epic
     getEpics: [Epic] 
-    getStoryCountByEpic(epicName: String): Int  
-    getScenarioCountByEpic(epicName: String): Int  
+    getStoryCountByEpic: Int  
+    getScenarioCountByEpic: Int  
 }
 type Mutation {
     register(registerInput: RegisterInput): User!

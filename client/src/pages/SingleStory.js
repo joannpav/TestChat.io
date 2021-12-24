@@ -13,7 +13,7 @@ import StoryCommentGroup from '../components/StoryCommentGroup';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function SingleStory() {  
-    const { epicId, storyId } = useParams();
+    const { storyId } = useParams();
     const { user } = useContext(AuthContext);    
     const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
         variables: {
@@ -37,7 +37,7 @@ function SingleStory() {
     } else {
         const { 
             id, 
-            epicName,
+            epic,
             body, 
             acceptanceCriteria, 
             createdAt, 
@@ -63,7 +63,7 @@ function SingleStory() {
                                     Story
                                 </Label>  
                                 <Label  color='black' attached='top right'>
-                                  {epicName}
+                                  {epic.epicName}
                                 </Label>                              
                                 <Card.Header>{body}</Card.Header>
                                 <Card.Meta>{username}</Card.Meta>

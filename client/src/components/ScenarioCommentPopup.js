@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks'
-import { Card, Comment, Form, Header } from 'semantic-ui-react';
+import { Card, Comment, Form } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 
-const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {   
+const ScenarioCommentPopup = ({user, storyId, scenarioId, handleCallback}) => {       
     const[comment, setComment] = useState('');
-    const [submitComment] = useMutation(SUBMIT_SCENARIO_COMMENT_MUTATION, {
+    const [submitComment, { loading, error }] = useMutation(SUBMIT_SCENARIO_COMMENT_MUTATION, {
         update() {
             setComment('');
+            if (handleCallback) handleCallback(comment);
         },
         variables: {
             storyId,
@@ -15,16 +17,16 @@ const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {
             body: comment
         }
     });
-    console.log(`what is user???? ${JSON.stringify(user)}`);
+
+    // let navigate = useNavigate();
+    // if (!user) { navigate("/login") }
+    
     let commentGroupMarkup = (
-        <Comment.Group>
-            <Header as='h3' dividing>
-            Comments
-            </Header>
+        <Comment.Group>            
                 {user && (
                     <Card fluid>
                         <Card.Content>
-                            <p>Story a comment</p>
+                            
                             <Form>
                             <div className="ui action input fluid">
                                 <input
@@ -33,14 +35,22 @@ const ScenarioCommentGroup = ({user, storyId, scenarioId}) => {
                                 name="comment"
                                 value={comment}
                                 onChange={event => setComment(event.target.value)}
+                                error={error ? true : false}
                                 />
                                 <button type="submit"
                                 className="ui button teal"
                                 disabled={comment.trim() === ''}
                                 onClick={submitComment}
+                                error={error ? true : false}
                                 >Submit</button>
                                 </div> 
                             </Form>
+                            {error && (
+                                <div className="ui error message">
+                                <ul className="list">
+                                    <li>{error.graphQLErrors[0].message}</li>
+                                </ul> </div>
+                            )}
                         </Card.Content>
                     </Card>
                 )}               
@@ -64,4 +74,4 @@ const SUBMIT_SCENARIO_COMMENT_MUTATION = gql`
         }
     }
 `;
-export default ScenarioCommentGroup
+export default ScenarioCommentPopup
