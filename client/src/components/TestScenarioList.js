@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
-import { Label, Message, Table, Card} from 'semantic-ui-react';
+import { Container, Label, Message, Table, Card} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 import DisapprovalButton from './DisapprovalButton';
 import DeleteScenarioButton from './DeleteScenarioButton';
 import ChatButton from '../components/ChatButton';
 import ScenarioCommentLink from '../components/ScenarioCommentLink';
+import ScenarioComments from '../components/ScenarioComments';
 import moment from 'moment';
 import {FETCH_STORY_QUERY} from '../util/graphql';
+import { useNavigate } from 'react-router-dom';
 
 function TestScenarioList({testScenarios, storyId, user}) {         
     const [scenarios, setScenarios] = useState();   
+    const [scenarioComments, setScenarioComments] = useState("");
+    const [showScenarioComments, setShowScenarioComments] = useState(true)
     const [getScenarioList, { loading, error, data}] = useLazyQuery(
       FETCH_STORY_QUERY, {
         fetchPolicy: "network-only",
@@ -25,12 +29,28 @@ function TestScenarioList({testScenarios, storyId, user}) {
     const handleScenarioCommentCallback = (comment) => {
       console.log(`did comments get passed ${JSON.stringify(comment)}`);
       getScenarioList(storyId);
-      console.log(`lazy load what did it return? ${data}`);
+      
+    }
+
+    const toggleShowComments = () => {
+      console.log("we are in toggleShowComments");
+      setShowScenarioComments(!showScenarioComments);
+    }
+
+    const handleShowComments = (comments) => {
+      console.log(`in handleShowComments? ${comments}`);
+      setScenarioComments(comments);
+      // setShowScenarioComments(false);
     }
 
     useEffect(() => {       
        setScenarios(testScenarios)
     }, [testScenarios, storyId, user]);
+
+
+    // let navigate = useNavigate();
+    // if (!user) { navigate("/login") }
+    
 
     let testMarkup = <p>Loading test scenarios...</p>            
     
@@ -42,7 +62,8 @@ function TestScenarioList({testScenarios, storyId, user}) {
         </Message>   
       )
     } else {
-      testMarkup = (            
+      testMarkup = (     
+        <>       
           <Table celled>
             <Table.Header>
               <Table.Row>
@@ -67,7 +88,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
                 <Table.Cell negative={scenario.approvalCount === 0 } textAlign="center">
                   <ApprovalButton key="abc" story={storyId} user={user} testScenario={scenario}></ApprovalButton>&nbsp;
                   <DisapprovalButton key="def" story={storyId} user={user} testScenario={scenario}></DisapprovalButton>&nbsp;
-                  <ChatButton key={storyId} story={storyId} user={user} testScenario={scenario}></ChatButton>&nbsp;
+                  <span onClick={toggleShowComments}><ChatButton key={storyId}  handleShowComments={handleShowComments}  story={storyId} user={user} testScenario={scenario}></ChatButton>&nbsp;</span>
                 </Table.Cell>
                 <Table.Cell verticalAlign="middle">
                   <Card.Meta>
@@ -80,12 +101,20 @@ function TestScenarioList({testScenarios, storyId, user}) {
                     <DeleteScenarioButton storyId={storyId} scenarioId={scenario.id} handleCallback={handleCallback} />
                   </Table.Cell>
                   )}
-              </Table.Row>       
+              </Table.Row>  
+              
+              
             ))}     
             
             </Table.Body>
           </Table>
-
+          {showScenarioComments ? (
+            <Container >              
+              <ScenarioComments user={user} comments={scenarioComments} commentCount={scenarioComments.length} />            
+          </Container>
+          ) : null }         
+                
+      </>
       )}
     return testMarkup;
 }

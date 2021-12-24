@@ -1,13 +1,16 @@
 import React from 'react'
 import { Modal, Comment } from 'semantic-ui-react'
 import ScenarioCommentPopup from './ScenarioCommentPopup';
+import { useNavigate } from 'react-router-dom';
 
 function ScenarioCommentLink({ user, storyId, scenarioId, handleCallback }) {
     const [open, setOpen] = React.useState(false);
-    // const [comment, setComment] = useState('');
     
     console.log(`in ScenarioCommentLink, what is scenarioId? ${JSON.stringify(scenarioId)}`);
 
+    // let navigate = useNavigate();
+    // if (!user) { navigate("/login") }
+    
     return (
         <Modal
           closeIcon
