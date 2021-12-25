@@ -106,11 +106,12 @@ input RegisterInput {
     orgName: String!
 }
 type Query {
-    getUsers: [User]
+    getOrgId(orgName: String!): Organization
+    getUsers: [User]    
     getStory(storyId: ID!): Story   
     getStories(epicId: ID!): [Story]      
     getEpic(epicId: ID!): Epic
-    getEpics(orgId: ID!): [Epic] 
+    getEpics(orgName: String!): [Epic] 
     getStoryCountByEpic: Int  
     getScenarioCountByEpic: Int  
 }

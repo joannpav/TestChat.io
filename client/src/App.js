@@ -25,14 +25,14 @@ function App() {
         <Container>
           <MenuBar />
             <Routes>                                 
-              <Route index element={<EpicFeed/>} />   
-              <Route path="/epics" element={<EpicFeed/>} />   
-              <Route path=":epicId/stories" element={<StoryFeed/>} />  
+              <Route index element={<Login/>} />   
+              <Route path=":orgName/epics" element={<EpicFeed/>} />   
+              <Route path=":orgName/:epicId/stories" element={<StoryFeed/>} />  
               <Route path="/home" element={<Home /> } />         
               <Route path="/login" element={<Login/>} />              
               <Route path="/register" element={<Register/>} />
               <Route path="*" element={<NotFound />} /> 
-              <Route exact path=":epicName/stories/:storyId" element={<SingleStory />} />              
+              <Route exact path=":orgName/:epicName/stories/:storyId" element={<SingleStory />} />              
             </Routes>                      
         </Container>
        

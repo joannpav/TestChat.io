@@ -16,7 +16,7 @@ function MenuBar() {
 
     const menuBar = user ? (
         <Menu pointing secondary size="massive" color="teal">            
-            <Menu.Item data-cy="loggedInUsername" name={user.username} active as={Link} to="/" />
+            <Menu.Item data-cy="loggedInUsername" name={user.username} active as={Link} to={`/${user.orgName}/epics`} />
             <Menu.Item><Label color='black' horizontal>{user.orgName}</Label></Menu.Item>
             <Menu.Menu position="right">
                 <Menu.Item name="logout" onClick={logout} />               

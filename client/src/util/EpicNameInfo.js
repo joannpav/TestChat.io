@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
-function EpicInfo(epicId) {
+function EpicNameInfo(epicId) {
     const { data, error, loading } = useQuery(FETCH_EPIC_QUERY, {
         variables: {
             epicId
@@ -22,4 +22,4 @@ query GetEpic($epicId: ID!) {
 }
 `;
 
-export default EpicInfo;
+export default EpicNameInfo;

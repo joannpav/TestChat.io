@@ -17,3 +17,7 @@
 .comment-compact{
   margin-bottom: 0% !important;
 }
+
+.hidden-input {
+  display: none !important;
+}

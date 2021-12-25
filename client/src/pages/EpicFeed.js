@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { useNavigate } from "react-router"
+import { useParams } from "react-router-dom";
 import { Pagination, Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
 import { FETCH_EPICS_QUERY } from "../util/graphql";
 import moment from 'moment';
@@ -18,14 +19,16 @@ import EpicForm from "../components/EpicForm";
 function EpicFeed() {
     const [epicFeed, setEpicFeed] = useState();
     const { user } = useContext(AuthContext);
+    const { orgName } = useParams();
     const { data, error, loading } = useQuery(FETCH_EPICS_QUERY, {
         variables: {
-            orgId
+            orgName
         }
     });
 
-    
     let navigate = useNavigate();
+
+    // const orgId = () => {}
 
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>{`Error loading ${error}`}</p>
@@ -61,10 +64,10 @@ function EpicFeed() {
             </Segment>         
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
             <Feed data-cy="feedContainer">
-                
+                <Card.Group itemsPerRow={4}>
                 {data && 
                     data.getEpics.map((epic) => (
-                        <Card fluid key={epic.id}>
+                        <Card key={epic.id}>
                         <Card.Content >   
                             <Feed.Event data-cy={epic.EpicName}>
                                 <Feed.Content>
@@ -80,7 +83,8 @@ function EpicFeed() {
                             </Feed.Event>
                         </Card.Content>
                         </Card>
-                    ))}
+                ))}
+                </Card.Group>
             </Feed>            
             </>
         )}

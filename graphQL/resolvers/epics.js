@@ -26,11 +26,11 @@ module.exports = {
         }
     },
     Query: {
-        async getEpics(_, { orgId }, context) {            
+        async getEpics(_, { orgName }, context) {            
             try { 
-                const org = await Organization.findById(orgId);
+                const org = await Organization.find({orgName});
                 if (org) {
-                    const epics = await Epic.find()
+                    const epics = await Epic.find({organization: org})
                     .populate('users')
                     .populate('organization')                    
                     .sort({ createdAt: -1 });                
@@ -65,15 +65,16 @@ module.exports = {
     //     },        
     // }
     Mutation: {
-        async createEpic(_, { epicName, description }, context) {  
+        async createEpic(_, { epicName, description }, context) {              
             const user = checkAuth(context);
             const userFull = await User.findOne(user);
-            
+            console.log(`who is user? ${JSON.stringify(userFull)}`);
             if (epicName.trim() === '') {
                 throw new Error('Epic name must not be empty');
             }
                 
-            const userOrg = await Organization.findOne(user);
+            const userOrg = await Organization.findOne({users:user.id});
+            console.log(`what is org? ${JSON.stringify(userOrg)}`);
             const newEpic = new Epic({
                 epicName, 
                 description,                    
@@ -85,7 +86,7 @@ module.exports = {
             
 
             const epic = await newEpic.save();
-            console.log(`new epic created ${epic}`);
+            
             return epic;
         },
     }

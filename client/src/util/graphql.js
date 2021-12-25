@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const FETCH_EPICS_QUERY = gql`
-    query getEpics ($orgId: ID!) {        
-        getEpics(orgId: $orgId) {
+    query getEpics ($orgName: String!) {        
+        getEpics(orgName: $orgName) {
             id
             epicName
             createdAt

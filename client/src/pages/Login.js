@@ -27,7 +27,8 @@ function Login(props) {
             }
         ) {
             context.login(userData);
-            navigate("/");
+            console.log(`what is in userData ${JSON.stringify(userData)}`);
+            navigate(`/${userData.orgName}/epics`);
         },
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.errors);            
