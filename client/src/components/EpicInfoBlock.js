@@ -18,7 +18,7 @@ function EpicInfoBlock(epicId) {
     return (
         <Message info>            
             <Message.Header>Epic: {data.getEpic.epicName}</Message.Header>
-            <p>Description: {data.getEpic.description}</p>
+            <p>{data.getEpic.description}</p>
             <p>{moment(data.getEpic.createdAt).fromNow()}</p>
             <p>By: {data.getEpic.users[0].username}</p>
         </Message>      

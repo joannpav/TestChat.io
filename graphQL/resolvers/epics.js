@@ -9,8 +9,6 @@ const testScenarios = require('./testScenarios');
 module.exports = {
     StoryCountInEpic: {
         async getStoryCountByEpic(parent, { }, context) { 
-            
-            console.log(`is epic id in here? ${parent.id}`);           
             const storyCount = await Story.find({epic: parent.id});             
             return storyCount.length;    
         }
@@ -26,15 +24,26 @@ module.exports = {
         }
     },
     Query: {
-        async getEpics(_, { orgName }, context) {            
+        async getEpics(_, { orgName }, context) {    
+            const {username} = checkAuth(context);
+            console.log(`username is ${username}`);
             try { 
                 const org = await Organization.find({orgName});
                 if (org) {
                     const epics = await Epic.find({organization: org})
                     .populate('users')
                     .populate('organization')                    
-                    .sort({ createdAt: -1 });                
-                return epics;
+                    .sort({ createdAt: -1 });  
+                console.log(JSON.stringify(epics[0].users));
+                if (epics.find(epic => 
+                        epic.users.find(user => 
+                            user.username === username)
+                        )
+                    )                              
+                    return epics;
+                else {
+                    throw new Error("User not authorized");
+                }
                 }                
             } catch (err) {
                 throw new Error(err);

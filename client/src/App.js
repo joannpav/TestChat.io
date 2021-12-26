@@ -15,6 +15,7 @@ import NotFound from './pages/NotFound';
 import SingleStory from './pages/SingleStory';
 import StoryFeed from './pages/StoryFeed';
 import EpicFeed from './pages/EpicFeed';
+import Profile from './pages/Profile';
 
 function App() {
   
@@ -28,6 +29,7 @@ function App() {
               <Route index element={<Login/>} />   
               <Route path=":orgName/epics" element={<EpicFeed/>} />   
               <Route path=":orgName/:epicId/stories" element={<StoryFeed/>} />  
+              <Route path=":orgName/:userName" element={<Profile/>} />
               <Route path="/home" element={<Home /> } />         
               <Route path="/login" element={<Login/>} />              
               <Route path="/register" element={<Register/>} />
