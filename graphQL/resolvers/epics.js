@@ -31,19 +31,20 @@ module.exports = {
                 const org = await Organization.find({orgName});
                 if (org) {
                     const epics = await Epic.find({organization: org})
+                    .populate('owner')
                     .populate('users')
                     .populate('organization')                    
                     .sort({ createdAt: -1 });  
-                console.log(JSON.stringify(epics[0].users));
+                
                 if (epics.find(epic => 
                         epic.users.find(user => 
                             user.username === username)
                         )
                     )                              
                     return epics;
-                else {
-                    throw new Error("User not authorized");
-                }
+                // else {
+                //     throw new Error("User not authorized");
+                // }
                 }                
             } catch (err) {
                 throw new Error(err);
@@ -83,21 +84,33 @@ module.exports = {
             }
                 
             const userOrg = await Organization.findOne({users:user.id});
-            console.log(`what is org? ${JSON.stringify(userOrg)}`);
+            // console.log(`what is org? ${JSON.stringify(userOrg)}`);            
             const newEpic = new Epic({
                 epicName, 
                 description,                    
                 createdAt: new Date().toISOString(),                
-                username: userFull.username,    
+                owner: userFull,    
                 organization: userOrg,
                 users: [userFull]
-            });
-            
-
-            const epic = await newEpic.save();
-            
+            });            
+            const epic = await newEpic.save();            
             return epic;
         },
+        async deleteEpic(_, { epicId }, context) {
+            const user = checkAuth(context);
+            try {
+                const epic = await Epic.findById(epicId).populate('owner');
+                // console.log(`delete epic: user.username: ${user.username}, owner: ${epic.owner.username}`);
+                if (user.username === epic.owner.username) {
+                    await epic.delete();
+                    return 'Epic deleted';
+                } else {
+                    throw new AuthenticationError("Operation not allowed");
+                }
+            } catch (err) {
+                throw new Error(err);
+            }
+        }
     }
 };
 

@@ -30,19 +30,20 @@ function StoryFeed() {
     let navigate = useNavigate();
   
     if (loading) return <p>Loading ...</p>;
-    if (error) return <p>{`Error loading ${error}`}</p>
+    if (error) return <p>{`Error loading ${error.message}`}</p>
     if (!user) { navigate("/login") }
 
     
     const handleCallback = (childData) => { 
-        setStoryFeed({data: childData})        
+        console.log(`updating storyfeed with ${JSON.stringify(childData)}`);
+        setStoryFeed({data: childData})    
+        console.log(`data should have updated ui now with ${JSON.stringify(data)}`);
+    
     }
 
     
 
     let feedItemListMarkup = ""
-    
-    
     if (data.getStories.length === 0) {
         feedItemListMarkup = (
             <>
@@ -96,7 +97,7 @@ function StoryFeed() {
                                 <Feed.Meta>
                                     <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                                     <TestScenarioButton count={story.testScenarioCount} user={user} />                                   
-                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={data.epicName} storyId={story.id} />}                                          
+                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={epicId} storyId={story.id} />}                                          
                                 </Feed.Meta>
                             
                             

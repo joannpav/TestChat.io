@@ -93,6 +93,10 @@ const CREATE_EPIC_MUTATION = gql`
         createEpic(epicName: $epicName, description: $description) {
             id    
             epicName
+            owner {
+                id
+                username
+            }
             users {
                 username
             }

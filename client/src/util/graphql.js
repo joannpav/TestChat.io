@@ -6,6 +6,10 @@ export const FETCH_EPICS_QUERY = gql`
             id
             epicName
             createdAt
+            owner {
+                id
+                username
+            }
             description
             organization {                
                 orgName
@@ -25,6 +29,10 @@ export const FETCH_EPIC_QUERY = gql`
             id
             epicName
             createdAt
+            owner {
+                id
+                username
+            }
         }
     } 
 `;
@@ -90,6 +98,7 @@ export const FETCH_STORY_QUERY = gql`
             id 
             body
             epic {
+                id
                 epicName
             }
             acceptanceCriteria

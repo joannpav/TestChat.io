@@ -22,6 +22,7 @@ type Epic {
     epicName: String
     description: String        
     createdAt: String!
+    owner: User!
     users: [User]!
     organization: Organization
     storyCount: Int!
@@ -121,6 +122,7 @@ type Mutation {
     createEpic(epicName: String!, description: String): Epic!
     createStory(epicId: ID!, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
+    deleteEpic(epicId: ID!): String!
     createComment(storyId: ID!, body: String!): Story!
     deleteComment(storyId: ID!, commentId: ID!): Story!
     createScenarioComment(storyId: ID!, scenarioId: ID!, body: String!): TestScenario

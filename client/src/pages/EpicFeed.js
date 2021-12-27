@@ -8,6 +8,7 @@ import moment from 'moment';
 import {AuthContext} from "../context/auth";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import EpicForm from "../components/EpicForm";
+import DeleteEpicButton from "../components/DeleteEpicButton";
 
 
 // TODO:
@@ -31,15 +32,22 @@ function EpicFeed() {
     // const orgId = () => {}
 
     if (loading) return <p>Loading ...</p>;
-    if (error) return <p>{`Error loading ${error}`}</p>
+    // if (error) return <p>{`Error loading ${error.message}`}</p>
+    if (error){
+        if (error?.message?.includes("Authorization token must be provided")) {
+            navigate("/login")
+        }    
+    }
     if(!user) { navigate("/login")}
 
     const handleCallback = (childData) => {
+        console.log(`updating feed with ${JSON.stringify(childData)}`);
         setEpicFeed({data: childData})
+        console.log(`data should have updated ui now with ${JSON.stringify(data)}`);
     }
 
     let feedItemListMarkup = ""
-    if ((data.getEpics && data.getEpics.length === 0) || data.getEpics === null) {
+    if (data.getEpics.length === 0) {
         feedItemListMarkup = (
             <>
             <Segment style={{backgroundColor: 'teal'}} >
@@ -66,7 +74,7 @@ function EpicFeed() {
             <Feed data-cy="feedContainer">
                 <Card.Group itemsPerRow={4}>
                 {data && 
-                    data.getEpics.map((epic) => (
+                    data.getEpics.map((epic) => (                     
                         <Card key={epic.id}>
                         <Card.Content >   
                             <Feed.Event data-cy={epic.EpicName}>
@@ -78,6 +86,8 @@ function EpicFeed() {
                                     <Feed.Extra>
                                         <Feed.Meta>{epic.storyCount} Stories</Feed.Meta>
                                         <Feed.Meta>{epic.scenarioCount} Scenarios</Feed.Meta>
+                                        <Feed.Meta>{epic.owner?.username}</Feed.Meta>
+                                        {user && user.username === epic.owner?.username && <DeleteEpicButton handleCallback={handleCallback} epicId={epic.id} orgName={user.orgName} />}                                          
                                     </Feed.Extra>
                                 </Feed.Content>
                             </Feed.Event>

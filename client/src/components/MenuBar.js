@@ -15,13 +15,39 @@ function MenuBar() {
     // const userAndOrg = `${user.orgName}: ${user.username}`;
 
     const menuBar = user ? (
+        <>        
         <Menu pointing secondary size="massive" color="teal">            
-            <Menu.Item data-cy="loggedInUsername" name={user.username} active as={Link} to={`/${user.orgName}/epics`} />
+            {/* <Label  color='red'  attached='top left'>{user.orgName}</Label> */}
+            {/* <Menu.Item
+                    data-cy="loggedInUsername" 
+                    name={user.username} 
+                    active={activeItem === `${user.username}`} 
+                    onClick={handleItemClick}
+                    as={Link} 
+                    to={`/${user.orgName}/${user.username}`} 
+                /> */}
             <Menu.Item><Label color='black' horizontal>{user.orgName}</Label></Menu.Item>
+            <Menu.Item 
+                data-cy="epicsMenu" 
+                name="epics" 
+                onClick={handleItemClick}
+                active={activeItem === "epics"} 
+                as={Link} to={`/${user.orgName}/epics`} 
+            />
+            
             <Menu.Menu position="right">
+                <Menu.Item
+                    data-cy="loggedInUsername" 
+                    name={user.username} 
+                    active={activeItem === `${user.username}`} 
+                    onClick={handleItemClick}
+                    as={Link} 
+                    to={`/${user.orgName}/${user.username}`} 
+                />
                 <Menu.Item name="logout" onClick={logout} />               
             </Menu.Menu>
         </Menu>
+        </>
     ) : (
         <Menu pointing secondary size="massive" color="teal">
             <Menu.Item 
@@ -31,7 +57,8 @@ function MenuBar() {
                 as={Link}
                 to="/"
             />
-            <Menu.Menu position="right">
+            
+            <Menu.Menu position="right">                           
                 <Menu.Item
                     name="login"
                     active={activeItem === "login"}
