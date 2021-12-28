@@ -26,7 +26,7 @@ function MenuBar() {
                     as={Link} 
                     to={`/${user.orgName}/${user.username}`} 
                 /> */}
-            <Menu.Item><Label color='black' horizontal>{user.orgName}</Label></Menu.Item>
+            <Menu.Item><Label color='black' horizontal size="big">{user.orgName}</Label></Menu.Item>
             <Menu.Item 
                 data-cy="epicsMenu" 
                 name="epics" 

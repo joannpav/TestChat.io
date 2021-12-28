@@ -36,15 +36,16 @@ module.exports = {
                     .populate('organization')                    
                     .sort({ createdAt: -1 });  
                 
-                if (epics.find(epic => 
-                        epic.users.find(user => 
-                            user.username === username)
-                        )
-                    )                              
-                    return epics;
-                // else {
-                //     throw new Error("User not authorized");
-                // }
+                // By enabling this, only users that are in the users list will see the epics
+                // For the MVP, users will see all epics for their org
+                // if (epics.find(epic => 
+                //     epic.users.find(user => 
+                //         user.username === username)
+                //     )
+                // )                              
+
+                return epics;
+                
                 }                
             } catch (err) {
                 throw new Error(err);

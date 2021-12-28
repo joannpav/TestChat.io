@@ -62,7 +62,7 @@ function SingleStory() {
                                 <Label as='a' color='red' ribbon style={{marginBottom:'10px'}}>
                                     Story
                                 </Label>  
-                                <Label  color='black' attached='top right'>
+                                <Label  color='purple' attached='top right'>
                                   {epic.epicName}
                                 </Label>                              
                                 <Card.Header>{body}</Card.Header>
