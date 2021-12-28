@@ -11,10 +11,12 @@ export const FETCH_EPICS_QUERY = gql`
                 username
             }
             description
-            organization {                
+            organization { 
+                id               
                 orgName
             }
             users {
+                id
                 username
             }
             storyCount

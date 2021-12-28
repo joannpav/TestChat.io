@@ -10,10 +10,11 @@ import CustomPopup from '../util/CustomPopup';
 function DeleteButton({ epicId, storyId, commentId, callback, handleCallback }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
     const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_STORY_MUTATION;
-
+    console.log(`DeleteButton, epicId is ${epicId}`);
+    console.log(`DeleteButton, commentId is ${commentId}`);
     const [deleteStoryOrComment] = useMutation(mutation, {
        update(proxy) {
-           console.log(`proxy is ${JSON.stringify(proxy)}`);
+           console.log(`epicid is ${JSON.stringify(epicId)}`);
             setConfirmOpen(false);
             if(!commentId){
                 const data = proxy.readQuery({
@@ -24,12 +25,15 @@ function DeleteButton({ epicId, storyId, commentId, callback, handleCallback }) 
                 });
                 console.log(`readQuery complete, data returned: ${JSON.stringify(data)}`);
                 data.getStories = data.getStories.filter((p) => p.id !== storyId);
+                console.log(`writeQuery complete, data returned: ${JSON.stringify(data.getStories)}`);
                 proxy.writeQuery({ 
                     query: FETCH_STORIES_QUERY, 
-                    variables: epicId,
+                    variables: {
+                        epicId
+                    },
                     data 
                 });                
-                console.log(`writeQuery complete, data returned: ${JSON.stringify(data)}`);
+                
                 if (handleCallback) handleCallback(data);
             } 
             if (callback) callback();            

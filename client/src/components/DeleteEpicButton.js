@@ -8,34 +8,52 @@ import CustomPopup from '../util/CustomPopup';
 
 
 function DeleteEpicButton({ epicId, orgName, handleCallback }) {
-    const [confirmOpen, setConfirmOpen] = useState(false);    
-    console.log(`attemting to delete epic id ${epicId}`);
-    const [deleteEpic] = useMutation(DELETE_EPIC_MUTATION, {
-       update(proxy) {
-            setConfirmOpen(false);            
-            const data = proxy.readQuery({
-                query: FETCH_EPICS_QUERY,
-                variables: {
-                    orgName
-                }
-            });
-            // data.getStories = data.getStories.filter((p) => p.id !== storyId);
-            data.getEpics = data.getEpics.filter((p) => p.id !== epicId);
-            proxy.writeQuery({ 
-                query: FETCH_EPICS_QUERY, 
-                variables: orgName,
-                data 
-            });                
-            if (handleCallback) handleCallback(data);
+    const [confirmOpen, setConfirmOpen] = useState(false);     
+    const [deleteEpic, { error, loading }] = useMutation(DELETE_EPIC_MUTATION, {
+        variables: {epicId},
+        refetchQueries: [{ 
+            query: FETCH_EPICS_QUERY, 
+            variables: {orgName},            
+            }],
+      });
+    // if (handleCallback) handleCallback(x`);
+
+    // const [deleteEpic] = useMutation(DELETE_EPIC_MUTATION, {
+    //     variables: {
+    //         epicId           
+    //     },        
+    //     refetchQueries: [{
+    //         query: FETCH_EPICS_QUERY,
+    //         variables: {
+    //             orgName
+    //         }}],
+    // const [deleteEpic] = useMutation(DELETE_EPIC_MUTATION, {
+    //    update(proxy) {
+    //         setConfirmOpen(false);            
+    //         const data = proxy.readQuery({
+    //             query: FETCH_EPICS_QUERY,
+    //             variables: {
+    //                 orgName
+    //             }
+    //         });
+    //         // data.getStories = data.getStories.filter((p) => p.id !== storyId);
+    //         data.getEpics = data.getEpics.filter((p) => p.id !== epicId);
+    //         console.log(`getEpics filtered, data returned: ${JSON.stringify(data.getEpics)}`);
+    //         proxy.writeQuery({ 
+    //             query: FETCH_EPICS_QUERY, 
+    //             variables: orgName,
+    //             data 
+    //         });                
+    //         if (handleCallback) handleCallback(data);
             
-       },
-       variables: {
-            epicId           
-       },
-       onError: (err) => {
-        console.log(`Error deleting epic. ${err}`);        
-    } 
-    });
+    //    },
+    //    variables: {
+    //         epicId           
+    //    },
+    //    onError: (err) => {
+    //     console.log(`Error deleting epic. ${err}`);        
+    // } 
+    // });
 
     return(
         <>
@@ -64,7 +82,7 @@ function DeleteEpicButton({ epicId, orgName, handleCallback }) {
 
 const DELETE_EPIC_MUTATION = gql`
     mutation deleteEpic($epicId: ID!) {
-        deleteEpic(epicId: $epicId)                     
+        deleteEpic(epicId: $epicId)                  
     }
 `;
 

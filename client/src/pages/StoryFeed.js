@@ -25,7 +25,7 @@ function StoryFeed() {
         }
     });
     const epicName = EpicNameInfo(epicId);
-    console.log(epicName);
+    console.log(`epicId is ${epicId}, name is ${epicName}`);
 
     let navigate = useNavigate();
   
@@ -97,7 +97,7 @@ function StoryFeed() {
                                 <Feed.Meta>
                                     <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                                     <TestScenarioButton count={story.testScenarioCount} user={user} />                                   
-                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={epicId} storyId={story.id} />}                                          
+                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicId={epicId} storyId={story.id} />}                                          
                                 </Feed.Meta>
                             
                             

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { useNavigate } from "react-router"
 import { useParams } from "react-router-dom";
-import { Pagination, Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
+import { Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
 import { FETCH_EPICS_QUERY } from "../util/graphql";
 import moment from 'moment';
 import {AuthContext} from "../context/auth";
@@ -10,18 +10,11 @@ import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import EpicForm from "../components/EpicForm";
 import DeleteEpicButton from "../components/DeleteEpicButton";
 
-
-// TODO:
-// Add delete button
-// Deleting an epic should delete all stories
-// May want to convert from using the epicName to the epicID bc what if 2 epics have same name?
-// Both epics end up pointing to the same stories
-
 function EpicFeed() {
     const [epicFeed, setEpicFeed] = useState();
     const { user } = useContext(AuthContext);
     const { orgName } = useParams();
-    const { data, error, loading } = useQuery(FETCH_EPICS_QUERY, {
+    const { data, error, loading } = useQuery(FETCH_EPICS_QUERY, {        
         variables: {
             orgName
         }
@@ -29,10 +22,7 @@ function EpicFeed() {
 
     let navigate = useNavigate();
 
-    // const orgId = () => {}
-
     if (loading) return <p>Loading ...</p>;
-    // if (error) return <p>{`Error loading ${error.message}`}</p>
     if (error){
         if (error?.message?.includes("Authorization token must be provided")) {
             navigate("/login")
@@ -47,7 +37,7 @@ function EpicFeed() {
     }
 
     let feedItemListMarkup = ""
-    if (data.getEpics.length === 0) {
+    if (!data?.getEpics?.length ||  data.getEpics.length === 0) {
         feedItemListMarkup = (
             <>
             <Segment style={{backgroundColor: 'teal'}} >

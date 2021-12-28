@@ -15,30 +15,21 @@ function EpicForm({ handleCallback }) {
 
     const [createEpic, { loading, error }] = useMutation(CREATE_EPIC_MUTATION, {
         variables: values,
-        update(proxy, result) {            
-            const data = proxy.readQuery({
-                query: FETCH_EPICS_QUERY,
-                variables: {
-                    orgName
-                }
-            });    
-            console.log(`what is in this result? ${JSON.stringify(result)}`);        
-            data.getEpics = [result.data.createEpic, ...data.getEpics];     
-            console.log(`what is data here? ${JSON.stringify(data)}`);       
-            proxy.writeQuery({ query: FETCH_EPICS_QUERY, data });
-
-            values.epicName = '';
-            values.description = '';            
-            handleCallback(data);
-        },
+        refetchQueries:[
+            {query: FETCH_EPICS_QUERY,
+             variables: { orgName }}
+        ],
+        awaitRefetchQueries: true,
         onError: (err) => {
-            console.log(`Error creating epic. ${err}`);
-            // navigate("/login");
-        }              
+            console.log(`Error ${err}`);
+        },        
     });
+        
 
     function createEpicCallback() {        
-        createEpic();                
+        createEpic();   
+        values.epicName = '';
+        values.description = '';             
     }
 
     if (loading) return <p>Loading ...</p>;
@@ -98,6 +89,7 @@ const CREATE_EPIC_MUTATION = gql`
                 username
             }
             users {
+                id
                 username
             }
             organization {
