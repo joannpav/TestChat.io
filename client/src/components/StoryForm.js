@@ -16,16 +16,16 @@ function StoryForm({ handleCallback }) {
     
     const [createStory, { error }] = useMutation(CREATE_STORY_MUTATION, {
         variables: values,
-        update(proxy, result) {
-            const data = proxy.readQuery({
-                query: FETCH_STORIES_QUERY,
+        update(proxy, result) {            
+            const data = proxy.readQuery({                
+                query: FETCH_STORIES_QUERY,                
                 variables: {
                     epicId
                 }
             });    
             
             data.getStories = [result.data.createStory, ...data.getStories];            
-            proxy.writeQuery({ 
+            proxy.writeQuery({                 
                 query: FETCH_STORIES_QUERY,
                 variables: {
                     epicId
@@ -98,6 +98,11 @@ const CREATE_STORY_MUTATION = gql`
             id            
             body
             acceptanceCriteria
+            epic {
+                id
+                epicName
+                createdAt
+            }
             createdAt
             username
             likes {

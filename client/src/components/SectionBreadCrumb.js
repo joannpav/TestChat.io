@@ -4,7 +4,7 @@ import { Breadcrumb } from 'semantic-ui-react'
 
 const SectionBreadCrumb = ({trunk, branch, leaf}) => (  
   <Breadcrumb>
-    <Breadcrumb.Section  href="/">{trunk}</Breadcrumb.Section>
+    <Breadcrumb.Section  href={`/${trunk}/epics`}>{trunk}</Breadcrumb.Section>
     {branch ? <Breadcrumb.Divider /> : <></> }
     
     <Breadcrumb.Section>{branch ? branch : ""}</Breadcrumb.Section>

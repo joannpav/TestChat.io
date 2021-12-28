@@ -40,27 +40,40 @@ module.exports = {
         async createStory(_, { epicId, body, acceptanceCriteria }, context) {            
             // TODO: Need to make epic mandatory
             const user = checkAuth(context);
-            console.log(`in Mutation: createStory, is epic passed in? ${epicId}`);
-
-            // const epic = await Epic.findOne({epicId});
+            
+            
             const epic = await Epic.findById(epicId);
             console.log(`was epic found ${epic}`);
+            
             if (body.trim() === '') {
                 throw new Error('Story body must not be empty');
             }
-
-            const newStory = new Story({
-                epic: epic, 
-                body,
-                acceptanceCriteria,
-                user: user.id,
-                username: user.username,                
-                createdAt: new Date().toISOString(),
-            });
-
-            const story = await newStory.save();
+            // THIS IS DUMB! Why isn't the comparison working??
+            // console.log(`users in here? ${JSON.stringify(epic.users[0])}`);
+            // console.log(`users in here? ${JSON.stringify(user.id)}`);
+            // console.log(`users in here? ${JSON.stringify(user.username)}`);
+            // if (epic.users.find(epicUser => {
+            //         console.log(`blah ${JSON.stringify(epicUser)}`);
+            //         console.log(`blah2 ${JSON.stringify(user.id)}`);
+            //         epicUser.toString() === user.id.toString()
+            //     }
+            //     )) {
+                const newStory = new Story({
+                    epic: epic, 
+                    body,
+                    acceptanceCriteria,
+                    user: user.id,
+                    username: user.username,                
+                    createdAt: new Date().toISOString(),
+                });
+    
+                const story = await newStory.save();
+                
+                return story;
+            // } else {
+            //     throw new Error("User not authorized");
+            // }
             
-            return story;
         },
 
         async deleteStory(_, { storyId }, context) {

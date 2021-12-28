@@ -11,38 +11,43 @@ import StoryForm from "../components/StoryForm";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
-import EpicInfo from "../util/EpicInfo";
+import EpicNameInfo from "../util/EpicNameInfo";
+import EpicInfoBlock from "../components/EpicInfoBlock";
 
 function StoryFeed() {
     const [storyFeed, setStoryFeed] = useState();
 
     const { user } = useContext(AuthContext);    
-    const { epicId } = useParams();
+    const { orgName, epicId } = useParams();
     const { data, error, loading } = useQuery(FETCH_STORIES_QUERY, {
         variables: {
             epicId
         }
     });
-    const epicName = EpicInfo(epicId);
-    console.log(epicName);
+    const epicName = EpicNameInfo(epicId);
+    console.log(`epicId is ${epicId}, name is ${epicName}`);
 
     let navigate = useNavigate();
   
     if (loading) return <p>Loading ...</p>;
-    if (error) return <p>{`Error loading ${error}`}</p>
+    if (error) return <p>{`Error loading ${error.message}`}</p>
     if (!user) { navigate("/login") }
 
     
     const handleCallback = (childData) => { 
-        setStoryFeed({data: childData})        
+        console.log(`updating storyfeed with ${JSON.stringify(childData)}`);
+        setStoryFeed({data: childData})    
+        console.log(`data should have updated ui now with ${JSON.stringify(data)}`);
+    
     }
 
+    
+
     let feedItemListMarkup = ""
-    
-    
     if (data.getStories.length === 0) {
         feedItemListMarkup = (
             <>
+            <EpicInfoBlock epicId={epicId} />
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
                 <StoryForm handleCallback={handleCallback}/>
@@ -56,7 +61,8 @@ function StoryFeed() {
             </>
         )
     } else {    
-        feedItemListMarkup = (<>  
+        feedItemListMarkup = (
+        <>              
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
                 <StoryForm handleCallback={handleCallback}/>
@@ -64,6 +70,7 @@ function StoryFeed() {
             </Segment>         
             
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={epicName} leaf="Stories" />
+            <EpicInfoBlock  epicId={epicId} />
             <Feed data-cy="feedContainer">
                 {data &&
                     data.getStories.map((story) => (              
@@ -79,7 +86,7 @@ function StoryFeed() {
                         </Feed.Label>
                         <Feed.Content>
                             <Feed.Summary>                            
-                                <Feed.Content><a href={`/${epicName}/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
+                                <Feed.Content><a href={`/${orgName}/${epicName}/stories/${story.id}`}>{story.body}</a></Feed.Content>                            
                                 <Feed.Date>{moment(story.createdAt).fromNow()}</Feed.Date>                                                        
                             </Feed.Summary>
                             
@@ -90,7 +97,7 @@ function StoryFeed() {
                                 <Feed.Meta>
                                     <LikeButton user={user} storyId={story.id} likeCount={story.likeCount} likes={story.likes}  />                            
                                     <TestScenarioButton count={story.testScenarioCount} user={user} />                                   
-                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicName={data.epicName} storyId={story.id} />}                                          
+                                    {user && user.username === story.username && <DeleteButton handleCallback={handleCallback} epicId={epicId} storyId={story.id} />}                                          
                                 </Feed.Meta>
                             
                             

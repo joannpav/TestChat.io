@@ -3,7 +3,11 @@ const { model, Schema } = require('mongoose');
 const epicSchema = new Schema({
     epicName: String,
     description: String,
-    createdAt: String,   
+    createdAt: String, 
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },  
     users: [{
         type: Schema.Types.ObjectId,
         ref: 'User'

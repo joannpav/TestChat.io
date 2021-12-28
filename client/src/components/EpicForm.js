@@ -3,36 +3,33 @@ import {Button, Form } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { useForm } from '../util/hooks';
+import { useParams } from "react-router-dom";
 import { FETCH_EPICS_QUERY } from '../util/graphql';
 
 function EpicForm({ handleCallback }) {
+    const { orgName } = useParams();
     const { values, onChange, onSubmit } = useForm(createEpicCallback, {        
         epicName: '',
         description: '',                
     });    
-            
+
     const [createEpic, { loading, error }] = useMutation(CREATE_EPIC_MUTATION, {
-        variables: values,        
-        update(proxy, result) {            
-            const data = proxy.readQuery({
-                query: FETCH_EPICS_QUERY
-            });    
-            console.log(`what is in this result? ${JSON.stringify(result)}`);        
-            data.getEpics = [result.data.createEpic, ...data.getEpics];            
-            proxy.writeQuery({ query: FETCH_EPICS_QUERY, data });
-
-            values.epicName = '';
-            values.description = '';            
-            handleCallback(data);
-        },
+        variables: values,
+        refetchQueries:[
+            {query: FETCH_EPICS_QUERY,
+             variables: { orgName }}
+        ],
+        awaitRefetchQueries: true,
         onError: (err) => {
-            console.log(`Error creating epic. ${err}`);
-            // navigate("/login");
-        }              
+            console.log(`Error ${err}`);
+        },        
     });
+        
 
-    function createEpicCallback() {
-        createEpic();                
+    function createEpicCallback() {        
+        createEpic();   
+        values.epicName = '';
+        values.description = '';             
     }
 
     if (loading) return <p>Loading ...</p>;
@@ -58,13 +55,15 @@ function EpicForm({ handleCallback }) {
                     error={error ? true : false}
                 />
                 {/* <Form.Input
-                    data-cy = "acceptance"
-                    placeholder="Acceptance..."
-                    name="acceptanceCriteria"
+                    data-cy = "orgName"
+                    placeholder={orgName}
+                    name="orgName"
                     onChange={onChange}
-                    value={values.acceptanceCriteria}
+                    value={values.orgName}
                     error={error ? true : false}
-                /> */}
+                    type="hidden"
+                    className="hidden-input"
+                />  */}
                 <Button type="submit" color="teal" data-cy = "submit">
                     Submit
                 </Button>
@@ -85,6 +84,18 @@ const CREATE_EPIC_MUTATION = gql`
         createEpic(epicName: $epicName, description: $description) {
             id    
             epicName
+            owner {
+                id
+                username
+            }
+            users {
+                id
+                username
+            }
+            organization {
+                id
+                orgName
+            }
             description
             createdAt        
             storyCount

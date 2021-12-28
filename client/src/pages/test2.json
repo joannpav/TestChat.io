@@ -1,0 +1,137 @@
+{
+  "watches": {},
+  "typenameDocumentCache": {},
+  "cacheKeyRoot": { "weakness": true, "weak": {} },
+  "silenceBroadcast": true,
+  "config": {
+    "fragmentMatcher": {},
+    "addTypename": true,
+    "resultCaching": true,
+    "freezeResults": false
+  },
+  "addTypename": true,
+  "data": {
+    "data": {
+      "ROOT_QUERY": {
+        "getStories({\"epicId\":\"61c9d51c4de465a38aed0a36\"})": [
+          {
+            "type": "id",
+            "generated": false,
+            "id": "Story:61c9fb5186a5364834cb1683",
+            "typename": "Story"
+          }
+        ],
+        "getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"})": {
+          "type": "id",
+          "generated": true,
+          "id": "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"})",
+          "typename": "Epic"
+        }
+      },
+      "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"})": {
+        "epicName": "First owner epic",
+        "__typename": "Epic",
+        "description": "Yaye!",
+        "createdAt": "2021-12-27T15:00:44.275Z",
+        "users": [
+          {
+            "type": "id",
+            "generated": true,
+            "id": "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"}).users.0",
+            "typename": "User"
+          }
+        ]
+      },
+      "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"}).users.0": {
+        "username": "joannpav",
+        "__typename": "User"
+      },
+      "Story:61c9fb5186a5364834cb1683": {
+        "id": "61c9fb5186a5364834cb1683",
+        "body": "asdf",
+        "acceptanceCriteria": "asdf",
+        "createdAt": "2021-12-27T17:43:45.866Z",
+        "username": "joannpav",
+        "likes": [],
+        "likeCount": 0,
+        "comments": [],
+        "commentCount": 0,
+        "testScenarioCount": 0,
+        "testScenarios": [],
+        "__typename": "Story"
+      },
+      "ROOT_MUTATION": {
+        "createStory({\"acceptanceCriteria\":\"asdf\",\"body\":\"asdf\",\"epicId\":\"61c9d51c4de465a38aed0a36\"})": {
+          "type": "id",
+          "generated": false,
+          "id": "Story:61c9fb5186a5364834cb1683",
+          "typename": "Story"
+        },
+        "deleteStory({\"storyId\":\"61c9fb5186a5364834cb1683\"})": "Story deleted successfully"
+      }
+    }
+  },
+  "optimisticData": {
+    "data": {
+      "ROOT_QUERY": {
+        "getStories({\"epicId\":\"61c9d51c4de465a38aed0a36\"})": [
+          {
+            "type": "id",
+            "generated": false,
+            "id": "Story:61c9fb5186a5364834cb1683",
+            "typename": "Story"
+          }
+        ],
+        "getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"})": {
+          "type": "id",
+          "generated": true,
+          "id": "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"})",
+          "typename": "Epic"
+        }
+      },
+      "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"})": {
+        "epicName": "First owner epic",
+        "__typename": "Epic",
+        "description": "Yaye!",
+        "createdAt": "2021-12-27T15:00:44.275Z",
+        "users": [
+          {
+            "type": "id",
+            "generated": true,
+            "id": "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"}).users.0",
+            "typename": "User"
+          }
+        ]
+      },
+      "$ROOT_QUERY.getEpic({\"epicId\":\"61c9d51c4de465a38aed0a36\"}).users.0": {
+        "username": "joannpav",
+        "__typename": "User"
+      },
+      "Story:61c9fb5186a5364834cb1683": {
+        "id": "61c9fb5186a5364834cb1683",
+        "body": "asdf",
+        "acceptanceCriteria": "asdf",
+        "createdAt": "2021-12-27T17:43:45.866Z",
+        "username": "joannpav",
+        "likes": [],
+        "likeCount": 0,
+        "comments": [],
+        "commentCount": 0,
+        "testScenarioCount": 0,
+        "testScenarios": [],
+        "__typename": "Story"
+      },
+      "ROOT_MUTATION": {
+        "createStory({\"acceptanceCriteria\":\"asdf\",\"body\":\"asdf\",\"epicId\":\"61c9d51c4de465a38aed0a36\"})": {
+          "type": "id",
+          "generated": false,
+          "id": "Story:61c9fb5186a5364834cb1683",
+          "typename": "Story"
+        },
+        "deleteStory({\"storyId\":\"61c9fb5186a5364834cb1683\"})": "Story deleted successfully"
+      }
+    }
+  },
+  "storeWriter": {},
+  "storeReader": { "freezeResults": false }
+}

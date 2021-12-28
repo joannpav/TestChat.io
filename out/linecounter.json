@@ -1,0 +1,678 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "/Users/joann/Projects/TestChat",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2021-12-27 14:18:48",
+            "filesum": 100,
+            "codesum": 49428,
+            "commentsum": 253,
+            "blanksum": 10164,
+            "statistics": {
+                ".js": {
+                    "code": 3279,
+                    "comment": 220,
+                    "blank": 432
+                },
+                ".json": {
+                    "code": 43406,
+                    "comment": 0,
+                    "blank": 11
+                },
+                ".css": {
+                    "code": 31,
+                    "comment": 0,
+                    "blank": 6
+                },
+                "": {
+                    "code": 27,
+                    "comment": 1,
+                    "blank": 6
+                },
+                ".txt": {
+                    "code": 3,
+                    "comment": 1,
+                    "blank": 0
+                },
+                ".readme": {
+                    "code": 10,
+                    "comment": 0,
+                    "blank": 10
+                },
+                ".html": {
+                    "code": 20,
+                    "comment": 23,
+                    "blank": 0
+                },
+                ".md": {
+                    "code": 83,
+                    "comment": 8,
+                    "blank": 18
+                },
+                ".lock": {
+                    "code": 2569,
+                    "comment": 0,
+                    "blank": 9681
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 6,
+                    "code": 19,
+                    "comment": 1,
+                    "filename": "client/.gitignore"
+                },
+                {
+                    "blank": 4,
+                    "code": 36212,
+                    "comment": 0,
+                    "filename": "client/package-lock.json"
+                },
+                {
+                    "blank": 3,
+                    "code": 46,
+                    "comment": 0,
+                    "filename": "client/package.json"
+                },
+                {
+                    "filename": "client/public/favicon.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 20,
+                    "comment": 23,
+                    "filename": "client/public/index.html"
+                },
+                {
+                    "filename": "client/public/logo192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "client/public/logo512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "client/public/manifest.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": "client/public/robots.txt"
+                },
+                {
+                    "filename": "client/public/TestChat192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "client/public/TestChat512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 4,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": "client/src/ApolloProvider.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "client/src/App.css"
+                },
+                {
+                    "blank": 8,
+                    "code": 38,
+                    "comment": 0,
+                    "filename": "client/src/App.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "client/src/App.test.js"
+                },
+                {
+                    "blank": 13,
+                    "code": 69,
+                    "comment": 0,
+                    "filename": "client/src/components/ApprovalButton.js"
+                },
+                {
+                    "blank": 10,
+                    "code": 60,
+                    "comment": 0,
+                    "filename": "client/src/components/BigLikeButton.js"
+                },
+                {
+                    "blank": 8,
+                    "code": 25,
+                    "comment": 26,
+                    "filename": "client/src/components/ChatButton.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "client/src/components/CommentButton.js"
+                },
+                {
+                    "blank": 12,
+                    "code": 85,
+                    "comment": 6,
+                    "filename": "client/src/components/DeleteButton.js"
+                },
+                {
+                    "blank": 11,
+                    "code": 59,
+                    "comment": 1,
+                    "filename": "client/src/components/DeleteEpicButton.js"
+                },
+                {
+                    "blank": 9,
+                    "code": 52,
+                    "comment": 0,
+                    "filename": "client/src/components/DeleteScenarioButton.js"
+                },
+                {
+                    "blank": 11,
+                    "code": 69,
+                    "comment": 0,
+                    "filename": "client/src/components/DisapprovalButton.js"
+                },
+                {
+                    "blank": 10,
+                    "code": 103,
+                    "comment": 10,
+                    "filename": "client/src/components/EpicForm.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 36,
+                    "comment": 0,
+                    "filename": "client/src/components/EpicInfoBlock.js"
+                },
+                {
+                    "blank": 10,
+                    "code": 48,
+                    "comment": 0,
+                    "filename": "client/src/components/LikeButton.js"
+                },
+                {
+                    "blank": 9,
+                    "code": 66,
+                    "comment": 9,
+                    "filename": "client/src/components/MenuBar.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 83,
+                    "comment": 3,
+                    "filename": "client/src/components/ScenarioChatGroup.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 35,
+                    "comment": 2,
+                    "filename": "client/src/components/ScenarioCommentLink.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 68,
+                    "comment": 2,
+                    "filename": "client/src/components/ScenarioCommentPopup.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 31,
+                    "comment": 0,
+                    "filename": "client/src/components/ScenarioComments.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "client/src/components/SectionBreadCrumb.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 44,
+                    "comment": 0,
+                    "filename": "client/src/components/StoryCard.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 83,
+                    "comment": 3,
+                    "filename": "client/src/components/StoryCommentGroup.js"
+                },
+                {
+                    "blank": 11,
+                    "code": 129,
+                    "comment": 7,
+                    "filename": "client/src/components/StoryForm.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "client/src/components/TestCaseButtonLarge.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "client/src/components/TestScenarioButton.js"
+                },
+                {
+                    "blank": 11,
+                    "code": 88,
+                    "comment": 0,
+                    "filename": "client/src/components/TestScenarioForm.js"
+                },
+                {
+                    "blank": 9,
+                    "code": 44,
+                    "comment": 0,
+                    "filename": "client/src/components/TestScenarioList.js"
+                },
+                {
+                    "blank": 10,
+                    "code": 62,
+                    "comment": 0,
+                    "filename": "client/src/context/auth.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "client/src/index.css"
+                },
+                {
+                    "blank": 4,
+                    "code": 3,
+                    "comment": 2,
+                    "filename": "client/src/index.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 46,
+                    "comment": 0,
+                    "filename": "client/src/pages/EpicFeed.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "client/src/pages/Home.js"
+                },
+                {
+                    "blank": 10,
+                    "code": 87,
+                    "comment": 0,
+                    "filename": "client/src/pages/Login.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "client/src/pages/NotFound.js"
+                },
+                {
+                    "blank": 11,
+                    "code": 78,
+                    "comment": 0,
+                    "filename": "client/src/pages/Profile.js"
+                },
+                {
+                    "blank": 16,
+                    "code": 126,
+                    "comment": 0,
+                    "filename": "client/src/pages/Register.js"
+                },
+                {
+                    "blank": 13,
+                    "code": 97,
+                    "comment": 0,
+                    "filename": "client/src/pages/SingleStory.js"
+                },
+                {
+                    "blank": 10,
+                    "code": 49,
+                    "comment": 0,
+                    "filename": "client/src/pages/StoryFeed.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "client/src/pages/test.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "client/src/pages/test2.json"
+                },
+                {
+                    "blank": 5,
+                    "code": 12,
+                    "comment": 15,
+                    "filename": "client/src/util/AuthRoute.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "client/src/util/CustomPopup.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "client/src/util/DebugMe.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "client/src/util/EpicNameInfo.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 148,
+                    "comment": 0,
+                    "filename": "client/src/util/graphql.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "client/src/util/hooks.js"
+                },
+                {
+                    "blank": 9681,
+                    "code": 2569,
+                    "comment": 0,
+                    "filename": "client/yarn.lock"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 1,
+                    "filename": "config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "cypress/cypress.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "cypress/cypress/fixtures/example.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 9,
+                    "comment": 1,
+                    "filename": "cypress/cypress/integration/epics/epicFeed.spec.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 20,
+                    "comment": 6,
+                    "filename": "cypress/cypress/integration/scenarios/scenarios.spec.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 33,
+                    "comment": 9,
+                    "filename": "cypress/cypress/integration/stories/singleStory.spec.js"
+                },
+                {
+                    "blank": 16,
+                    "code": 115,
+                    "comment": 8,
+                    "filename": "cypress/cypress/integration/stories/storyFeed.spec.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 6,
+                    "filename": "cypress/cypress/integration/untitled.spec.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 2,
+                    "comment": 18,
+                    "filename": "cypress/cypress/plugins/index.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 32,
+                    "comment": 13,
+                    "filename": "cypress/cypress/support/commands.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 1,
+                    "comment": 17,
+                    "filename": "cypress/cypress/support/index.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 16,
+                    "comment": 3,
+                    "filename": "cypress/cypress/utilities/graphql-test-utils.js"
+                },
+                {
+                    "blank": 8,
+                    "code": 69,
+                    "comment": 1,
+                    "filename": "graphQL/resolvers/comments.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 94,
+                    "comment": 16,
+                    "filename": "graphQL/resolvers/epics.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 35,
+                    "comment": 7,
+                    "filename": "graphQL/resolvers/index.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "graphQL/resolvers/organizations.js"
+                },
+                {
+                    "blank": 15,
+                    "code": 88,
+                    "comment": 16,
+                    "filename": "graphQL/resolvers/stories.js"
+                },
+                {
+                    "blank": 8,
+                    "code": 91,
+                    "comment": 3,
+                    "filename": "graphQL/resolvers/testScenarios.js"
+                },
+                {
+                    "blank": 16,
+                    "code": 101,
+                    "comment": 7,
+                    "filename": "graphQL/resolvers/users.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 130,
+                    "comment": 0,
+                    "filename": "graphQL/typeDefs.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "index.js"
+                },
+                {
+                    "filename": "logo/TestChat192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "logo/TestChat512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "logo/TestChatLogo copy.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "logo/TestChatLogo copy.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "logo/TestChatLogo.jpg",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "logo/TestChatLogo.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "logo/TestChatLogo.psd",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "logo/TestChatLogo2.psd",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "models/Epic.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": "models/Organization.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 59,
+                    "comment": 0,
+                    "filename": "models/Story.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "models/User.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 7067,
+                    "comment": 0,
+                    "filename": "package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "package.json"
+                },
+                {
+                    "filename": "product_planning/invite team member.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 10,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "product_planning/pitch.readme"
+                },
+                {
+                    "blank": 18,
+                    "code": 83,
+                    "comment": 8,
+                    "filename": "product_planning/readme.md"
+                },
+                {
+                    "blank": 5,
+                    "code": 21,
+                    "comment": 2,
+                    "filename": "util/check-auth.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "util/validators.js"
+                }
+            ]
+        }
+    ]
+}

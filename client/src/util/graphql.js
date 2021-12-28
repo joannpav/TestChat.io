@@ -1,16 +1,22 @@
 import gql from 'graphql-tag';
 
 export const FETCH_EPICS_QUERY = gql`
-    query getEpics ($orgId: ID!) {        
-        getEpics(orgId: $orgId) {
+    query getEpics ($orgName: String!) {        
+        getEpics(orgName: $orgName) {
             id
             epicName
             createdAt
+            owner {
+                id
+                username
+            }
             description
-            organization {                
+            organization { 
+                id               
                 orgName
             }
             users {
+                id
                 username
             }
             storyCount
@@ -25,6 +31,10 @@ export const FETCH_EPIC_QUERY = gql`
             id
             epicName
             createdAt
+            owner {
+                id
+                username
+            }
         }
     } 
 `;
@@ -90,6 +100,7 @@ export const FETCH_STORY_QUERY = gql`
             id 
             body
             epic {
+                id
                 epicName
             }
             acceptanceCriteria

@@ -3,6 +3,7 @@ const usersResolvers = require('./users');
 const commentsResolvers = require('./comments');
 const testScenariosResolvers = require('./testScenarios');
 const epicsResolvers = require('./epics');
+const organizationsResolvers = require('./organizations');
 
 // each query, mutation or sub, it has a resolver to process the logic
 
@@ -27,7 +28,8 @@ module.exports = {
     Query: {
         ...storiesResolvers.Query,
         ...usersResolvers.Query,
-        ...epicsResolvers.Query
+        ...epicsResolvers.Query,
+        ...organizationsResolvers.Query
         // ...testScenariosResolvers.Query
     },
     Mutation: {

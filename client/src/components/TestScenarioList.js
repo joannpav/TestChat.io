@@ -9,7 +9,7 @@ import ScenarioCommentLink from '../components/ScenarioCommentLink';
 import ScenarioComments from '../components/ScenarioComments';
 import moment from 'moment';
 import {FETCH_STORY_QUERY} from '../util/graphql';
-import { useNavigate } from 'react-router-dom';
+
 
 function TestScenarioList({testScenarios, storyId, user}) {         
     const [scenarios, setScenarios] = useState();   
@@ -39,20 +39,10 @@ function TestScenarioList({testScenarios, storyId, user}) {
       setShowScenarioComments(!showScenarioComments);
     }
 
-    // const handleShowComments = (scenario) => {
-    //   console.log(`in handleShowComments? ${scenario.comments}`);
-    //   // setScenarioComments(scenario.comments);
-    //   // setShowScenarioComments(false);
-    // }
-
     useEffect(() => {       
        setScenarios(testScenarios)
     }, [testScenarios, storyId, user]);
 
-
-    // let navigate = useNavigate();
-    // if (!user) { navigate("/login") }
-    
 
     let testMarkup = <p>Loading test scenarios...</p>            
     
