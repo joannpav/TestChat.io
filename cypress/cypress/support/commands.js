@@ -45,3 +45,63 @@ Cypress.Commands.add('login', () => {
             Cypress.env('token', $response.body.data.login.token);             
         }) 
 })
+
+Cypress.Commands.add('createEpic', () => {
+    const createEpicMutation = `
+        mutation CreateEpic($epicName: String!, $description: String) {
+            createEpic(epicName: $epicName, description: $description) {
+                id
+          }
+    }`;
+    cy.request({
+        url: 'http://localhost:5000',
+        method: 'POST',
+        auth: {
+            'bearer': Cypress.env("token")
+        },
+        body: {
+            query: createEpicMutation,
+            variables: {
+                epicName: `MyEpic-${new Date()}`,
+                description: 'My awesome epic'
+            }                
+        }
+    }).then(($response) => {
+        cy.log($response.body.data);
+        Cypress.env('currentEpicId', $response.body.data.createEpic.id);             
+    }) 
+})
+
+
+Cypress.Commands.add('createStory', (body) => {
+        const mutation = `
+            mutation createStory ($epicId: ID!, $body: String!, $acceptanceCriteria: String) {
+                createStory (epicId: $epicId, body: $body, acceptanceCriteria: $acceptanceCriteria) {
+                    id
+                }
+            }`;  
+        // const uuid = () => Cypress._.random(0, 1e6).toString();     
+        // const body = uuid();
+        const acceptance = "this is the acceptance";                      
+        cy.request({
+            url: 'http://localhost:5000/',
+            method: 'POST',
+            auth: {
+                'bearer': Cypress.env("token")
+            },
+            body: { 
+                query: mutation,
+                variables: {
+                    epicId: Cypress.env("currentEpicId"),
+                    body: body,
+                    acceptanceCriteria: acceptance
+                }
+            },
+            failOnStatusCode: false
+        }).then(($response) => {
+            cy.log($response.body.data);
+            // cy.wrap($response.body.data.createStory.id).as('currentStoryId');
+            // cy.wrap(body).as('storyBody');
+            Cypress.env('currentStoryId', $response.body.data.createStory.id);             
+        }) 
+})

@@ -12,7 +12,18 @@ const server = new ApolloServer({
     context: ({ req }) =>  ({ req })
 });
 
-mongoose.connect(MONGODB, {useNewUrlParser: true})
+mongoose.connect(MONGODB, {
+    useNewUrlParser: true,
+    // useUnifiedTopology: true,
+    // serverSelectionTimeoutMS: 1000,
+    // server: {
+    //     socketOptions: 
+    //     {
+    //         socketTimeoutMS: 0,
+    //         connectionTimeout: 0
+    //     }
+    // }
+})
 .then(() => {
     return server.listen({ port: 5000 })
 }).then(res => {
