@@ -59,7 +59,7 @@ function SingleStory() {
                     <Grid.Column width={14}>
                         <Card fluid color='red'>
                             <Card.Content>
-                                <Label as='a' color='red' ribbon style={{marginBottom:'10px'}}>
+                                <Label data-cy="storyLabel" as='a' color='red' ribbon style={{marginBottom:'10px'}}>
                                     Story
                                 </Label>  
                                 <Label  color='purple' attached='top right'>

@@ -11,14 +11,22 @@ import EpicForm from "../components/EpicForm";
 import DeleteEpicButton from "../components/DeleteEpicButton";
 
 function EpicFeed() {
+    // const [limit, setLimit] = useState(10);
     const [epicFeed, setEpicFeed] = useState();
     const { user } = useContext(AuthContext);
     const { orgName } = useParams();
-    const { data, error, loading } = useQuery(FETCH_EPICS_QUERY, {        
+    const { data, error, loading, fetchMore } = useQuery(FETCH_EPICS_QUERY, {        
         variables: {
             orgName
         }
     });
+    // const { data, error, loading, fetchMore } = useQuery(FETCH_EPICS_QUERY, {        
+    //     variables: {
+    //         offset: 0,
+    //         limit,
+    //         orgName
+    //     }
+    // });
 
     let navigate = useNavigate();
 
@@ -61,6 +69,26 @@ function EpicFeed() {
             </Container>
             </Segment>         
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
+
+            {/* <Feed
+                entries={data.getEpics || []}
+                
+                onLoadMore={() => {
+                    const currentLength = data.getEpics.length;
+                    fetchMore({
+                    variables: {
+                        offset: currentLength,
+                        limit: 10,
+                    },
+                    }).then(fetchMoreResult => {
+                    // Update variables.limit for the original query to include
+                    // the newly added feed items.
+                    setLimit(currentLength + fetchMoreResult.data.getEpics.length);
+                    });
+                }}
+            /> */}
+
+
             <Feed data-cy="feedContainer">
                 <Card.Group itemsPerRow={4}>
                 {data && 

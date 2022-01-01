@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 
 export const FETCH_EPICS_QUERY = gql`
+    # query getEpics ($offset: Int, $limit: Int, $orgName: String!) {        
+    #     getEpics(offset: $offset, limit: $limit, orgName: $orgName) {
     query getEpics ($orgName: String!) {        
         getEpics(orgName: $orgName) {
             id

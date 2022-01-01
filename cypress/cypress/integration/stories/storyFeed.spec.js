@@ -89,18 +89,36 @@ describe('story feed page', () => {
         cy.contains(body).should('not.exist');        
     })
     
-    it.only('clicking story name opens single story page', () => {        
+    it('clicking story name opens single story page', () => {        
         const uuid = () => Cypress._.random(0, 1e6).toString()     
         const body = uuid();  
         cy.setTokenLoadHome();      
         cy.createStory(body);  
         cy.visit(`/PumpkinPie/${Cypress.env("currentEpicId")}/stories`);
-        cy.wait(500);     
+        cy.contains(body).click();
+        cy.get("[data-cy=storyLabel]").should('exist');
+        cy.contains(body).should('exist');
+
     })
     it('clicking like increases like count and updates color', () => {
-        assert.fail("Not implemented") 
+        const uuid = () => Cypress._.random(0, 1e6).toString()     
+        const body = uuid();        
+        cy.createStory(body);        
+        expect(Cypress.env("currentStoryId")).to.not.be.null;
+        cy.setTokenLoadHome();
+        cy.visit(`/PumpkinPie/${Cypress.env("currentEpicId")}/stories`);
+        cy.get('[data-cy=feedContainer] > :nth-child(1) > :nth-child(1)')
+            .find("[data-cy=likeButton]")
+            .should('contain.text', "0")
+            .click();        
+        cy.get('[data-cy=feedContainer]')
+            .find("[data-cy=likeButton]")
+            .should('contain.text', "1");
+        cy.get('[data-cy=feedContainer]').find('[data-cy=likeButton] > .like')
+            .should('have.css', 'color', 'rgb(219, 40, 40)');
     })
-    it('adding scenarios updates scenario count and changes color', () => {
+    it.skip('adding scenarios updates scenario count and changes color', () => {
+        // This should move to the scenario spec
         assert.fail("Not implemented") 
     })
 

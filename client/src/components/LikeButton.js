@@ -27,16 +27,16 @@ function LikeButton({user, storyId, likeCount, likes}) {
 
     const likeButton = user ? (
         liked ? (
-            <Feed.Like onClick={likeStory}>
+            <Feed.Like data-cy="likeButton" onClick={likeStory}>
                 <Icon name='like' color='red'/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} 
             </Feed.Like>
         ) : (
-            <Feed.Like onClick={likeStory}>
+            <Feed.Like data-cy="likeButton" onClick={likeStory}>
                 <Icon name='like' /> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} 
             </Feed.Like>
         )
     ) : (
-        <Feed.Like><Icon name='like' to="/login"/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} </Feed.Like> 
+        <Feed.Like data-cy="likeButton" ><Icon name='like' to="/login"/> {likeCount } {likeCount === 1 ? "Like  " : "Likes  "} </Feed.Like> 
     )
 
     return likeButton

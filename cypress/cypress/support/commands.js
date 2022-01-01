@@ -79,9 +79,7 @@ Cypress.Commands.add('createStory', (body) => {
                 createStory (epicId: $epicId, body: $body, acceptanceCriteria: $acceptanceCriteria) {
                     id
                 }
-            }`;  
-        // const uuid = () => Cypress._.random(0, 1e6).toString();     
-        // const body = uuid();
+            }`;          
         const acceptance = "this is the acceptance";                      
         cy.request({
             url: 'http://localhost:5000/',

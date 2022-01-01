@@ -113,6 +113,7 @@ type Query {
     getStories(epicId: ID!): [Story]      
     getEpic(epicId: ID!): Epic
     getEpics(orgName: String!): [Epic] 
+    # getEpics(offset: Int, limit: Int, orgName: String!): [Epic] 
     getStoryCountByEpic: Int  
     getScenarioCountByEpic: Int  
 }

@@ -30,11 +30,12 @@ module.exports = {
             try { 
                 const org = await Organization.find({orgName});
                 if (org) {
-                    const epics = await Epic.find({organization: org})
+                    const epics = await Epic.find({organization: org})                    
+                    .limit(10)                    
                     .populate('owner')
                     .populate('users')
                     .populate('organization')                    
-                    .sort({ createdAt: -1 });  
+                    .sort({ createdAt: -1 });
                 
                 // By enabling this, only users that are in the users list will see the epics
                 // For the MVP, users will see all epics for their org
@@ -53,7 +54,7 @@ module.exports = {
         },            
         async getEpic(_, { epicId }, context) {            
             try {                                 
-                const epic = await Epic.findById(epicId)
+                const epic = await Epic.findById(epicId)                    
                     .populate('users');
 
                 console.log(`anything returned for epic? ${JSON.stringify(epic)}`);
