@@ -3,28 +3,25 @@ const mongoose = require('mongoose');
 
 const typeDefs = require('./graphQL/typeDefs');
 const resolvers = require('./graphQL/resolvers');
-const { MONGODB } = require('./config.js')
+const { MONGODB } = require('./config.js');
 
+const JiraAPI = require('./api/JiraAPI');
 
 const server = new ApolloServer({
+    dataSources: () => ({
+        jiraAPI: new JiraAPI()
+    }),
+    context: ({ req }) =>  ({ req }),        
     typeDefs,
     resolvers,
-    context: ({ req }) =>  ({ req })
+    playground: true,
+    introspection: true,    
 });
 
 mongoose.connect(MONGODB, {
-    useNewUrlParser: true,
-    // useUnifiedTopology: true,
-    // serverSelectionTimeoutMS: 1000,
-    // server: {
-    //     socketOptions: 
-    //     {
-    //         socketTimeoutMS: 0,
-    //         connectionTimeout: 0
-    //     }
-    // }
+    useNewUrlParser: true,    
 })
-.then(() => {
+.then(() => {    
     return server.listen({ port: 5000 })
 }).then(res => {
         console.log("mongodb connected");

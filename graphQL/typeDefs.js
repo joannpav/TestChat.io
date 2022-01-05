@@ -98,7 +98,6 @@ type Like{
     createdAt: String!
     username: String!
 }
-
 input RegisterInput {
     username: String!
     password: String!
@@ -115,7 +114,7 @@ type Query {
     getEpics(orgName: String!): [Epic] 
     # getEpics(offset: Int, limit: Int, orgName: String!): [Epic] 
     getStoryCountByEpic: Int  
-    getScenarioCountByEpic: Int  
+    getScenarioCountByEpic: Int      
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
@@ -133,5 +132,26 @@ type Mutation {
     disapproveScenario(storyId: ID!, scenarioId: ID!): Story!
     deleteScenario(storyId: ID!, scenarioId: ID!): Story!
 }
+
+
+# Jira Schema
+type Jira {        
+    issues: [JiraIssue]
+}
+type JiraIssue {    
+    id: ID!
+    total: Int,
+    url: String,
+    key: String,
+    fields: Fields,    
+}
+type Fields {
+    summary: String,
+    description: String
+}
+# queries
+type Query {
+    jira(projectKey: String!): [JiraIssue]
+  }
 
 `;

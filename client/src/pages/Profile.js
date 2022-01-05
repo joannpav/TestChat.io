@@ -4,6 +4,7 @@ import { useNavigate } from "react-router"
 import { useParams } from "react-router-dom";
 import moment from 'moment';
 import {AuthContext} from "../context/auth";
+import JiraConfig from "../pages/JiraConfig";
 
 function Profile() {
     const [state, setState] = useState({ activeItem: 'bio' });
@@ -85,7 +86,11 @@ function Profile() {
           <Segment>            
             {activeItem === "bio" ? profile : ""}
             {activeItem === "team" ? "This is the Team" : ""}
-            {activeItem === "integrations" ? "These are the integrations" : ""}
+            {activeItem === "integrations" ? (
+                
+                <JiraConfig />
+                ) : 
+                ("")}
             {activeItem === "data" ? "This is where you export your data" : ""}
           </Segment>
         </Grid.Column>
