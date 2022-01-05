@@ -6,7 +6,7 @@ import { useForm } from '../util/hooks';
 import { useParams } from "react-router-dom";
 import { FETCH_EPICS_QUERY } from '../util/graphql';
 
-function EpicForm({ handleCallback }) {
+function EpicForm() {
     const { orgName } = useParams();
     const { values, onChange, onSubmit } = useForm(createEpicCallback, {        
         epicName: '',
