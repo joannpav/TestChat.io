@@ -40,12 +40,7 @@ function EpicFeed() {
     let feedItemListMarkup = ""
     if (!data?.getEpics?.length ||  data.getEpics.length === 0) {
         feedItemListMarkup = (
-            <>
-            {/* <Segment style={{backgroundColor: 'teal'}} >
-            <Container>
-                <EpicForm handleCallback={handleCallback}/>
-            </Container>
-            </Segment>      */}
+            <>           
             <EpicCreationOptions />
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
             <Message info>
@@ -56,15 +51,8 @@ function EpicFeed() {
         )
     } else {   
         feedItemListMarkup = (
-            <>
-            {/* <Segment style={{backgroundColor: 'teal'}}>
-            <Container>
-                <EpicForm handleCallback={handleCallback}/>
-            </Container>
-            </Segment>          */}
-
-            <EpicCreationOptions />
-            
+            <>           
+            <EpicCreationOptions />            
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
 
             {/* <Feed
