@@ -149,6 +149,7 @@ type JiraIssue {
     total: Int,
     url: String,
     key: String,
+    epicImported: Boolean, 
     fields: Fields,    
 }
 type Fields {
