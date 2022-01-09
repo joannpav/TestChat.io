@@ -28,7 +28,7 @@ class JiraAPI extends RESTDataSource {
   
   async getEpics({ projectKey }) {        
     const response = await this.get(`/search?jql=project%20%3D%20TES%26type%20%3DEpic`)
-    console.log(response.issues);    
+    // console.log(response.issues);    
     return response.issues || []
   }
 }

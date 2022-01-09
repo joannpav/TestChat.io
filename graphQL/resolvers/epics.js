@@ -26,7 +26,7 @@ module.exports = {
     Query: {
         async getEpics(_, { orgName }, context) {    
             const {username} = checkAuth(context);
-            console.log(`username is ${username}`);
+            // console.log(`username is ${username}`);
             try { 
                 const org = await Organization.find({orgName});
                 if (org) {
@@ -77,7 +77,17 @@ module.exports = {
     //     },        
     // }
     Mutation: {
-        async createEpic(_, { epicName, description }, context) {              
+        async createJiraEpics(_, 
+            {jiraEpicInput: {epicNames, epicDescriptions}}
+            ) {
+                // maybe create method getEpic(epicName, org, owner) and if it exists
+                // then return message that it exists
+                //
+                console.log(epicNames);
+            },
+        
+
+        async createEpic(_, { epicName, description, jiraId=null }, context) {              
             const user = checkAuth(context);
             const userFull = await User.findOne(user);
             console.log(`who is user? ${JSON.stringify(userFull)}`);
@@ -93,7 +103,8 @@ module.exports = {
                 createdAt: new Date().toISOString(),                
                 owner: userFull,    
                 organization: userOrg,
-                users: [userFull]
+                users: [userFull],
+                jiraId
             });            
             const epic = await newEpic.save();            
             return epic;

@@ -18,7 +18,8 @@ function EpicFeed() {
     const { data, error, loading, fetchMore } = useQuery(FETCH_EPICS_QUERY, {        
         variables: {
             orgName
-        }
+        },
+        fetchPolicy: "cache-and-network"
     });
 
     let navigate = useNavigate();

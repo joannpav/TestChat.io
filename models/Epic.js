@@ -4,6 +4,7 @@ const epicSchema = new Schema({
     epicName: String,
     description: String,
     createdAt: String, 
+    jiraId: String,
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'

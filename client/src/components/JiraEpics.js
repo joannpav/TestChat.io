@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Form, Button, Grid, List, Checkbox, Message } from 'semantic-ui-react';
 import { useForm } from '../util/hooks';
 import { useMutation } from '@apollo/react-hooks';
@@ -12,12 +12,16 @@ import { FETCH_EPICS_QUERY } from '../util/graphql';
 
 function JiraEpics() {   
     const { orgName } = useParams(); 
+    const [epicList, setEpicList] = useState([]);
+    const [epicNameVal, setEpicNameVal] = useState("");
     const [projectKey, setProjectKey] = useState("TES")    
     const { user } = useContext(AuthContext);
     const { data, loading, error } = useQuery(GET_JIRA_EPICS, {
-        variables: { projectKey }
-    })  
-    const { values, onChange, onSubmit } = useForm(createEpicCallback, {        
+        variables: { projectKey },
+        errorPolicy: "all",
+        fetchPolicy: "cache-first"
+    });  
+    const { values, onChange, onSubmit } = useForm(createEpicCallback, {                
         epicName: '',
         description: '',                
     });    
@@ -34,6 +38,21 @@ function JiraEpics() {
         },        
     });
         
+    // useEffect(() => {
+    //     // TODO: This isn't working right, the update seems to be delated, so the first checked item
+    //     // isn't added to the list until the second item is checked and so on
+    //     // so the epicList is always one short
+    //     setEpicList([...epicList, epicNameVal]);
+    // }, [epicNameVal])
+
+    // function handleOnChange(epicNameVal) {                
+    //     console.log(`what epic name ${epicNameVal}`);
+    //     setEpicNameVal(epicNameVal);
+        
+    //     console.log(`what epics in list ${epicList}`);
+        
+    //     // next submit epics list to Graphql
+    // }
 
     function createEpicCallback() {        
         createEpic();                   
@@ -44,6 +63,8 @@ function JiraEpics() {
     if (!user) { navigate("/login")}
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error}</p>
+    // Maybe should get a list of epics and if any with JiraId key match
+    // Then mark them as disabled
     return (      
         <Grid >
             <Grid.Row className="page-title">
@@ -59,14 +80,21 @@ function JiraEpics() {
                     <List>              
                         <Form onSubmit={onSubmit}>
                             {
-                            Object.values(data.jira).map((key, index) => ( 
+                            Object.values(data?.getJiraEpics).map((key, index) => ( 
                             <List.Item className="epic-form" key={index}>
                                 <Checkbox 
                                     className="epic-form-list" 
                                     label={<label className="epic-form">{key.fields.summary}</label>} 
                                     name="epicName"                                    
-                                    onChange={onChange}
-                                    value={key.fields.summary}
+                                    onChange={() => {
+                                        createEpic({
+                                            variables: {
+                                                epicName: key.fields.summary,
+                                                jiraId: key.key
+                                            }
+                                        })
+                                    }}
+                                    value={key.fields.summary}                                      
                                 />
                                 </List.Item> 
                             ))
@@ -88,7 +116,7 @@ function JiraEpics() {
 
 const GET_JIRA_EPICS = gql`
   query GetEpics($projectKey: String!) {
-    jira(projectKey: $projectKey) {
+    getJiraEpics(projectKey: $projectKey) {
       id
       key
       total
@@ -104,8 +132,8 @@ const GET_JIRA_EPICS = gql`
 
 
 const CREATE_EPIC_MUTATION = gql`
-    mutation createEpic($epicName: String!, $description: String) {
-        createEpic(epicName: $epicName, description: $description) {
+    mutation createEpic($epicName: String!, $description: String, $jiraId: String) {
+        createEpic(epicName: $epicName, description: $description, jiraId: $jiraId) {
             id    
             epicName
             owner {

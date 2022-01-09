@@ -27,6 +27,7 @@ type Epic {
     organization: Organization
     storyCount: Int!
     scenarioCount: Int!
+    jiraId: String
 }
 # type StoryCountInEpic {
 #     epicName: String
@@ -105,6 +106,10 @@ input RegisterInput {
     email: String!
     orgName: String!
 }
+input JiraEpicInput {
+    epicName: [String!]
+    epicDescription: [String]
+}
 type Query {
     getOrgId(orgName: String!): Organization
     getUsers: [User]    
@@ -119,7 +124,8 @@ type Query {
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createEpic(epicName: String!, description: String): Epic!
+    createEpic(epicName: String!, description: String, jiraId: String): Epic!
+    createJiraEpics(jiraEpicInput: JiraEpicInput!): Epic!
     createStory(epicId: ID!, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
     deleteEpic(epicId: ID!): String!
@@ -151,7 +157,7 @@ type Fields {
 }
 # queries
 type Query {
-    jira(projectKey: String!): [JiraIssue]
+    getJiraEpics(projectKey: String!): [JiraIssue]
   }
 
 `;
