@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 
 export const FETCH_EPICS_QUERY = gql`
+    # query getEpics ($offset: Int, $limit: Int, $orgName: String!) {        
+    #     getEpics(offset: $offset, limit: $limit, orgName: $orgName) {
     query getEpics ($orgName: String!) {        
         getEpics(orgName: $orgName) {
             id
@@ -153,5 +155,46 @@ export const FETCH_STORY_QUERY = gql`
             }         
         }
     }
+`;
+
+export const CREATE_EPIC_MUTATION = gql`
+    mutation createEpic($epicName: String!, $description: String) {
+        createEpic(epicName: $epicName, description: $description) {
+            id    
+            epicName
+            owner {
+                id
+                username
+            }
+            users {
+                id
+                username
+            }
+            organization {
+                id
+                orgName
+            }
+            description
+            createdAt        
+            storyCount
+            scenarioCount
+        }
+    }
+`;
+
+export const GET_JIRA_EPICS = gql`
+query GetEpics($projectKey: String!) {
+  getJiraEpics(projectKey: $projectKey) {
+    id
+    key
+    total
+    url    
+    epicImported
+    fields {
+      summary
+      description
+    }    
+  }
+}
 `;
 

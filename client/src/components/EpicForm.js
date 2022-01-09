@@ -1,12 +1,11 @@
 import React from 'react';
 import {Button, Form } from 'semantic-ui-react';
-import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { useForm } from '../util/hooks';
 import { useParams } from "react-router-dom";
-import { FETCH_EPICS_QUERY } from '../util/graphql';
+import { FETCH_EPICS_QUERY, CREATE_EPIC_MUTATION } from '../util/graphql';
 
-function EpicForm({ handleCallback }) {
+function EpicForm() {
     const { orgName } = useParams();
     const { values, onChange, onSubmit } = useForm(createEpicCallback, {        
         epicName: '',
@@ -77,31 +76,6 @@ function EpicForm({ handleCallback }) {
         )}
         </>
     )
-}
-
-const CREATE_EPIC_MUTATION = gql`
-    mutation createEpic($epicName: String!, $description: String) {
-        createEpic(epicName: $epicName, description: $description) {
-            id    
-            epicName
-            owner {
-                id
-                username
-            }
-            users {
-                id
-                username
-            }
-            organization {
-                id
-                orgName
-            }
-            description
-            createdAt        
-            storyCount
-            scenarioCount
-        }
-    }
-`;
+};
 
 export default EpicForm;

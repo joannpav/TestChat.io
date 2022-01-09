@@ -5,6 +5,12 @@
   margin-top: 10px;
 }
 
+.centered-message {
+  display: block !important;
+  text-align: center;  
+  margin: 10px;
+}
+
 .form-container {
   width: 400px;
   margin: auto;
@@ -20,4 +26,13 @@
 
 .hidden-input {
   display: none !important;
+}
+
+.epic-form {
+  color: white !important;
+}
+
+.epic-form-list {
+  color: white !important;
+  padding-left: 10px !important;
 }

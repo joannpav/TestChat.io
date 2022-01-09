@@ -76,7 +76,7 @@ function StoryFeed() {
                     data.getStories.map((story) => (              
                     <Card fluid key={story.id}>
                     <Card.Content >   
-                    <Feed.Event data-cy={story.body}>                                        
+                    <Feed.Event data-cy="feedItem">                                        
                         <Feed.Label>
                         <Image 
                             floated="left"

@@ -4,7 +4,8 @@ import { hasOperationName, aliasQuery, aliasMutation } from '../../utilities/gra
 
 describe('story feed page', () => {    
     before(() => { 
-        cy.login();            
+        cy.login();   
+        cy.createEpic();         
     })    
 
     beforeEach(() => {
@@ -12,14 +13,6 @@ describe('story feed page', () => {
             aliasQuery(req, 'getStories')                    
             aliasMutation(req, 'createStory')            
         })
-    })
-
-    it('can login through UI', () => {
-        cy.visit("http://localhost:3000");
-        cy.contains('Username').type("joannpav");
-        cy.contains("Password").type("joannpav");
-        cy.get('#loginButton').click();
-        cy.get('[data-cy=loggedInUsername]').should('exist');
     })
     
     it.skip('fetches all stories', () => {
@@ -41,23 +34,22 @@ describe('story feed page', () => {
 
     it('can create a story from the UI', () => {    
         cy.setTokenLoadHome();
-        cy.visit("/asdf/stories")
-
-        const epic = "asdf";
-
+        const epicId = Cypress.env('currentEpicId');
+        cy.visit(`/PumpkinPie/${epicId}/stories`);
+        
         cy.request({
             url: 'http://localhost:5000/',
-            method: 'POST',
+            method: 'POST',            
             body: { 
                 operationName: 'getStories',
                 query: `
-                    query getStories($epicName: String!) {
-                        getStories (epicName: $epicName) {
+                    query getStories($epicId: ID!) {
+                        getStories (epicId: $epicId) {
                             id
                         }
                     }`,
                 variables: {
-                    epicName: epic 
+                    epicId: epicId 
                 }
             },
             failOnStatusCode: false
@@ -83,56 +75,50 @@ describe('story feed page', () => {
     })
 
     it('can delete a story from the UI', () => {  
-        // delete button not being found, need to investigate
         const uuid = () => Cypress._.random(0, 1e6).toString()     
-        const token = Cypress.env('token');   
-        const epic = "asdf";                
-        const body = uuid();
-        const acceptance = "this is the acceptance";
-        const mutation = `
-            mutation createStory ($epicName: String, $body: String!, $acceptanceCriteria: String) {
-                createStory (epicName: $epicName, body: $body, acceptanceCriteria: $acceptanceCriteria) {
-                    id
-                }
-            }`;
-                        
-
-        cy.request({
-            url: 'http://localhost:5000/',
-            method: 'POST',
-            headers: {
-            'Authorization': `Bearer ${token}` 
-            },
-            body: { 
-                query: mutation,
-                variables: {
-                    epicName: epic,
-                    body: body,
-                    acceptanceCriteria: acceptance
-                }
-            },
-            failOnStatusCode: false
-        }).then($resp => {
-            cy.log($resp.body.data.createStory.id);        
-            expect($resp.body.data.createStory.id).to.not.be.null;      
-            cy.setTokenLoadHome();
-            cy.visit(`/${epic}/stories`);
+        const body = uuid();        
+        cy.createStory(body);        
+        expect(Cypress.env("currentStoryId")).to.not.be.null;
+        cy.setTokenLoadHome();
+        cy.visit(`/PumpkinPie/${Cypress.env("currentEpicId")}/stories`);
             
-            cy.contains(body).parent().parent().parent().find('[data-cy=deleteButton]').then(($ele) => {
-                $ele.click();
-                cy.get('.primary').click();
-            })                  
-            cy.contains(body).should('not.exist');
-        })
+        cy.contains(body).parent().parent().parent().find('[data-cy=deleteButton]').then(($ele) => {
+            $ele.click();
+            cy.get('.primary').click();
+        })                  
+        cy.contains(body).should('not.exist');        
     })
     
     it('clicking story name opens single story page', () => {        
-        assert.fail("Not implemented") 
+        const uuid = () => Cypress._.random(0, 1e6).toString()     
+        const body = uuid();  
+        cy.setTokenLoadHome();      
+        cy.createStory(body);  
+        cy.visit(`/PumpkinPie/${Cypress.env("currentEpicId")}/stories`);
+        cy.contains(body).click();
+        cy.get("[data-cy=storyLabel]").should('exist');
+        cy.contains(body).should('exist');
+
     })
     it('clicking like increases like count and updates color', () => {
-        assert.fail("Not implemented") 
+        const uuid = () => Cypress._.random(0, 1e6).toString()     
+        const body = uuid();        
+        cy.createStory(body);        
+        expect(Cypress.env("currentStoryId")).to.not.be.null;
+        cy.setTokenLoadHome();
+        cy.visit(`/PumpkinPie/${Cypress.env("currentEpicId")}/stories`);
+        cy.get('[data-cy=feedContainer] > :nth-child(1) > :nth-child(1)')
+            .find("[data-cy=likeButton]")
+            .should('contain.text', "0")
+            .click();        
+        cy.get('[data-cy=feedContainer]')
+            .find("[data-cy=likeButton]")
+            .should('contain.text', "1");
+        cy.get('[data-cy=feedContainer]').find('[data-cy=likeButton] > .like')
+            .should('have.css', 'color', 'rgb(219, 40, 40)');
     })
-    it('adding scenarios updates scenario count and changes color', () => {
+    it.skip('adding scenarios updates scenario count and changes color', () => {
+        // This should move to the scenario spec
         assert.fail("Not implemented") 
     })
 

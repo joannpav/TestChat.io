@@ -9,15 +9,17 @@ import {AuthContext} from "../context/auth";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import EpicForm from "../components/EpicForm";
 import DeleteEpicButton from "../components/DeleteEpicButton";
+import EpicCreationOptions from "../components/EpicCreationOptions";
 
 function EpicFeed() {
     const [epicFeed, setEpicFeed] = useState();
     const { user } = useContext(AuthContext);
     const { orgName } = useParams();
-    const { data, error, loading } = useQuery(FETCH_EPICS_QUERY, {        
+    const { data, error, loading, fetchMore } = useQuery(FETCH_EPICS_QUERY, {        
         variables: {
             orgName
-        }
+        },
+        fetchPolicy: "cache-and-network"
     });
 
     let navigate = useNavigate();
@@ -39,12 +41,8 @@ function EpicFeed() {
     let feedItemListMarkup = ""
     if (!data?.getEpics?.length ||  data.getEpics.length === 0) {
         feedItemListMarkup = (
-            <>
-            <Segment style={{backgroundColor: 'teal'}} >
-            <Container>
-                <EpicForm handleCallback={handleCallback}/>
-            </Container>
-            </Segment>     
+            <>           
+            <EpicCreationOptions />
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
             <Message info>
                 <Message.Header>No epics found</Message.Header>
@@ -54,13 +52,29 @@ function EpicFeed() {
         )
     } else {   
         feedItemListMarkup = (
-            <>
-            <Segment style={{backgroundColor: 'teal'}}>
-            <Container>
-                <EpicForm handleCallback={handleCallback}/>
-            </Container>
-            </Segment>         
+            <>           
+            <EpicCreationOptions />            
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="Epics" leaf="" />
+
+            {/* <Feed
+                entries={data.getEpics || []}
+                
+                onLoadMore={() => {
+                    const currentLength = data.getEpics.length;
+                    fetchMore({
+                    variables: {
+                        offset: currentLength,
+                        limit: 10,
+                    },
+                    }).then(fetchMoreResult => {
+                    // Update variables.limit for the original query to include
+                    // the newly added feed items.
+                    setLimit(currentLength + fetchMoreResult.data.getEpics.length);
+                    });
+                }}
+            /> */}
+
+
             <Feed data-cy="feedContainer">
                 <Card.Group itemsPerRow={4}>
                 {data && 

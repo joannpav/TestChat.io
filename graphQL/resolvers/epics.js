@@ -26,15 +26,16 @@ module.exports = {
     Query: {
         async getEpics(_, { orgName }, context) {    
             const {username} = checkAuth(context);
-            console.log(`username is ${username}`);
+            // console.log(`username is ${username}`);
             try { 
                 const org = await Organization.find({orgName});
                 if (org) {
-                    const epics = await Epic.find({organization: org})
+                    const epics = await Epic.find({organization: org})                    
+                    .limit(10)                    
                     .populate('owner')
                     .populate('users')
                     .populate('organization')                    
-                    .sort({ createdAt: -1 });  
+                    .sort({ createdAt: -1 });
                 
                 // By enabling this, only users that are in the users list will see the epics
                 // For the MVP, users will see all epics for their org
@@ -53,7 +54,7 @@ module.exports = {
         },            
         async getEpic(_, { epicId }, context) {            
             try {                                 
-                const epic = await Epic.findById(epicId)
+                const epic = await Epic.findById(epicId)                    
                     .populate('users');
 
                 console.log(`anything returned for epic? ${JSON.stringify(epic)}`);
@@ -76,7 +77,17 @@ module.exports = {
     //     },        
     // }
     Mutation: {
-        async createEpic(_, { epicName, description }, context) {              
+        async createJiraEpics(_, 
+            {jiraEpicInput: {epicNames, epicDescriptions}}
+            ) {
+                // maybe create method getEpic(epicName, org, owner) and if it exists
+                // then return message that it exists
+                //
+                console.log(epicNames);
+            },
+        
+
+        async createEpic(_, { epicName, description, jiraId=null }, context) {              
             const user = checkAuth(context);
             const userFull = await User.findOne(user);
             console.log(`who is user? ${JSON.stringify(userFull)}`);
@@ -92,7 +103,8 @@ module.exports = {
                 createdAt: new Date().toISOString(),                
                 owner: userFull,    
                 organization: userOrg,
-                users: [userFull]
+                users: [userFull],
+                jiraId
             });            
             const epic = await newEpic.save();            
             return epic;

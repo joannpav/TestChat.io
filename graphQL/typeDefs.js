@@ -27,6 +27,7 @@ type Epic {
     organization: Organization
     storyCount: Int!
     scenarioCount: Int!
+    jiraId: String
 }
 # type StoryCountInEpic {
 #     epicName: String
@@ -98,13 +99,16 @@ type Like{
     createdAt: String!
     username: String!
 }
-
 input RegisterInput {
     username: String!
     password: String!
     confirmPassword: String!
     email: String!
     orgName: String!
+}
+input JiraEpicInput {
+    epicName: [String!]
+    epicDescription: [String]
 }
 type Query {
     getOrgId(orgName: String!): Organization
@@ -113,13 +117,15 @@ type Query {
     getStories(epicId: ID!): [Story]      
     getEpic(epicId: ID!): Epic
     getEpics(orgName: String!): [Epic] 
+    # getEpics(offset: Int, limit: Int, orgName: String!): [Epic] 
     getStoryCountByEpic: Int  
-    getScenarioCountByEpic: Int  
+    getScenarioCountByEpic: Int      
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createEpic(epicName: String!, description: String): Epic!
+    createEpic(epicName: String!, description: String, jiraId: String): Epic!
+    createJiraEpics(jiraEpicInput: JiraEpicInput!): Epic!
     createStory(epicId: ID!, body: String!, acceptanceCriteria: String): Story!
     deleteStory(storyId: ID!): String!
     deleteEpic(epicId: ID!): String!
@@ -132,5 +138,27 @@ type Mutation {
     disapproveScenario(storyId: ID!, scenarioId: ID!): Story!
     deleteScenario(storyId: ID!, scenarioId: ID!): Story!
 }
+
+
+# Jira Schema
+type Jira {        
+    issues: [JiraIssue]
+}
+type JiraIssue {    
+    id: ID!
+    total: Int,
+    url: String,
+    key: String,
+    epicImported: Boolean, 
+    fields: Fields,    
+}
+type Fields {
+    summary: String,
+    description: String
+}
+# queries
+type Query {
+    getJiraEpics(projectKey: String!): [JiraIssue]
+  }
 
 `;

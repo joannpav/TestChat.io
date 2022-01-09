@@ -4,6 +4,7 @@ const commentsResolvers = require('./comments');
 const testScenariosResolvers = require('./testScenarios');
 const epicsResolvers = require('./epics');
 const organizationsResolvers = require('./organizations');
+const resolversJira = require('./resolversJira');
 
 // each query, mutation or sub, it has a resolver to process the logic
 
@@ -25,20 +26,23 @@ module.exports = {
         // questionCount: (parent) => parent.questions.length,
         // viewerCount: (parent) => parent.viewers.length
     },
+    JiraIssue: {
+        epicImported: resolversJira.HasEpicBeenImported.hasEpicBeenImported    
+    },
     Query: {
         ...storiesResolvers.Query,
         ...usersResolvers.Query,
         ...epicsResolvers.Query,
-        ...organizationsResolvers.Query
-        // ...testScenariosResolvers.Query
+        ...organizationsResolvers.Query,
+        ...resolversJira.Query
     },
     Mutation: {
         ...epicsResolvers.Mutation,
         ...usersResolvers.Mutation,
         ...storiesResolvers.Mutation,
         ...commentsResolvers.Mutation,
-        ...testScenariosResolvers.Mutation
-    },
+        ...testScenariosResolvers.Mutation,        
+    },    
     
     // Subscription: {
     //     ...storiesResolvers.Subscription
