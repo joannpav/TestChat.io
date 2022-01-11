@@ -26,7 +26,6 @@ module.exports = {
     Query: {
         async getEpics(_, { orgName }, context) {    
             const {username} = checkAuth(context);
-            // console.log(`username is ${username}`);
             try { 
                 const org = await Organization.find({orgName});
                 if (org) {
@@ -56,8 +55,6 @@ module.exports = {
             try {                                 
                 const epic = await Epic.findById(epicId)                    
                     .populate('users');
-
-                console.log(`anything returned for epic? ${JSON.stringify(epic)}`);
                 return epic;
             } catch (err) {
                 throw new Error(err);
@@ -96,7 +93,6 @@ module.exports = {
             }
                 
             const userOrg = await Organization.findOne({users:user.id});
-            // console.log(`what is org? ${JSON.stringify(userOrg)}`);            
             const newEpic = new Epic({
                 epicName, 
                 description,                    
@@ -113,7 +109,6 @@ module.exports = {
             const user = checkAuth(context);
             try {
                 const epic = await Epic.findById(epicId).populate('owner');
-                // console.log(`delete epic: user.username: ${user.username}, owner: ${epic.owner.username}`);
                 if (user.username === epic.owner.username) {
                     await epic.delete();
                     return 'Epic deleted';

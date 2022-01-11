@@ -152,9 +152,23 @@ type JiraIssue {
     epicImported: Boolean, 
     fields: Fields,    
 }
+type JiraParagraphContent {
+    type: String,
+    text: String
+}
+type JiraDescriptionContent {
+    type: String,
+    content: [JiraParagraphContent]
+}
+type JiraDescription {
+    version: Int,
+    type: String,
+    content: [JiraDescriptionContent]
+}
 type Fields {
     summary: String,
-    description: String
+    # description: String
+    description: JiraDescription
 }
 # queries
 type Query {

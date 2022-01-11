@@ -7,11 +7,8 @@ const checkAuth = require('../../util/check-auth');
 module.exports = {    
     Query: {
         async getStories(_, { epicId }){
-            console.log(`in getStories, epicId is ${epicId}`);
             try{
-                const epic = await Epic.findById(epicId);
-                    
-                console.log(`in getStories, epic is ${epic}`);
+                const epic = await Epic.findById(epicId);                    
                 const stories = await Story.find({epic})
                     .populate('epic')
                     .sort({ createdAt: -1 });                                
@@ -43,7 +40,6 @@ module.exports = {
             
             
             const epic = await Epic.findById(epicId);
-            console.log(`was epic found ${epic}`);
             
             if (body.trim() === '') {
                 throw new Error('Story body must not be empty');

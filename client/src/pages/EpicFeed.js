@@ -33,9 +33,7 @@ function EpicFeed() {
     if(!user) { navigate("/login")}
 
     const handleCallback = (childData) => {
-        console.log(`updating feed with ${JSON.stringify(childData)}`);
         setEpicFeed({data: childData})
-        console.log(`data should have updated ui now with ${JSON.stringify(data)}`);
     }
 
     let feedItemListMarkup = ""

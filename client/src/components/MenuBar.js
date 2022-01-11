@@ -11,21 +11,10 @@ function MenuBar() {
     const [activeItem, setActiveItem] = useState(path);
 
     const handleItemClick = (e, { name }) => setActiveItem(name);        
-    // console.log(`what is the user in here? ${JSON.stringify(user)}`);
-    // const userAndOrg = `${user.orgName}: ${user.username}`;
 
     const menuBar = user ? (
         <>        
-        <Menu pointing secondary size="massive" color="teal">            
-            {/* <Label  color='red'  attached='top left'>{user.orgName}</Label> */}
-            {/* <Menu.Item
-                    data-cy="loggedInUsername" 
-                    name={user.username} 
-                    active={activeItem === `${user.username}`} 
-                    onClick={handleItemClick}
-                    as={Link} 
-                    to={`/${user.orgName}/${user.username}`} 
-                /> */}
+        <Menu pointing secondary size="massive" color="teal">                        
             <Menu.Item><Label color='black' horizontal size="big">{user.orgName}</Label></Menu.Item>
             <Menu.Item 
                 data-cy="epicsMenu" 
