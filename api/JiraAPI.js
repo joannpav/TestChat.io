@@ -22,13 +22,25 @@ class JiraAPI extends RESTDataSource {
       Authorization: `Basic ${authToken}`,      
       "Content-Type": "application/json",      
     };    
-    // console.log( request.headers )
-    // console.log( request.body )
   }
   
   async getEpics({ projectKey }) {        
-    const response = await this.get(`/search?jql=project%20%3D%20TES%26type%20%3DEpic`)
-    // console.log(response.issues);    
+    var jql = {'jql': 'project = "TES" AND type = "Epic" ORDER BY created DESC'}     
+    const response = await this.get(`/search?`, {},
+    {      
+      params: jql,
+    });
+    return response.issues || []
+  }
+
+  async getStories({ epicKey }) {   
+    // TODO: paramaterize this
+    var jql = {'jql': 'project = "TES" AND type = "Story" and "Epic Link"=TES-12 ORDER BY created DESC'}     
+    const response = await this.get(`/search?jql=project%20%3D%20${projectKey}%26type%20%3DStory`,
+    {      
+      body: jql,
+    });       
+    
     return response.issues || []
   }
 }

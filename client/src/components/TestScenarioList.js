@@ -27,14 +27,13 @@ function TestScenarioList({testScenarios, storyId, user}) {
     }
 
     const handleScenarioCommentCallback = (comment) => {
+      // TODO: why is comment passed in?
       console.log(`did comments get passed ${JSON.stringify(comment)}`);
       getScenarioList(storyId);
       
     }
 
     const toggleShowComments = (scenario) => {
-      console.log("we are in toggleShowComments");
-      console.log(JSON.stringify(scenario.comments));
       setScenarioComments(scenario.comments);      
       setShowScenarioComments(!showScenarioComments);
     }

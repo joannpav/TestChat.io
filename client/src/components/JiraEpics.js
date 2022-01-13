@@ -23,7 +23,7 @@ function JiraEpics() {
         description: '',                
     });    
 
-    const [createEpic] = useMutation(CREATE_EPIC_MUTATION, {
+    const [createEpic] = useMutation(CREATE_EPIC_MUTATION, {        
         variables: values,
         refetchQueries:[
             {query: FETCH_EPICS_QUERY,
@@ -36,11 +36,12 @@ function JiraEpics() {
         awaitRefetchQueries: true,
         onError: (err) => {
             console.log(`Error ${err}`);
-        },        
+        }                
     });
             
     
-    function createEpicCallback() {        
+    function createEpicCallback() { 
+        console.log(`what is values here? ${values}`)       
         createEpic();                   
     }  
     
@@ -59,6 +60,7 @@ function JiraEpics() {
             <Grid.Row className="page-title">
                 <h3 className="epic-form">Select one or more epics to import</h3> 
                 <hr style={{width: "80%"}}/>
+                
             </Grid.Row>       
             <Grid.Row className="epic-form" columns={3}>
                 <Grid.Column></Grid.Column>
@@ -78,6 +80,7 @@ function JiraEpics() {
                                         createEpic({
                                             variables: {
                                                 epicName: key.fields.summary,
+                                                description: key.fields.description.content[0]?.content[0]?.text,
                                                 jiraId: key.key
                                             }
                                         })
@@ -88,7 +91,7 @@ function JiraEpics() {
                             ))
                             }
                             
-                        </Form>
+                        </Form> 
                     </List>
                     
                 </Grid.Column>    

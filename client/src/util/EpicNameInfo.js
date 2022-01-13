@@ -10,8 +10,7 @@ function EpicNameInfo(epicId) {
     });
     
     if (loading) return (<p>Loading ...</p>)
-    console.log(`what is data here? ${data.getEpic.epicName} ${JSON.stringify(data)}`);            
-    return data.getEpic.epicName;
+      return data.getEpic.epicName;
 }
 
 const FETCH_EPIC_QUERY = gql`

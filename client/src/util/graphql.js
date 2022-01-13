@@ -192,7 +192,17 @@ query GetEpics($projectKey: String!) {
     epicImported
     fields {
       summary
-      description
+      description {
+          version
+          type
+          content {              
+              type
+              content {
+                  type
+                  text
+              }
+          }
+      }
     }    
   }
 }

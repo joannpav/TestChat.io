@@ -48,7 +48,6 @@ module.exports = {
                 throw new UserInputError("Wrong credentials", {errors});
             }
             const token = generateToken(user);
-            console.log(`what is in user? ${JSON.stringify(user)}`);
             return {
                 ...user._doc,
                 id: user._id,                
@@ -89,7 +88,6 @@ module.exports = {
                     createdAt: new Date().toISOString()
                 })
                 theOrg = await newOrg.save();
-                console.log(`the org is ${JSON.stringify(theOrg)}`);
             }
            
             const newUser = new User({

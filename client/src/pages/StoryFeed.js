@@ -25,7 +25,6 @@ function StoryFeed() {
         }
     });
     const epicName = EpicNameInfo(epicId);
-    console.log(`epicId is ${epicId}, name is ${epicName}`);
 
     let navigate = useNavigate();
   
@@ -35,10 +34,7 @@ function StoryFeed() {
 
     
     const handleCallback = (childData) => { 
-        console.log(`updating storyfeed with ${JSON.stringify(childData)}`);
-        setStoryFeed({data: childData})    
-        console.log(`data should have updated ui now with ${JSON.stringify(data)}`);
-    
+        setStoryFeed({data: childData})                
     }
 
     

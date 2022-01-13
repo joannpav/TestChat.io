@@ -43,7 +43,6 @@ function StoryForm({ handleCallback }) {
     });
 
     function createStoryCallback() {
-        console.log(`about to call createStory callback, what is epicId? ${epicId}`);
         createStory();                
     }
 

@@ -26,8 +26,6 @@ function authReducer(state, action) {
   console.log(`in authReducer, what is action ${JSON.stringify(action)} and what is state ${JSON.stringify(state)}`)  
   switch (action.type) {
     case 'LOGIN':
-      console.log(`is this action.payload.orgName populated ${action.payload.orgName}`);
-      console.log(`is this action.payloadpopulated ${action.payload}`);
       return {
         ...state,
         user: action.payload,
