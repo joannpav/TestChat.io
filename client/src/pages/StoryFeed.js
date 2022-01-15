@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import EpicNameInfo from "../util/EpicNameInfo";
 import EpicInfoBlock from "../components/EpicInfoBlock";
+import StoryCreationOptions from "../components/StoryCreationOptions";
 
 function StoryFeed() {
     const [storyFeed, setStoryFeed] = useState();
@@ -43,6 +44,7 @@ function StoryFeed() {
     if (data.getStories.length === 0) {
         feedItemListMarkup = (
             <>
+            <StoryCreationOptions />
             <EpicInfoBlock epicId={epicId} />
             <Segment style={{backgroundColor: 'teal'}}>
             <Container>
@@ -64,7 +66,7 @@ function StoryFeed() {
                 <StoryForm handleCallback={handleCallback}/>
             </Container>
             </Segment>         
-            
+            <StoryCreationOptions />
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={epicName} leaf="Stories" />
             <EpicInfoBlock  epicId={epicId} />
             <Feed data-cy="feedContainer">
