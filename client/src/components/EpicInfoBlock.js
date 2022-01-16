@@ -5,7 +5,6 @@ import { useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 
 function EpicInfoBlock(epicId) {
-    console.log(`in EpicInfoBlock, ${JSON.stringify(epicId)}`);
     const theEpicId = epicId.epicId;
     const { data, error, loading } = useQuery(FETCH_EPIC_QUERY, {
         variables: {

@@ -182,6 +182,34 @@ export const CREATE_EPIC_MUTATION = gql`
     }
 `;
 
+export const CREATE_JIRA_EPIC_MUTATION = gql`
+    mutation createJiraEpic($epicName: String!, $description: String, $jiraKey: String, $jiraId: String) {
+        createEpic(epicName: $epicName, description: $description, jiraKey: $jiraKey, jiraId: $jiraId) {
+            id    
+            epicName
+            owner {
+                id
+                username
+            }
+            users {
+                id
+                username
+            }
+            organization {
+                id
+                orgName
+            }
+            description
+            createdAt        
+            storyCount
+            scenarioCount
+            jiraKey
+            jiraId
+        }
+    }
+`;
+
+
 export const GET_JIRA_EPICS = gql`
 query GetEpics($projectKey: String!) {
   getJiraEpics(projectKey: $projectKey) {
@@ -208,3 +236,29 @@ query GetEpics($projectKey: String!) {
 }
 `;
 
+
+export const GET_JIRA_STORIES = gql`
+query GetJiraStories($projectKey: String!, $epicId: String!) {
+  getJiraStories(projectKey: $projectKey, epicId: $epicId) {
+    id
+    key
+    total
+    url    
+    storyImported
+    fields {
+      summary
+      description {
+          version
+          type
+          content {              
+              type
+              content {
+                  type
+                  text
+              }
+          }
+      }
+    }    
+  }
+}
+`;

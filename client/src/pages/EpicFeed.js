@@ -2,12 +2,11 @@ import React, { useContext, useState } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { useNavigate } from "react-router"
 import { useParams } from "react-router-dom";
-import { Feed, Card, Container, Segment, Message } from 'semantic-ui-react';
+import { Feed, Card, Message } from 'semantic-ui-react';
 import { FETCH_EPICS_QUERY } from "../util/graphql";
 import moment from 'moment';
 import {AuthContext} from "../context/auth";
 import SectionBreadCrumb from "../components/SectionBreadCrumb";
-import EpicForm from "../components/EpicForm";
 import DeleteEpicButton from "../components/DeleteEpicButton";
 import EpicCreationOptions from "../components/EpicCreationOptions";
 

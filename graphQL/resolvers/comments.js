@@ -6,8 +6,6 @@ const checkAuth = require('../../util/check-auth');
 module.exports = {
     Mutation: {  
         async createScenarioComment(_, { storyId, scenarioId, body }, context) {
-            console.log(`attempting to add comment ${body}`);
-            
             const { username } = checkAuth(context);
             
             if(body.trim() === '') {
@@ -26,8 +24,7 @@ module.exports = {
                         body,
                         username,
                         createdAt: new Date().toISOString()
-                    });
-                    // await scenario.save();
+                    });                    
                     await story.save();
                     return scenario;
                 } else {

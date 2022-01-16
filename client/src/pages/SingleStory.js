@@ -10,9 +10,13 @@ import TestScenarioButton from '../components/TestScenarioButton';
 import TestScenarioList from '../components/TestScenarioList';
 import TestScenarioForm from '../components/TestScenarioForm';
 import StoryCommentGroup from '../components/StoryCommentGroup';
+import SectionBreadCrumb from "../components/SectionBreadCrumb";
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 function SingleStory() {  
+    // TODO: Want te breadcrumb to be able to navigate back to the story, but since we are getting
+    // to this page using the href from the feed, can't pass in a param.
+    // Not sure why I wrote it like that. See if it can be refactored to use a component
     const { storyId } = useParams();
     const { user } = useContext(AuthContext);    
     const {data: {getStory: story} = {}, error, loading } = useQuery(FETCH_STORY_QUERY, {
@@ -47,6 +51,8 @@ function SingleStory() {
         } = story;
         
         storyMarkup = (
+            <>
+            <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={epic.epicName} leaf={body}/>
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={2}>
@@ -100,6 +106,7 @@ function SingleStory() {
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
+            </>
         );
     }
 

@@ -10,6 +10,7 @@ class JiraAPI extends RESTDataSource {
     super()
     //this is the base url for our API call, if you had more than one async query 
     //below this base would be the point where the queries diverge
+
     this.baseURL = 'https://testchat.atlassian.net/rest/api/3'    
   }
 
@@ -21,10 +22,12 @@ class JiraAPI extends RESTDataSource {
     request.headers = {      
       Authorization: `Basic ${authToken}`,      
       "Content-Type": "application/json",      
-    };    
+    }; 
+       
   }
   
-  async getEpics({ projectKey }) {        
+  async getEpics({ projectKey }) { 
+    // TODO: Parameterize  
     var jql = {'jql': 'project = "TES" AND type = "Epic" ORDER BY created DESC'}     
     const response = await this.get(`/search?`, {},
     {      
@@ -33,10 +36,10 @@ class JiraAPI extends RESTDataSource {
     return response.issues || []
   }
 
-  async getStories({ epicKey }) {   
-    // TODO: paramaterize this
-    var jql = {'jql': 'project = "TES" AND type = "Story" and "Epic Link"=TES-12 ORDER BY created DESC'}     
-    const response = await this.get(`/search?jql=project%20%3D%20${projectKey}%26type%20%3DStory`,
+  async getStories({ projectKey, epicJiraKey }) {  
+    // TODO: pass jql in body
+    var jql = {'jql': `project = "TES" AND type = "Story" and "Epic Link"=${epicJiraKey} ORDER BY created DESC`};        
+    const response = await this.get(`/search?jql=project%20%3D%20${projectKey}%26type%20%3DStory%26"Epic%20Link"%3D"${epicJiraKey}"`,
     {      
       body: jql,
     });       

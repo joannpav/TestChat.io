@@ -6,7 +6,7 @@ import { AuthContext } from "../context/auth";
 import { gql, useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router';
 import { useParams } from "react-router-dom";
-import { FETCH_EPICS_QUERY, CREATE_EPIC_MUTATION, GET_JIRA_EPICS } from '../util/graphql';
+import { FETCH_EPICS_QUERY, CREATE_JIRA_EPIC_MUTATION, GET_JIRA_EPICS } from '../util/graphql';
 
 
 function JiraEpics() {   
@@ -23,7 +23,7 @@ function JiraEpics() {
         description: '',                
     });    
 
-    const [createEpic] = useMutation(CREATE_EPIC_MUTATION, {        
+    const [createEpic] = useMutation(CREATE_JIRA_EPIC_MUTATION, {        
         variables: values,
         refetchQueries:[
             {query: FETCH_EPICS_QUERY,
@@ -41,7 +41,6 @@ function JiraEpics() {
             
     
     function createEpicCallback() { 
-        console.log(`what is values here? ${values}`)       
         createEpic();                   
     }  
     
@@ -80,8 +79,9 @@ function JiraEpics() {
                                         createEpic({
                                             variables: {
                                                 epicName: key.fields.summary,
-                                                description: key.fields.description.content[0]?.content[0]?.text,
-                                                jiraId: key.key
+                                                description: key.fields?.description?.content[0]?.content[0]?.text,
+                                                jiraKey: key.key,
+                                                jiraId: key.id  
                                             }
                                         })
                                     }}

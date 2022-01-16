@@ -27,7 +27,8 @@ module.exports = {
         // viewerCount: (parent) => parent.viewers.length
     },
     JiraIssue: {
-        epicImported: resolversJira.HasEpicBeenImported.hasEpicBeenImported    
+        epicImported: resolversJira.HasEpicBeenImported.hasEpicBeenImported,    
+        storyImported: resolversJira.HasStoryBeenImported.hasStoryBeenImported    
     },
     Query: {
         ...storiesResolvers.Query,
