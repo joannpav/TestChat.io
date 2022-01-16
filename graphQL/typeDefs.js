@@ -41,7 +41,9 @@ module.exports = gql`
         comments: [Comment]!
         likes: [Like]!
         likeCount: Int!
-        commentCount: Int!     
+        commentCount: Int!   
+        jiraKey: String
+        jiraId: String  
     }
     type Comment{
         id: ID!
@@ -120,9 +122,8 @@ module.exports = gql`
     type Mutation {
         register(registerInput: RegisterInput): User!
         login(username: String!, password: String!): User!
-        createEpic(epicName: String!, description: String, jiraKey: String, jiraId: String): Epic!
-        # createJiraEpics(jiraEpicInput: JiraEpicInput!): Epic!
-        createStory(epicId: ID!, body: String!, acceptanceCriteria: String): Story!
+        createEpic(epicName: String!, description: String, jiraKey: String, jiraId: String): Epic!        
+        createStory(epicId: ID!, body: String!, acceptanceCriteria: String, jiraKey: String, jiraId: String): Story!
         deleteStory(storyId: ID!): String!
         deleteEpic(epicId: ID!): String!
         createComment(storyId: ID!, body: String!): Story!
@@ -164,7 +165,6 @@ module.exports = gql`
     }
     type Fields {
         summary: String,
-        # description: String
         description: JiraDescription
     }
     # queries

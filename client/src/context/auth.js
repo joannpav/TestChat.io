@@ -8,7 +8,7 @@ const initialState = {
 if (localStorage.getItem('jwtToken')) {
   const decodedToken = jwtDecode(localStorage.getItem('jwtToken'));
 
-  const testing=decodedToken.exp * 1000;
+  const testing=decodedToken.exp;
   console.log(`decodedToken.exp * 1000 ${testing} `)
   if (decodedToken.exp * 1000 < Date.now()) {
     localStorage.removeItem('jwtToken');
@@ -26,6 +26,7 @@ const AuthContext = createContext({
 
 function authReducer(state, action) {
   console.log(`in authReducer, what is action ${JSON.stringify(action)} and what is state ${JSON.stringify(state)}`)  
+  console.log(`in authReducer, what is payload ${action.payload}`);
   switch (action.type) {
     case 'LOGIN':
       return {

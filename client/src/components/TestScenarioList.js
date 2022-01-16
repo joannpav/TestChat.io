@@ -28,7 +28,6 @@ function TestScenarioList({testScenarios, storyId, user}) {
 
     const handleScenarioCommentCallback = (comment) => {
       // TODO: why is comment passed in?
-      console.log(`did comments get passed ${JSON.stringify(comment)}`);
       getScenarioList(storyId);
       
     }

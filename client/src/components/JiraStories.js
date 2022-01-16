@@ -11,7 +11,6 @@ import { FETCH_STORIES_QUERY, GET_JIRA_STORIES } from '../util/graphql';
 
 function JiraStories() {   
     const { epicId } = useParams();
-    console.log(`what is the epicId? ${epicId}`);
     const [projectKey, setProjectKey] = useState("TES")    
     const { user } = useContext(AuthContext);
     const { data, loading, error } = useQuery(GET_JIRA_STORIES, {
@@ -19,14 +18,13 @@ function JiraStories() {
         errorPolicy: "all",
         fetchPolicy: "cache-first"
     });  
-    console.log(`what is the data? ${JSON.stringify(data)}`);
     const { values, onChange, onSubmit } = useForm(createStoryCallback, {                
         epicId,      
         body: '',
         acceptanceCriteria: ''              
     });    
 
-    const [createStory] = useMutation(CREATE_STORY_MUTATION, {        
+    const [createStory] = useMutation(CREATE_JIRA_STORY_MUTATION, {        
         variables: values,
         refetchQueries:[
             {query: FETCH_STORIES_QUERY,
@@ -84,8 +82,10 @@ function JiraStories() {
                                         createStory({
                                             variables: {
                                                 epicId,
-                                                body: key.fields.description.content[0]?.content[0]?.text,
-                                                acceptanceCriteria: "none yet"
+                                                body: key.fields.summary,
+                                                acceptanceCriteria: key.fields.description?.content?.[0].content?.[0].text || "No acceptance criteria",                                                
+                                                jiraKey: key.key,
+                                                jiraId: key.id
                                             }
                                         })
                                     }}
@@ -108,9 +108,9 @@ function JiraStories() {
 }
 
 
-const CREATE_STORY_MUTATION = gql`
-    mutation createStory($epicId: ID!, $body: String!, $acceptanceCriteria: String) {
-        createStory(epicId: $epicId, body: $body, acceptanceCriteria: $acceptanceCriteria) {
+const CREATE_JIRA_STORY_MUTATION = gql`
+    mutation createStory($epicId: ID!, $body: String!, $acceptanceCriteria: String, $jiraKey: String, $jiraId: String) {
+        createStory(epicId: $epicId, body: $body, acceptanceCriteria: $acceptanceCriteria, jiraKey: $jiraKey, jiraId: $jiraId) {
             id            
             body
             acceptanceCriteria
@@ -151,10 +151,10 @@ const CREATE_STORY_MUTATION = gql`
                     id
                     username
                     createdAt
-                }
-
-                
+                }                                
             }
+            jiraKey
+            jiraId
         }
     }
 `;

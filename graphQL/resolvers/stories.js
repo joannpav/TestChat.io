@@ -34,7 +34,7 @@ module.exports = {
 
     },
     Mutation: {
-        async createStory(_, { epicId, body, acceptanceCriteria }, context) {            
+        async createStory(_, { epicId, body, acceptanceCriteria, jiraKey=null, jiraId=null }, context) {            
             // TODO: Need to make epic mandatory
             const user = checkAuth(context);
             
@@ -61,6 +61,8 @@ module.exports = {
                     user: user.id,
                     username: user.username,                
                     createdAt: new Date().toISOString(),
+                    jiraKey,
+                    jiraId
                 });
     
                 const story = await newStory.save();
@@ -74,10 +76,8 @@ module.exports = {
 
         async deleteStory(_, { storyId }, context) {
             const user = checkAuth(context);            
-            console.log(`attempting to delete story ${storyId}`);              
             try {
                 const story = await Story.findById(storyId);
-                console.log(`found story ${JSON.stringify(story)}`);
                 
                 if (user.username === story.username){
                     await story.delete();

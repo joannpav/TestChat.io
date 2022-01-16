@@ -44,14 +44,10 @@ function StoryFeed() {
     if (data.getStories.length === 0) {
         feedItemListMarkup = (
             <>
-            <StoryCreationOptions />
-            <EpicInfoBlock epicId={epicId} />
-            <Segment style={{backgroundColor: 'teal'}}>
-            <Container>
-                <StoryForm handleCallback={handleCallback}/>
-            </Container>
-            </Segment>     
+            <StoryCreationOptions />            
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch="" leaf={epicName} />
+            <EpicInfoBlock epicId={epicId} />
+
             <Message info>
                 <Message.Header>No stories in this epic</Message.Header>
                 <p>Why don't you create one?</p>
@@ -61,12 +57,7 @@ function StoryFeed() {
     } else {    
         feedItemListMarkup = (
         <>              
-            <Segment style={{backgroundColor: 'teal'}}>
-            <Container>
-                <StoryForm handleCallback={handleCallback}/>
-            </Container>
-            </Segment>         
-            <StoryCreationOptions />
+            <StoryCreationOptions />            
             <SectionBreadCrumb trunk={user?.orgName ? user.orgName : ""} branch={epicName} leaf="Stories" />
             <EpicInfoBlock  epicId={epicId} />
             <Feed data-cy="feedContainer">

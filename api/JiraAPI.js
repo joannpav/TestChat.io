@@ -15,7 +15,6 @@ class JiraAPI extends RESTDataSource {
   }
 
   willSendRequest( request ) {
-    console.log(`in willSendRequest`);
     const authToken = Buffer.from('support@testchat.io:CInMNSDGWnGRbmXIZBou5D64').toString('base64')
     if (!request.headers) {
       request.headers = {};
@@ -27,9 +26,8 @@ class JiraAPI extends RESTDataSource {
        
   }
   
-  async getEpics({ projectKey }) {  
-    console.log('in getEpics of JiraAPI');
-    console.log(`yo! am i in here getEpics ??? `);       
+  async getEpics({ projectKey }) { 
+    // TODO: Parameterize  
     var jql = {'jql': 'project = "TES" AND type = "Epic" ORDER BY created DESC'}     
     const response = await this.get(`/search?`, {},
     {      
@@ -38,14 +36,10 @@ class JiraAPI extends RESTDataSource {
     return response.issues || []
   }
 
-  async getStories({ projectKey, jiraKey }) {  
-    console.log('in getStores of JiraAPI');
-    console.log(`yo! am i in here??? ${jiraKey}`); 
-    // TODO: paramaterize this, pass jql in body
-    var jql = {'jql': `project = "TES" AND type = "Story" and "Epic Link"=${jiraKey} ORDER BY created DESC`};    
-    console.log(`/search?jql=                    project%20%3D%20"TES"%20AND%26  type%20%3DStory"%20and%20"Epic%20Link"%3DTES-7%20ORDER%20BY%20created%20DESC`); 
-    const response = await this.get(`/search?jql=project%20%3D%20TES%26type%20%3DStory%26"Epic%20Link"%3D"TES-7"`,
-    // const response = await this.get(`/search?jql=project%20%3D%20${projectKey}%20and"Epic%20Link"%3D${jiraId}%20and%20type%20%3DStory`,    
+  async getStories({ projectKey, epicJiraKey }) {  
+    // TODO: pass jql in body
+    var jql = {'jql': `project = "TES" AND type = "Story" and "Epic Link"=${epicJiraKey} ORDER BY created DESC`};        
+    const response = await this.get(`/search?jql=project%20%3D%20${projectKey}%26type%20%3DStory%26"Epic%20Link"%3D"${epicJiraKey}"`,
     {      
       body: jql,
     });       

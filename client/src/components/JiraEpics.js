@@ -41,7 +41,6 @@ function JiraEpics() {
             
     
     function createEpicCallback() { 
-        console.log(`what is values here? ${values}`)       
         createEpic();                   
     }  
     

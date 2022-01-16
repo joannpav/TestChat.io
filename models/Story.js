@@ -9,7 +9,9 @@ const storySchema = new Schema({
     body: String,
     acceptanceCriteria: String,
     username: String,
-    createdAt: String,   
+    createdAt: String,  
+    jiraKey: String,
+    jiraId: String, 
     testScenarios: [
             {
                 scenario: String,

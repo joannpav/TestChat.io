@@ -1,10 +1,10 @@
-const { AuthenticationError, UserInputError } = require('apollo-server-errors');
+const { AuthenticationError } = require('apollo-server-errors');
 const Epic = require('../../models/Epic');
 const User = require('../../models/User');
 const Organization = require('../../models/Organization');
 const checkAuth = require('../../util/check-auth');
 const Story = require('../../models/Story');
-const testScenarios = require('./testScenarios');
+
 
 module.exports = {
     StoryCountInEpic: {
@@ -60,30 +60,8 @@ module.exports = {
                 throw new Error(err);
             }
         },        
-    },
-    // Mutation: {
-    //     async createEpic(_, { epicName, description  }, context) {   
-    //         console.log("are we here yet?"); 
-    //         const newEpic = new Epic({
-    //             epicName,
-    //             description
-    //         })
-    //         theEpic = await newEpic.save();
-    //         console.log(`the epic is ${JSON.stringify(theEpic)}`);
-            
-    //     },        
-    // }
+    },   
     Mutation: {
-        // async createJiraEpics(_, 
-        //     {jiraEpicInput: {epicNames, epicDescriptions}}
-        //     ) {
-        //         // maybe create method getEpic(epicName, org, owner) and if it exists
-        //         // then return message that it exists
-        //         //
-        //         console.log(epicNames);
-        //     },
-        
-
         async createEpic(_, { epicName, description, jiraKey=null, jiraId=null }, context) {              
             const user = checkAuth(context);
             const userFull = await User.findOne(user);

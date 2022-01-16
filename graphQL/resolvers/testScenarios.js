@@ -61,7 +61,6 @@ module.exports = {
             const {username} = checkAuth(context);                                    
             const story = await Story.findById(storyId);
             const scenario = story.testScenarios.find(scenario => scenario.id === scenarioId);
-            console.log(JSON.stringify(scenario));
             if(story) {
                 toggleApprove(scenario, username);                                
                 await story.save();
@@ -74,7 +73,6 @@ module.exports = {
             const {username} = checkAuth(context);                                    
             const story = await Story.findById(storyId);
             const scenario = story.testScenarios.find(scenario => scenario.id === scenarioId);
-            console.log(`in disapproveScenario: ${JSON.stringify(scenario)}`);
             if(story) {                
                 toggleDisapprove(scenario, username);                            
                 await story.save();
