@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
-import { Container, Label, Message, Table, Card} from 'semantic-ui-react';
+import { Container, Label, Message, Table, Card, Checkbox} from 'semantic-ui-react';
 import ApprovalButton from './ApprovalButton';
 import DisapprovalButton from './DisapprovalButton';
 import DeleteScenarioButton from './DeleteScenarioButton';
 import ChatButton from '../components/ChatButton';
 import ScenarioCommentLink from '../components/ScenarioCommentLink';
 import ScenarioComments from '../components/ScenarioComments';
+import ExportToCypress from './ExportToCypress';
 import moment from 'moment';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
@@ -14,7 +15,7 @@ import {FETCH_STORY_QUERY} from '../util/graphql';
 function TestScenarioList({testScenarios, storyId, user}) {         
     const [scenarios, setScenarios] = useState();   
     const [scenarioComments, setScenarioComments] = useState("");
-    const [showScenarioComments, setShowScenarioComments] = useState(true)
+    const [showScenarioComments, setShowScenarioComments] = useState(false)
     const [getScenarioList, { loading, error, data}] = useLazyQuery(
       FETCH_STORY_QUERY, {
         fetchPolicy: "network-only",
@@ -57,6 +58,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
           <Table celled>
             <Table.Header>
               <Table.Row>
+                <Table.HeaderCell><Checkbox /></Table.HeaderCell>
                 <Table.HeaderCell>Scenario</Table.HeaderCell> 
                 <Table.HeaderCell>Reactions</Table.HeaderCell>
                 <Table.HeaderCell>Author</Table.HeaderCell>
@@ -69,6 +71,7 @@ function TestScenarioList({testScenarios, storyId, user}) {
             {scenarios && scenarios.map(scenario => (    
               <>          
               <Table.Row key={scenario.id}>
+                <Table.Cell> <Checkbox /></Table.Cell>
                 <Table.Cell  width="8">                     
                       {scenario.scenario}     
                       <br />
@@ -108,8 +111,11 @@ function TestScenarioList({testScenarios, storyId, user}) {
              
             </Table.Body>
           </Table>
+          <ExportToCypress 
+            testCaseList={scenarios}
+            />
           {showScenarioComments ? (
-            <Container >              
+            <Container >                            
               <ScenarioComments user={user} comments={scenarioComments} commentCount={scenarioComments.length} />            
           </Container>
           ) : null }         
