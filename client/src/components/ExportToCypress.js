@@ -11,24 +11,31 @@ export const ExportToCypress = ({testCases}) => {
     // In my case, I have an array, and each item in 
     // the array should be on a new line, which is why
     // I use .join('\n') here.
-    const testTemplate = `    
-        describe('epicName', () => {
-        it('storyName', () => {
-            assert.fail('Not implemented);            
-        })
-    })
+    const startBlock = `
+        describe('scenarios', () => {    
     `
+    const testTemplate = `            
+        it('storyName', () => {
+            assert.fail('Not implemented');            
+        })    
+    `
+    const endBlock = `
+        })
+    `
+    
     
     let updatedTemplate;
     let finalTemplate=[];
     testCases = ["abc", "def"];
+    
+    finalTemplate.push(startBlock);
     Object.values(testCases).map((testCase) => {
         updatedTemplate = testTemplate
             .replace('storyName', "hello story")
             .replace('epicName', "the epic");
         finalTemplate.push(updatedTemplate);
     })
-
+    finalTemplate.push(endBlock);
 
     const data = new Blob(finalTemplate, { type: 'text/plain' })
 

@@ -12,7 +12,7 @@ import moment from 'moment';
 import {FETCH_STORY_QUERY} from '../util/graphql';
 
 
-function TestScenarioList({testScenarios, storyId, user}) {         
+function  TestScenarioList({testScenarios, storyId, user}) {         
     const [scenarios, setScenarios] = useState();   
     const [scenarioComments, setScenarioComments] = useState("");
     const [showScenarioComments, setShowScenarioComments] = useState(false)
