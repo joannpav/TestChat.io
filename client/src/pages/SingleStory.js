@@ -77,7 +77,7 @@ function SingleStory() {
                                 <Card.Description>
                                     {acceptanceCriteria}
                                     <hr />
-                                    <TestScenarioList                                           
+                                    <TestScenarioList key={id}                                           
                                         testScenarios={testScenarios}
                                         storyId={id}
                                         user={user}                           
